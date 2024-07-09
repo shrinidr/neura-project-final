@@ -1,0 +1,405 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Gill Sans MT';
+}
+
+
+.translucent-box {
+    width: 300px;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Black with 50% opacity */
+    color: white;
+    /* Text color */
+    padding: 20px;
+    /* Some padding */
+    border: 1px solid #000;
+    /* Optional border */
+    box-sizing: border-box;
+    /* Ensure padding and border are included in the element's total width and height */
+}
+
+.mg,
+.mg * {
+    box-sizing: border-box;
+}
+
+.mg {
+    height: 550px;
+    width: auto 0;
+    margin-left: 12px;
+
+}
+
+.content,
+.content * {
+    box-sizing: border-box;
+}
+
+.content {
+    margin-left: 300px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+
+}
+
+.package,
+.package * {
+    box-sizing: content-box;
+}
+
+.package {
+    margin-left: 100px;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    font-family: "Gill Sans MT";
+    font-size: 19px;
+    margin-bottom: 12px;
+    margin-top: 0px;
+
+}
+
+.group-17 {
+    flex-shrink: 0;
+    width: 72px;
+    height: 2px;
+    position: static;
+}
+
+.rectangle-2-1 {
+    background: var(--accent, #fbd784);
+    width: 72px;
+    height: 2px;
+    position: absolute;
+    left: 45px;
+    top: 65px;
+    transform-origin: 0 0;
+    transform: rotate(0deg) scale(1, 1);
+}
+
+.rectt {
+    background: yellow;
+    width: 372px;
+    height: 2px;
+    position: absolute;
+    left: 456px;
+    top: 900px;
+    text-align: center;
+    transform-origin: 0 0;
+    transform: rotate(0deg) scale(1, 1);
+}
+
+
+
+.let-s-time-travel-with-transformers {
+    color: #ffffff;
+    text-align: left;
+    font-family: "Gill Sans MT";
+    font-size: 55px;
+    line-height: 100px;
+    font-weight: 700;
+    position: relative;
+    width: 950px;
+    margin-top: 30px;
+}
+
+.group-7 {
+    flex-shrink: 0;
+    width: 126px;
+    height: 26px;
+    position: static;
+}
+
+.equipment {
+    color: #ffffff;
+    text-align: left;
+    font-family: "OpenSans-Bold", sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    position: absolute;
+    left: 85px;
+    top: 230px;
+
+}
+
+/*Icons CSS*/
+i {
+    width: 16px;
+    height: 24px;
+    position: absolute;
+    left: 175px;
+    top: 230px;
+    color: white;
+
+}
+
+
+
+h1 {
+    text-align: center;
+    font-family: 'Gill Sans MT';
+    margin-top: 50px;
+    font-size: 45px;
+}
+
+.secondheading {
+    text-align: left;
+    font-family: 'Gill Sans MT';
+    font-size: 65px;
+    margin-top: 100px;
+    margin-left: 25px;
+    margin-bottom: 25px;
+}
+
+#title {
+    color: white;
+    display: inline;
+    margin: 0;
+    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+img {
+    width: auto 0;
+    height: 15px;
+    margin-right: 15px;
+    margin-left: 35px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    /* Align items vertically centered */
+    margin-left: 12px;
+    margin-top: 20px;
+    padding-bottom: 0;
+}
+
+.Btn {
+    width: 130px;
+    height: 40px;
+    justify-content: center;
+    background-color: black;
+    border: none;
+    color: white;
+    font-weight: 600;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+
+}
+
+#btn1 {
+    margin-left: 60%;
+}
+
+
+.Btn::before {
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    content: "";
+    background-color: white;
+    border-radius: 50%;
+    left: -100%;
+    top: 0;
+    transition-duration: .3s;
+    mix-blend-mode: difference;
+}
+
+.Btn:hover::before {
+    transition-duration: .3s;
+    transform: translate(100%, -50%);
+    border-radius: 0;
+}
+
+
+.Btn:active {
+    transform: translate(5px, 5px);
+    transition-duration: .3s;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10rem;
+    overflow: hidden;
+    height: 1.9rem;
+    background-size: 300% 300%;
+    backdrop-filter: blur(1rem);
+    border-radius: 5rem;
+    transition: 0.5s;
+    animation: gradient_301 5s ease infinite;
+    border: double 4px transparent;
+    background-image: linear-gradient(#212121, #212121), linear-gradient(137.48deg, #ffdb3b 10%, #FE53BB 45%, #8F51EA 67%, #0044ff 87%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    margin-top: 28px;
+}
+
+
+#container-stars {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: 0.5s;
+    backdrop-filter: blur(1rem);
+    border-radius: 5rem;
+}
+
+strong {
+    z-index: 2;
+    font-family: 'Avalors Personal Use';
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: #FFFFFF;
+    text-shadow: 0 0 4px white;
+}
+
+#glow {
+    position: absolute;
+    display: flex;
+    width: 12rem;
+}
+
+.circle {
+    width: 100%;
+    height: 30px;
+    filter: blur(2rem);
+    animation: pulse_3011 4s infinite;
+    z-index: -1;
+}
+
+.circle:nth-of-type(1) {
+    background: rgba(254, 83, 186, 0.636);
+}
+
+.circle:nth-of-type(2) {
+    background: rgba(142, 81, 234, 0.704);
+}
+
+.btn:hover #container-stars {
+    z-index: 1;
+    background-color: #212121;
+}
+
+.btn:hover {
+    transform: scale(1.1)
+}
+
+.btn:active {
+    border: double 4px #FE53BB;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    animation: none;
+}
+
+.btn:active .circle {
+    background: #FE53BB;
+}
+
+#stars {
+    position: relative;
+    background: transparent;
+    width: 200rem;
+    height: 200rem;
+}
+
+#stars::after {
+    content: "";
+    position: absolute;
+    top: -10rem;
+    left: -100rem;
+    width: 100%;
+    height: 100%;
+    animation: animStarRotate 90s linear infinite;
+}
+
+#stars::after {
+    background-image: radial-gradient(#ffffff 1px, transparent 1%);
+    background-size: 50px 50px;
+}
+
+#stars::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 170%;
+    height: 500%;
+    animation: animStar 60s linear infinite;
+}
+
+#stars::before {
+    background-image: radial-gradient(#ffffff 1px, transparent 1%);
+    background-size: 50px 50px;
+    opacity: 0.5;
+}
+
+@keyframes animStar {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-135rem);
+    }
+}
+
+@keyframes animStarRotate {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0);
+    }
+}
+
+@keyframes gradient_301 {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes pulse_3011 {
+    0% {
+        transform: scale(0.75);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        transform: scale(0.75);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+
+::selection {
+    background-color: #e56478;
+}
