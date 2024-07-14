@@ -131,16 +131,17 @@ body {
 }
 
 /*Icons CSS*/
-i {
+
+
+.homeDownArrow{
     width: 16px;
     height: 24px;
+    left: 15px;
     position: absolute;
-    left: 175px;
-    top: 230px;
+    top: 195px;
     color: white;
 
 }
-
 
 
 h1 {
