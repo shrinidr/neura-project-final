@@ -33,3 +33,42 @@ for i in range(len(data_stack)):
 embeddings or something when we began to reason through more complex problems."""
 
 
+#Sorting the most used words [Want this to be on all words ever said not just todays.]
+
+
+words = {}
+
+for sent in document_array:
+    for word in sent:
+        if(word not in words):
+            words[word]=0
+        else:
+            words[word]+=1
+
+most_words_spoken = dict(sorted(words.items(), key = lambda item: item[1], reverse = True))
+
+
+
+import plotly.express as px
+
+
+xdata = [val for val in most_words_spoken.values() if val>1]
+ydata = [key for key in most_words_spoken.keys() if most_words_spoken[key]>1 ]
+
+bubble_size= [val*10 for val in xdata]
+df = pd.DataFrame({
+    'Category': ydata,
+    'Value': xdata,
+    'Bubble Size': bubble_size
+})
+
+fig = px.scatter(df, size='Bubble Size', text='Category', title='Scatter Bubble Plot')
+fig.show()
+
+#This is an okish plot.
+
+#The Happiness Card and the stress card and so on:
+#Happiness and stress index
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+sid_obj = SentimentIntensityAnalyzer()
+happiness_scores = [sid_obj.polarity_scores(sent) for sent in data_stack["content"]]

@@ -4,10 +4,9 @@ import Header from "../components/header";
 
 const MainPage = () => {
 
-
     const TextStuff = [{id: "input1", content: "How was your day (In one sentence)?"},
         {id: "input2", content: "How many times did you feel like smashing a wall?"},
-        {id: "input3", content: "How many times did you feel like dancing with said wall?"},
+        {id: "input3", content: "How many times did you feel like dancing with said wall?" },
         {id: "input4", content: "How much did you exercise?"},
         {id: "input5", content: "How is your stress situation?"},
         {id: "input6", content: "Did you do anything that isn't part of your regular day?"},

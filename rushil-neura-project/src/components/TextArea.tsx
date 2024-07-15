@@ -21,7 +21,7 @@ const TextArea = (data: Props) => {
     //the type of the state is defined within the <> which is basically that the keys are strings and so are the
     //values.
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
+    const { id, value} = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [id]: value,
@@ -44,7 +44,10 @@ const TextArea = (data: Props) => {
   const handleSubmit = async () =>{
 
   try{
-    await axios.post("http://localhost:5000/api/data", {formData})
+    const formattedDate = new Date().toISOString();
+    console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
+
+    await axios.post("http://localhost:5000/api/data", {formData, date: formattedDate })
     console.log("Data submitted successfully.")
 
    }catch(error){

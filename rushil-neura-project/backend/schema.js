@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 
 const data_schema = new mongoose.Schema({
     id: String,
-    content: String
+    content: String,
+    date: { type: Date, default: Date.now }
 })
 
 //this is the model which is basically like a blueprint.

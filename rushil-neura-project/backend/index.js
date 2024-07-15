@@ -29,11 +29,12 @@ db.once('open', () => {
 
 // Define a route to handle incoming data
 app.post('/api/data', async (req, res) => {
-  const { formData } = req.body;
+  const { formData, date } = req.body;
 
   const dataArr = Object.keys(formData).map(key => ({
     id: key,
-    content: formData[key]
+    content: formData[key],
+    date,
   }));
 
   try {
@@ -41,6 +42,7 @@ app.post('/api/data', async (req, res) => {
       const existingData = await DataModel.findOne({ id: dataCol.id });
       if (existingData) {
         existingData.content = dataCol.content;
+        existingData.date = dataCol.date;
         await existingData.save();
       } else {
         const newData = new DataModel(dataCol);
