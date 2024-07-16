@@ -44,7 +44,7 @@ const TextArea = (data: Props) => {
   const handleSubmit = async () =>{
 
   try{
-    const formattedDate = new Date().toISOString();
+    const formattedDate = new Date().toISOString().split('T')[0];
     console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
 
     await axios.post("http://localhost:5000/api/data", {formData, date: formattedDate })

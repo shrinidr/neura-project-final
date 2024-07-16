@@ -5,7 +5,7 @@ import spacy
 import numpy as np
 
 client = pymongo.MongoClient("mongodb://localhost:27017/")
-db = client["neura-server"]
+db = client["neura-react-server"]
 collection = db["datamodels"]
 
 
@@ -21,12 +21,17 @@ document_array = []
 
 nlp = spacy.load('en_core_web_sm')
 
+#print(data_stack["entries"][0])
+#This is how you access the data.
+
+
+
 
 for i in range(len(data_stack)):
-    document = nlp(data_stack["content"][i])
+    document = nlp(data_stack[head_list[i]][0])
     #lower, stop words and lemma.
     document_array.append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
-#print(len(document_array))
+print((document_array))
 
 
 """Lets do a thing like bow or tfidf initially for the more basic functionality and then implement word
