@@ -32,7 +32,6 @@ data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5":
 cleaned_data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
 
 
-
 date_array = data_stack['date']
 for i in range(len(data_stack)):
     stack = data_stack["entries"][i]
@@ -69,14 +68,12 @@ def most_used_words(cleaned_df, cols):
     return (dict(sorted(words.items(), key = lambda item: item[1], reverse = True)))
 
 
-
 most_words_spoken = (most_used_words(CleanedDataFrame, data_array.keys()))
 
 
-
 def most_words_plot(most_words_spoken):
-    xdata = [val for val in most_words_spoken.values() if val>1]
-    ydata = [key for key in most_words_spoken.keys() if most_words_spoken[key]>1 ]
+    xdata = [val for val in most_words_spoken.values() if val>2]
+    ydata = [key for key in most_words_spoken.keys() if most_words_spoken[key]>2 ]
     bubble_size = [val * 150 for val in xdata]
     df = pd.DataFrame({
     'Category': ydata,
@@ -95,6 +92,7 @@ def most_words_plot(most_words_spoken):
     color_continuous_scale=px.colors.sequential.Sunsetdark,
     size_max=100,
 )
+    df['Category'] = df['Category'].apply(lambda x: x[:5])
 
 # Customize the appearance
     fig.update_traces(
@@ -123,7 +121,7 @@ def most_words_plot(most_words_spoken):
 
     fig.show()
 
-#most_words_plot(most_words_spoken)
+most_words_plot(most_words_spoken)
 
 #This is an okish plot. Change the CSS of it later on.
 
@@ -148,7 +146,7 @@ def happiness_card_graph(val, last_happiness):
     value = val*100,
     domain = {'x': [0, 1], 'y': [0, 1]},
     title = {'text': "The Happiness Meter", 'font': {'size': 24}},
-    delta = {'reference': last_happiness, 'increasing': {'color': "RebeccaPurple"}},
+    delta = {'reference': last_happiness*100, 'increasing': {'color': "RebeccaPurple"}},
     gauge = {
         'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"},
         'bar': {'color': "black"},
@@ -167,8 +165,6 @@ def happiness_card_graph(val, last_happiness):
 
     fig.show()
 
-#happiness_card_graph(score_today, 23)
-
 
 
 #Cumulative Happiness Card
@@ -176,13 +172,100 @@ def happiness_card_graph(val, last_happiness):
 def cum_happiness(dataset, cols, date_array):
     x = date_array
     y = [daily_happiness(dataset, cols, i) for i in range(len(dataset))]
-    print(y)
+    return y
 
 
-#cum_happiness(StartDataFrame, data_array.keys(), date_array)
+happiness_array = cum_happiness(StartDataFrame, data_array.keys(), date_array)
+
+#happiness_card_graph(happiness_array[-1], happiness_array[-2])
+
+happiness_array = [i*100 for i in happiness_array]
+date_array = [str(i)[:10] for i in date_array]
 
 
+def cum_happy_graph(date_array, happy_array):
+    np.random.seed(42)
+    dates = date_array
+    values = happy_array
+# Create a DataFrame
+    df = pd.DataFrame({'Date': dates, 'Value': values})
+
+# Create a color scale based on the progression of dates
+    color_scale = px.colors.sequential.Viridis
+
+# Create a scatter plot with lines
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(
+        x=df['Date'], y=df['Value'],
+        mode='lines+markers',
+        marker=dict(
+            size=10,
+            color=np.linspace(0, 1, len(df)),
+            colorscale=color_scale,
+            showscale=True,
+            colorbar=dict(title='Progression')
+        ),
+        line=dict(
+            color='rgba(0,0,0,0.2)',
+            width=2
+        )
+    ))
+
+# Add annotations for unique points
+    annotations = [
+    dict(
+        x=df['Date'].iloc[0],
+        y=df['Value'].iloc[0],
+        xref="x",
+        yref="y",
+        text="Start",
+        showarrow=True,
+        arrowhead=7,
+        ax=0,
+        ay=-40
+    ),
+    dict(
+        x=df['Date'].iloc[-1],
+        y=df['Value'].iloc[-1],
+        xref="x",
+        yref="y",
+        text="End",
+        showarrow=True,
+        arrowhead=7,
+        ax=0,
+        ay=-40
+    )
+    ]
+
+    fig.update_layout(
+    title='A Visualization of How Happy You Were So Far',
+    xaxis_title='Date',
+    yaxis_title='The Happiness Coefficient',
+    annotations=annotations,
+    template='plotly_white'
+)
+
+    fig.show()
+
+#cum_happy_graph(date_array, happiness_array)
 
 
+"""Ideas for what we should have: an LDA for 'things that you spend most of your time on'
+We either have an interface where the user can ask questions about themselves and we answer.
+Or we provide answers to custom questions.
+
+
+Your favourite swear words also put for fun.
+
+Find out the things that you tend to complain about or the like. Seem to bicker on about.
+List them and find solutions for them.
+
+We first design machinery ourselves to find out these problems using training. Then we maybe fine tune an LLM
+to figure out the 'solutions' part.
+
+Lets have a seperate file for this because this one's getting too complicated.
+
+"""
 
 
