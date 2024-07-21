@@ -8,7 +8,7 @@ import plotly.express as px
 import seaborn as sns
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import plotly.graph_objects as go
-
+import itertools
 
 
 client = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -68,7 +68,8 @@ def most_used_words(cleaned_df, cols):
     return (dict(sorted(words.items(), key = lambda item: item[1], reverse = True)))
 
 
-most_words_spoken = (most_used_words(CleanedDataFrame, data_array.keys()))
+most_words_spoken = most_used_words(CleanedDataFrame, data_array.keys())
+better_words_spoken = dict(itertools.islice(most_words_spoken.items(), 10))
 
 
 def most_words_plot(most_words_spoken):
@@ -121,7 +122,7 @@ def most_words_plot(most_words_spoken):
 
     fig.show()
 
-most_words_plot(most_words_spoken)
+#most_words_plot(better_words_spoken)
 
 #This is an okish plot. Change the CSS of it later on.
 
@@ -248,7 +249,7 @@ def cum_happy_graph(date_array, happy_array):
 
     fig.show()
 
-#cum_happy_graph(date_array, happiness_array)
+cum_happy_graph(date_array, happiness_array)
 
 
 """Ideas for what we should have: an LDA for 'things that you spend most of your time on'
