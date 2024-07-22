@@ -249,7 +249,7 @@ def cum_happy_graph(date_array, happy_array):
 
     fig.show()
 
-cum_happy_graph(date_array, happiness_array)
+#cum_happy_graph(date_array, happiness_array)
 
 
 """Ideas for what we should have: an LDA for 'things that you spend most of your time on'
