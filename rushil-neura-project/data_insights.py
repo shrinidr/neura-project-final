@@ -270,3 +270,12 @@ Lets have a seperate file for this because this one's getting too complicated.
 """
 
 
+
+stress_data = []
+
+for i in range(len(StartDataFrame)):
+    stress_data.append(StartDataFrame['input5'][i])
+
+#print(stress_data)
+
+print(date_array)

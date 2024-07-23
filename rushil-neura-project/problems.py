@@ -2,6 +2,7 @@ import pymongo
 import pandas as pd
 import spacy
 import gensim
+import numpy as np
 from gensim.utils import simple_preprocess
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -9,6 +10,10 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
+import joblib
+import plotly.express as px
+import plotly.graph_objects as go
+
 
 db = pymongo.MongoClient('mongodb://localhost:27017/')
 client = db["neura-react-server"]
@@ -107,9 +112,9 @@ if __name__ == '__main__':
     topics = topics_array(LDA_diss, 5)
 
 print(topics)
-"""
 
-""" Temp topics (So we dont have to run this machine again and again.)
+
+Temp topics (So we dont have to run this machine again and again.)
 
 ['good', 's', 'time', 'weight', 'pushup', 'day', 'sleep', 'want', 'try', 'not'],
 ['work', 'like', 'start', 'soon', 'need', 'want', 'good', 'healthy', 's'],
@@ -127,15 +132,12 @@ Immediate goals:
 2) Next, do the stress thing.
 3) Deploy results on frontend using flask API.
 4) Start building the chat function (latest by 1 august)
-"""
 
 
 
-#Common problem category labels:
 
 
-
-"""Summarization might work:
+Summarization might work:
 Algos: cluster rank.
 Existing ones are TAKE, MOOTTweetSumm, DEPSUB is also pretty good becuase it generates labels.
 I seriously feel like giving up rn man this fucking sucks.
@@ -160,21 +162,27 @@ stress_score_data = stress_scores(stress_data)
 
 #stress_data is the files with all the stress responses
 
+
+#Commenting out this code so that I dont have to train the model again and again.
 def text_preprocess(doc):
   doc = nlp(doc)
   return ' '.join([tok.lemma_ for tok in doc if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
 
 
-tokenizer = Tokenizer()
-
 new_stress_corpus = [text_preprocess(doc) for doc in stress_data]
-data = pd.read_csv(r"C:\Users\rushi\Downloads\stress_data.csv")
 
+data = pd.read_csv(r'C:\Users\rushi\Downloads\stress_data.csv')
+
+
+
+tokenizer = Tokenizer()
 
 #Now, lets use the tokenizer on the actual training data.
 
 training_cleaned = [text_preprocess(doc) for doc in data['text']]
 tokenizer.fit_on_texts(training_cleaned)
+
+"""
 #First using CountVectorizer
 count_vect_docs = tokenizer.texts_to_matrix(training_cleaned, mode='count')
 
@@ -194,7 +202,103 @@ cf.fit(xtrain_count, ytrain_count)
 y_pred=cf.predict(xtest_count)
 print(classification_report(y_pred, ytest_count))
 
-
-"""Next, figure out how to save the weights of the model so as to not train the same stuff again and again.
+joblib.dump(cf, 'multinb_neura.joblib')
 
 """
+
+model = joblib.load('multinb_neura.joblib')
+
+
+tfidf_vect_docs_shape = (2838, 8656)
+
+changed_stress_data = [text_preprocess(doc) for doc in stress_data]
+tokenizer.fit_on_texts(changed_stress_data)
+
+tfidf_vect_stress = tokenizer.texts_to_matrix(changed_stress_data, mode='tfidf')
+tfidf_vect_new = tfidf_vect_stress[:,:tfidf_vect_docs_shape[1]]
+
+predicted_stress = model.predict(tfidf_vect_new)
+
+from transformers import pipeline
+classifier = pipeline('sentiment-analysis')
+
+stress_trans_results = []
+for i in stress_data:
+    result = classifier(i)
+    if(result[0]['label']=="NEGATIVE"):
+        stress_trans_results.append(result[0]['score'])
+    else:
+        stress_trans_results.append(0)
+
+trans_stress_levels = stress_trans_results + predicted_stress
+
+
+
+def stress_plot(date_array, stress_levels):
+    np.random.seed(42)
+    date_rng = pd.date_range(start='2024-07-16', end='2024-07-23', freq='D')
+    df = pd.DataFrame(date_rng, columns=['date'])
+    df['value'] = np.random.randn(len(date_rng)).cumsum()
+
+# Create a Plotly figure
+    fig = go.Figure()
+
+# Add trace for the time series
+    fig.add_trace(go.Scatter(
+        x=date_array,
+        y=stress_levels,
+        mode='lines',
+        line=dict(color='royalblue', width=2),
+        name='Time Series'
+    ))
+
+# Customize the layout
+    fig.update_layout(
+    title='A Machine Learning Look at your Stress Levels',
+    xaxis_title='Date',
+    yaxis_title='Value',
+    template='plotly_dark',
+    xaxis=dict(
+        showline=True,
+        showgrid=False,
+        showticklabels=True,
+        linecolor='rgb(204, 204, 204)',
+        linewidth=2,
+        ticks='outside',
+        tickfont=dict(
+            family='Arial',
+            size=12,
+            color='rgb(204, 204, 204)',
+        ),
+    ),
+    yaxis=dict(
+        showgrid=False,
+        zeroline=False,
+        showline=False,
+        showticklabels=True,
+    ),
+    showlegend=True,
+    plot_bgcolor='black',
+    paper_bgcolor='black',
+    font=dict(color='white'),
+)
+
+# Add some more unique styling
+    fig.update_traces(marker=dict(size=5, color='white', line=dict(width=2, color='DarkSlateGrey')),
+                  selector=dict(mode='markers'))
+
+# Adding custom hovertemplate
+    fig.update_traces(
+    hovertemplate="<b>Date</b>: %{x}<br><b>Stress Value</b>: %{y}<extra></extra>"
+)
+
+# Add a vertical line at a specific date
+    fig.add_vline(x=pd.Timestamp('2024-07-16'), line=dict(color='firebrick', width=2, dash='dash'))
+
+# Show the plot
+    fig.show()
+
+
+stress_plot(date_array, trans_stress_levels)
+
+#Okay, maybe dont use the transformers, because they end up taking too much time. Solve this issue later on.
