@@ -9,6 +9,7 @@ import seaborn as sns
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import plotly.graph_objects as go
 import itertools
+import plotly.io as pio
 
 
 client = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -120,7 +121,7 @@ def most_words_plot(most_words_spoken):
     yaxis=dict(showgrid=False, showticklabels=False, zeroline=False)
 )
 
-    fig.show()
+    return pio.to_json(fig)
 
 #most_words_plot(better_words_spoken)
 
@@ -164,9 +165,7 @@ def happiness_card_graph(val, last_happiness):
 
     fig.update_layout(paper_bgcolor = "lavender", font = {'color': "black", 'family': "Free Sans", 'size': 15})
 
-    fig.show()
-
-
+    return pio.to_json(fig)
 
 #Cumulative Happiness Card
 
@@ -247,7 +246,7 @@ def cum_happy_graph(date_array, happy_array):
     template='plotly_white'
 )
 
-    fig.show()
+    return pio.to_json(fig)
 
 #cum_happy_graph(date_array, happiness_array)
 
@@ -277,5 +276,3 @@ for i in range(len(StartDataFrame)):
     stress_data.append(StartDataFrame['input5'][i])
 
 #print(stress_data)
-
-print(date_array)

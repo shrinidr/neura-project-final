@@ -13,6 +13,7 @@ from sklearn.metrics import classification_report
 import joblib
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.io as pio
 
 
 db = pymongo.MongoClient('mongodb://localhost:27017/')
@@ -219,7 +220,7 @@ tfidf_vect_new = tfidf_vect_stress[:,:tfidf_vect_docs_shape[1]]
 
 predicted_stress = model.predict(tfidf_vect_new)
 
-from transformers import pipeline
+"""from transformers import pipeline
 classifier = pipeline('sentiment-analysis')
 
 stress_trans_results = []
@@ -228,9 +229,9 @@ for i in stress_data:
     if(result[0]['label']=="NEGATIVE"):
         stress_trans_results.append(result[0]['score'])
     else:
-        stress_trans_results.append(0)
+        stress_trans_results.append(0)"""
 
-trans_stress_levels = stress_trans_results + predicted_stress
+trans_stress_levels =  stress_score_data+ predicted_stress
 
 
 
@@ -296,9 +297,12 @@ def stress_plot(date_array, stress_levels):
     fig.add_vline(x=pd.Timestamp('2024-07-16'), line=dict(color='firebrick', width=2, dash='dash'))
 
 # Show the plot
-    fig.show()
+    return pio.to_json(fig)
 
 
 stress_plot(date_array, trans_stress_levels)
 
 #Okay, maybe dont use the transformers, because they end up taking too much time. Solve this issue later on.
+#We need to refine this stress thing. At regular intervals, keep adding data labelled by you and train it with
+#the model. This is not perfect yet, but we can perfect it over time.
+
