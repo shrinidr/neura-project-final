@@ -73,9 +73,9 @@ most_words_spoken = most_used_words(CleanedDataFrame, data_array.keys())
 better_words_spoken = dict(itertools.islice(most_words_spoken.items(), 10))
 
 
-def most_words_plot(most_words_spoken):
-    xdata = [val for val in most_words_spoken.values() if val>2]
-    ydata = [key for key in most_words_spoken.keys() if most_words_spoken[key]>2 ]
+def most_words_plot():
+    xdata = [val for val in better_words_spoken.values() if val>2]
+    ydata = [key for key in better_words_spoken.keys() if better_words_spoken[key]>2 ]
     bubble_size = [val * 150 for val in xdata]
     df = pd.DataFrame({
     'Category': ydata,
@@ -123,7 +123,7 @@ def most_words_plot(most_words_spoken):
 
     return pio.to_json(fig)
 
-#most_words_plot(better_words_spoken)
+most_words_plot()
 
 #This is an okish plot. Change the CSS of it later on.
 
@@ -142,7 +142,9 @@ def daily_happiness(dataset, cols, indx):
 
 score_today = daily_happiness(StartDataFrame, data_array.keys(), 0)
 
-def happiness_card_graph(val, last_happiness):
+def happiness_card_graph():
+    val = happiness_array[-1]
+    last_happiness = happiness_array[-2]
     fig = go.Figure(go.Indicator(
     mode = "gauge+number+delta",
     value = val*100,
@@ -183,10 +185,10 @@ happiness_array = [i*100 for i in happiness_array]
 date_array = [str(i)[:10] for i in date_array]
 
 
-def cum_happy_graph(date_array, happy_array):
+def cum_happy_graph():
     np.random.seed(42)
     dates = date_array
-    values = happy_array
+    values = happiness_array
 # Create a DataFrame
     df = pd.DataFrame({'Date': dates, 'Value': values})
 
