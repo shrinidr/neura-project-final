@@ -123,7 +123,7 @@ def most_words_plot():
 
     return pio.to_json(fig)
 
-most_words_plot()
+#most_words_plot()
 
 #This is an okish plot. Change the CSS of it later on.
 
@@ -144,12 +144,12 @@ score_today = daily_happiness(StartDataFrame, data_array.keys(), 0)
 
 def happiness_card_graph():
     val = happiness_array[-1]
-    last_happiness = happiness_array[-2]
+    last_happiness = np.mean(happiness_array)
     fig = go.Figure(go.Indicator(
     mode = "gauge+number+delta",
     value = val*100,
     domain = {'x': [0, 1], 'y': [0, 1]},
-    title = {'text': "The Happiness Meter", 'font': {'size': 24}},
+    title = {'text': "The Happiness Meter (With respect to your baseline)", 'font': {'size': 24}},
     delta = {'reference': last_happiness*100, 'increasing': {'color': "RebeccaPurple"}},
     gauge = {
         'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"},
@@ -179,43 +179,67 @@ def cum_happiness(dataset, cols, date_array):
 
 happiness_array = cum_happiness(StartDataFrame, data_array.keys(), date_array)
 
-#happiness_card_graph(happiness_array[-1], happiness_array[-2])
+#happiness_card_graph()
 
 happiness_array = [i*100 for i in happiness_array]
 date_array = [str(i)[:10] for i in date_array]
 
 
 def cum_happy_graph():
-    np.random.seed(42)
-    dates = date_array
-    values = happiness_array
+  dates = date_array
+  values = happiness_array
+
 # Create a DataFrame
-    df = pd.DataFrame({'Date': dates, 'Value': values})
+  df = pd.DataFrame({'Date': dates, 'Value': values})
 
 # Create a color scale based on the progression of dates
-    color_scale = px.colors.sequential.Viridis
+  color_scale = px.colors.sequential.Viridis
 
 # Create a scatter plot with lines
-    fig = go.Figure()
+  fig = go.Figure()
 
-    fig.add_trace(go.Scatter(
-        x=df['Date'], y=df['Value'],
-        mode='lines+markers',
-        marker=dict(
-            size=10,
-            color=np.linspace(0, 1, len(df)),
-            colorscale=color_scale,
-            showscale=True,
-            colorbar=dict(title='Progression')
-        ),
-        line=dict(
-            color='rgba(0,0,0,0.2)',
-            width=2
-        )
-    ))
+  fig.add_trace(go.Scatter(
+    x=df['Date'], y=df['Value'],
+    mode='lines+markers',
+    marker=dict(
+        size=10,
+        color=np.linspace(0, 1, len(df)),
+        colorscale=color_scale,
+        showscale=True,
+        colorbar=dict(title='Progression')
+    ),
+    line=dict(
+        color='rgba(0,0,0,0.2)',
+        width=2
+    )
+))
+
+# Calculate the mean of the values
+  mean_value = df['Value'].mean()
+
+# Add the horizontal line for the mean value
+  fig.add_shape(
+    type='line',
+    x0=df['Date'].min(),
+    y0=mean_value,
+    x1=df['Date'].max(),
+    y1=mean_value,
+    line=dict(color='RoyalBlue', dash='dash')
+)
+
+# Add annotation for the baseline
+  fig.add_annotation(
+    x=df['Date'].max(),
+    y=mean_value,
+    text='Baseline',
+    showarrow=True,
+    arrowhead=1,
+    ax=0,
+    ay=-40
+)
 
 # Add annotations for unique points
-    annotations = [
+  annotations = [
     dict(
         x=df['Date'].iloc[0],
         y=df['Value'].iloc[0],
@@ -238,9 +262,9 @@ def cum_happy_graph():
         ax=0,
         ay=-40
     )
-    ]
+]
 
-    fig.update_layout(
+  fig.update_layout(
     title='A Visualization of How Happy You Were So Far',
     xaxis_title='Date',
     yaxis_title='The Happiness Coefficient',
@@ -248,9 +272,8 @@ def cum_happy_graph():
     template='plotly_white'
 )
 
-    return pio.to_json(fig)
-
-#cum_happy_graph(date_array, happiness_array)
+  return (pio.to_json(fig))
+#cum_happy_graph()
 
 
 """Ideas for what we should have: an LDA for 'things that you spend most of your time on'
@@ -267,12 +290,17 @@ We first design machinery ourselves to find out these problems using training. T
 to figure out the 'solutions' part.
 
 Lets have a seperate file for this because this one's getting too complicated.
+More ideas for the data:
+1) Check for inconsistencies in the stream of consciousness.
+2) Remind the user about things that they planned to do or how they have deviated from the
+actions that they wished to undertake.
 
 """
 
 
 
 stress_data = []
+
 
 for i in range(len(StartDataFrame)):
     stress_data.append(StartDataFrame['input5'][i])

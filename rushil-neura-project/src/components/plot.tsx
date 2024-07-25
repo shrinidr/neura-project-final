@@ -24,7 +24,7 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
   }, [url]);
 
   return (
-    <div>
+    <div className = "plotS">
       {plotData ? (
         <Plot
           data={plotData.data}

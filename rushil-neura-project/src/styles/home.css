@@ -88,6 +88,13 @@ i {
     color: white;
 }
 
+.plotS {
+    margin-left: 130px;
+    margin-top: 10px;
+    margin-bottom: 350px;
+}
+
+
 .main_content {
     position: fixed;
     height: 84.5%;

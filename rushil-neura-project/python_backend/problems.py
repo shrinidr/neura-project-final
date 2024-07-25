@@ -234,8 +234,7 @@ for i in stress_data:
 trans_stress_levels =  stress_score_data+ predicted_stress
 
 
-
-def stress_plot(date_array, stress_levels):
+def stress_plot():
     np.random.seed(42)
     date_rng = pd.date_range(start='2024-07-16', end='2024-07-23', freq='D')
     df = pd.DataFrame(date_rng, columns=['date'])
@@ -247,7 +246,7 @@ def stress_plot(date_array, stress_levels):
 # Add trace for the time series
     fig.add_trace(go.Scatter(
         x=date_array,
-        y=stress_levels,
+        y=trans_stress_levels,
         mode='lines',
         line=dict(color='royalblue', width=2),
         name='Time Series'
@@ -300,7 +299,7 @@ def stress_plot(date_array, stress_levels):
     return pio.to_json(fig)
 
 
-stress_plot(date_array, trans_stress_levels)
+#stress_plot()
 
 #Okay, maybe dont use the transformers, because they end up taking too much time. Solve this issue later on.
 #We need to refine this stress thing. At regular intervals, keep adding data labelled by you and train it with

@@ -1,5 +1,5 @@
 from data_insights import most_words_plot, happiness_card_graph, cum_happy_graph
-#from problems import stress_plot
+from problems import stress_plot
 from flask import Flask, jsonify
 import plotly.graph_objs as go
 import plotly.io as pio
@@ -24,12 +24,11 @@ def get_words():
     words_json = most_words_plot()
     return jsonify(words_json)
 
-"""
+
 @app.route('/stress')
 def get_stress():
     stress_json = stress_plot()
     return jsonify(stress_json)
-"""
 
 
 if __name__ == "__main__":
