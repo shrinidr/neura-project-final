@@ -118,8 +118,22 @@ def most_words_plot():
     xaxis_title='',
     yaxis_title='',
     xaxis=dict(showgrid=False, showticklabels=False),
-    yaxis=dict(showgrid=False, showticklabels=False, zeroline=False)
-)
+    yaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
+    paper_bgcolor='#050505',
+    plot_bgcolor = 'lightblue',
+    title = {
+            'text': "Your Most Used Words",
+            'font': {'size': 24, 'family': "FreeSans", 'color': "white"},
+            'y': 0.92,
+            'yanchor': 'top'
+        },
+        margin = {'t': 100},
+    coloraxis_colorbar=dict(
+            title='Value',  # Title of the color bar
+            title_font=dict(size=12, color='white'),  # Title font size and color
+            tickfont=dict(size=12, color='white')  # Color of the color bar tick labels
+        )
+    )
 
     return pio.to_json(fig)
 
@@ -147,27 +161,36 @@ def happiness_card_graph():
     last_happiness = np.mean(happiness_array)
     fig = go.Figure(go.Indicator(
     mode = "gauge+number+delta",
-    value = val*100,
+    value = val,
     domain = {'x': [0, 1], 'y': [0, 1]},
-    title = {'text': "The Happiness Meter (With respect to your baseline)", 'font': {'size': 24}},
-    delta = {'reference': last_happiness*100, 'increasing': {'color': "RebeccaPurple"}},
+    delta = {'reference': last_happiness, 'increasing': {'color': "RebeccaPurple"}},
+    number = {'font': {'color': "white"}},
     gauge = {
-        'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"},
-        'bar': {'color': "black"},
+        'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "white"},
+        'bar': {'color': "gray"},
         'bgcolor': "white",
         'borderwidth': 2,
         'bordercolor': "gray",
         'steps': [
             {'range': [0, 250], 'color': 'white'},
-            {'range': [250, 400], 'color': 'royalblue'}],
+            {'range': [250, 400], 'color': 'white'}],
         'threshold': {
             'line': {'color': "red", 'width': 4},
             'thickness': 0.75,
             'value': 490}}))
 
-    fig.update_layout(paper_bgcolor = "lavender", font = {'color': "black", 'family': "Free Sans", 'size': 15})
-
-    return pio.to_json(fig)
+    fig.update_layout(
+        paper_bgcolor = "#050505",
+        font = {'color': "white", 'family': "Free Sans", 'size': 15},
+        title = {
+            'text': "The Happiness Meter (With respect to your baseline)",
+            'font': {'size': 24, 'family': "FreeSans", 'color': "white"},
+            'y': 0.92,
+            'yanchor': 'top'
+        },
+        margin = {'t': 100}
+        )
+    return(pio.to_json(fig))
 
 #Cumulative Happiness Card
 
@@ -209,7 +232,7 @@ def cum_happy_graph():
         colorbar=dict(title='Progression')
     ),
     line=dict(
-        color='rgba(0,0,0,0.2)',
+        color= 'white',
         width=2
     )
 ))
@@ -224,7 +247,7 @@ def cum_happy_graph():
     y0=mean_value,
     x1=df['Date'].max(),
     y1=mean_value,
-    line=dict(color='RoyalBlue', dash='dash')
+    line=dict(color='white', dash='dash')
 )
 
 # Add annotation for the baseline
@@ -266,13 +289,26 @@ def cum_happy_graph():
 
   fig.update_layout(
     title='A Visualization of How Happy You Were So Far',
-    xaxis_title='Date',
-    yaxis_title='The Happiness Coefficient',
+    xaxis=dict(
+            title=dict(text='Date', font=dict(color='white')),
+            tickfont=dict(color='white'),
+            gridcolor='#242323'  # Change grid color for x-axis
+        ),
+        yaxis=dict(
+            title=dict(text='The Happiness Coefficient', font=dict(color='white')),
+            tickfont=dict(color='white'),
+            gridcolor='#242323'  # Change grid color for y-axis
+        ),
     annotations=annotations,
-    template='plotly_white'
+    template='plotly_white',
+    plot_bgcolor = '#050505',
+    paper_bgcolor = '#050505',
+    font=dict(color='white')
 )
 
   return (pio.to_json(fig))
+
+
 #cum_happy_graph()
 
 

@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import MainPage from './pages/MainPage.tsx';
 import DataPage from './pages/Data.tsx';
+import TTys from './pages/ttys.tsx';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/insights",
     element: <DataPage/>
+  },
+  {
+    path: "/chat",
+    element: <TTys/>
   }
 ]);
 

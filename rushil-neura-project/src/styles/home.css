@@ -84,14 +84,52 @@ i {
 
 
 #gear {
-    top: 71px;
+    top: 74px;
     color: white;
 }
 
+
+#Chat{
+    top: 109px;
+    color: white;
+
+}
+
+.data_head{
+    margin-left: 20px;
+    color: #ffffff;
+    text-align: left;
+    font-family: "Gill Sans MT";
+    font-size: 40px;
+    font-weight: 550;
+    position: relative;
+    margin-top: 25px;
+}
+.scroll-bottom{
+    position: fixed;
+        bottom: 2px;
+        left: 51.5%;
+        top: 87%;
+        width: 30px;
+        /* Adjust as needed */
+        height: 30px;
+        /* Adjust as needed */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+}
+
 .plotS {
+    border-radius: 20px;
     margin-left: 130px;
     margin-top: 10px;
-    margin-bottom: 350px;
+    margin-bottom: 35px;
+    margin-right: 130px;
+    overflow: hidden;
+    background-color: #050505;
 }
 
 
