@@ -4,6 +4,11 @@ import { useRef } from "react";
 import DateDisplay from "./dateCompo";
 import axios from "axios";
 import { useEffect } from "react";
+import Calender from "./calender";
+
+
+
+
 interface Item{
     content: string;
     id: string;
@@ -91,7 +96,9 @@ const TextArea = (data: Props) => {
             <div className="head">
                 <img src="/sunny-day (1).png" id="day-icon" />
                 <DateDisplay/>
+                <Calender/>
             </div>
+
               {data.items.map((item) => (
           <textarea
             className="textarea"

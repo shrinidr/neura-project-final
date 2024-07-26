@@ -14,6 +14,7 @@ import joblib
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
+from transformers import pipeline
 
 
 db = pymongo.MongoClient('mongodb://localhost:27017/')
@@ -165,18 +166,17 @@ stress_score_data = stress_scores(stress_data)
 
 
 #Commenting out this code so that I dont have to train the model again and again.
+
+
 def text_preprocess(doc):
   doc = nlp(doc)
   return ' '.join([tok.lemma_ for tok in doc if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
 
 
 new_stress_corpus = [text_preprocess(doc) for doc in stress_data]
-
 data = pd.read_csv(r'C:\Users\rushi\Downloads\stress_data.csv')
-
-
-
 tokenizer = Tokenizer()
+
 
 #Now, lets use the tokenizer on the actual training data.
 
@@ -192,7 +192,7 @@ count_vect_docs = tokenizer.texts_to_matrix(training_cleaned, mode='count')
 
 tfidf_vect_docs = tokenizer.texts_to_matrix(training_cleaned, mode='tfidf')
 
-xtrain_count, xtest_count, ytrain_count, ytest_count = train_test_split(count_vect_docs, data['label'], test_size=0.05, random_state=42)
+xtrain_count, xtest_count, ytrain_count, ytest_count = train_test_split(tfidf_vect_docs, data['label'], test_size=0.05, random_state=42)
 
 
 cf=Pipeline([
@@ -203,11 +203,11 @@ cf.fit(xtrain_count, ytrain_count)
 y_pred=cf.predict(xtest_count)
 print(classification_report(y_pred, ytest_count))
 
-joblib.dump(cf, 'multinb_neura.joblib')
-
+joblib.dump(cf, 'multinb_neura_tfidf.joblib')
 """
 
-model = joblib.load('multinb_neura.joblib')
+
+model = joblib.load('multinb_neura_tfidf.joblib')
 
 
 tfidf_vect_docs_shape = (2838, 8656)
@@ -219,8 +219,8 @@ tfidf_vect_stress = tokenizer.texts_to_matrix(changed_stress_data, mode='tfidf')
 tfidf_vect_new = tfidf_vect_stress[:,:tfidf_vect_docs_shape[1]]
 
 predicted_stress = model.predict(tfidf_vect_new)
+print(predicted_stress)
 
-"""from transformers import pipeline
 classifier = pipeline('sentiment-analysis')
 
 stress_trans_results = []
@@ -229,9 +229,9 @@ for i in stress_data:
     if(result[0]['label']=="NEGATIVE"):
         stress_trans_results.append(result[0]['score'])
     else:
-        stress_trans_results.append(0)"""
-
-trans_stress_levels =  stress_score_data+ predicted_stress
+        stress_trans_results.append(0)
+#A sum of the transformers, VADER, [negativity] and my own stress data.
+ultimate_stress_levels =  stress_trans_results+ predicted_stress + stress_score_data
 
 
 def stress_plot():
@@ -246,7 +246,7 @@ def stress_plot():
 # Add trace for the time series
     fig.add_trace(go.Scatter(
         x=date_array,
-        y=trans_stress_levels,
+        y=ultimate_stress_levels,
         mode='lines',
         line=dict(color='royalblue', width=2),
         name='Time Series'

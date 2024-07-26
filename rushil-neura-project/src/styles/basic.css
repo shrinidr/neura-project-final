@@ -152,6 +152,30 @@ h1 {
     font-size: 45px;
 }
 
+
+#first_box{
+    margin-left: 53px;
+}
+.box{
+    margin-top: 37px;
+    background-color: rgb(17, 16, 16);
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+        /* Center vertically */
+    width: 40px;
+    height: 25px;
+    box-shadow:
+    0 4px 6px rgba(110, 104, 104, 0.3),
+        0 -4px 6px rgba(110, 104, 104, 0.3),
+        4px 0 6px rgba(110, 104, 104, 0.3),
+        -4px 0 6px rgba(110, 104, 104, 0.3);
+
+}
+
+
+
 .secondheading {
     text-align: left;
     font-family: 'Gill Sans MT';

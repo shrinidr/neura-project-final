@@ -10,7 +10,7 @@ const Header = () => {
         <>
         <div className="container">
                 <img src="/neura-removebg-preview.png" />
-                <Link to ='/'> <p id="title"><b> Neura </b> </p> </Link>
+                <Link to ='/'>  <p id="title"><b> Neura </b> </p> </Link>
                 {button_ele.map((element) => (
                     <button className="Btn" id={element.id} key = {element.id}>{element.content}</button>
                 ))}

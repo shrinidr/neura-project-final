@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/plotly.js": "^2.33.1",
     "express": "^4.19.2",
+    "font-awesome": "^4.7.0",
     "mongoose": "^8.4.5",
     "plotly.js": "^2.34.0",
     "react": "^18.3.1",
