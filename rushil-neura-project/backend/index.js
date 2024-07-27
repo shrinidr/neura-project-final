@@ -46,6 +46,13 @@ app.post('/api/data', async (req, res) => {
 });
 
 
+app.get('/api/getItems', async (req, res) => {
+
+  const {date} = req.query;
+
+
+})
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

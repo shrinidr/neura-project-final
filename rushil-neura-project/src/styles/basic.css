@@ -152,13 +152,36 @@ h1 {
     font-size: 45px;
 }
 
+.date-input{
+
+    width: 17px;
+    border: none;
+    resize: none;
+    height: 25px;
+}
+input[type="date"] {
+    background-color: rgb(39, 33, 33);
+    color: white;
+    scroll-padding-block: 0px;
+}
+
+input[type="date"]:focus{
+    outline: none;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+input[type="date"]:hover{
+    background-color: rgb(17, 16, 16);
+}
 
 #first_box{
     margin-left: 53px;
 }
 .box{
     margin-top: 37px;
-    background-color: rgb(17, 16, 16);
+    background-color: rgb(39, 33, 33);
     display: flex;
     justify-content: center;
     /* Center horizontally */
@@ -169,12 +192,41 @@ h1 {
     box-shadow:
     0 4px 6px rgba(110, 104, 104, 0.3),
         0 -4px 6px rgba(110, 104, 104, 0.3),
-        4px 0 6px rgba(110, 104, 104, 0.3),
-        -4px 0 6px rgba(110, 104, 104, 0.3);
+        4px 0 6px rgba(47, 45, 45, 0.3),
+        -4px 0 6px rgba(47, 45, 45, 0.3);
+
 
 }
 
+.box::before{
+    transition-duration: 0.3s;
+    mix-blend-mode: difference;
+}
+.box:hover::before{
+    transition-duration: 0.3s;
+    transform: translate(100%, -50%);
+    border-radius: 0;
 
+}
+
+.box:active{
+    transform: translate(2px, 2px);
+    transition-duration: 0.3s;
+}
+
+.left_button, .right_button, .cal_button{
+    display: flex;
+    background-color: #1e2125;
+    outline: none;
+    border: none;
+    color: white;
+    padding-left: 0px;
+    padding-right: 0px;
+
+}
+.box:hover{
+    background-color: rgb(17, 16, 16);
+}
 
 .secondheading {
     text-align: left;

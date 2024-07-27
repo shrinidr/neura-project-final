@@ -4,9 +4,8 @@ import { useRef } from "react";
 import DateDisplay from "./dateCompo";
 import axios from "axios";
 import { useEffect } from "react";
-import Calender from "./calender";
-
-
+import CalenderIcons from "./calender";
+import Calendar from "react-calendar";
 
 
 interface Item{
@@ -16,8 +15,6 @@ interface Item{
 interface Props {
     items: Item[];
 }
-
-
 
 const TextArea = (data: Props) => {
 
@@ -42,8 +39,6 @@ const TextArea = (data: Props) => {
       ...prevData,
       [id]: value,
     }));
-
-
   };
 
   const handleSubmit = async () =>{
@@ -96,7 +91,7 @@ const TextArea = (data: Props) => {
             <div className="head">
                 <img src="/sunny-day (1).png" id="day-icon" />
                 <DateDisplay/>
-                <Calender/>
+                <CalenderIcons/>
             </div>
 
               {data.items.map((item) => (
@@ -115,8 +110,6 @@ const TextArea = (data: Props) => {
         (<div className="scroll-to-bottom" onClick = {scrollToBottom}>
                 <i className="fa-solid fa-arrow-down" ></i> </div>)
        }
-
-
 
         <button className = "submitButtonMain" onClick={handleSubmit}>Submit All</button>
         </div>

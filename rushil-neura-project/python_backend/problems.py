@@ -136,9 +136,6 @@ Immediate goals:
 4) Start building the chat function (latest by 1 august)
 
 
-
-
-
 Summarization might work:
 Algos: cluster rank.
 Existing ones are TAKE, MOOTTweetSumm, DEPSUB is also pretty good becuase it generates labels.
