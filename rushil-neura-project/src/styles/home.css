@@ -1,5 +1,5 @@
 body {
-    background-color: black;
+    background-image: 'public\istockphoto-1645930993-612x612.jpg';
     color: white;
     font-family: "Gill Sans MT";
 }
@@ -174,7 +174,7 @@ textarea {
     overflow-y: auto;
 }
 
-.submitButtonMain{
+.submitButtonMain, .submitButtonDead{
     width: 130px;
     height: 40px;
     justify-content: center;
@@ -196,6 +196,12 @@ textarea {
     bottom: 10px;
 }
 
+
+.submitButtonDead{
+    color: black;
+    background-color: white;
+    font-style: italic;
+}
 
 .submitButtonMain::before {
     width: 130px;

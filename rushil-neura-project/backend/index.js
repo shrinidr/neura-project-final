@@ -49,6 +49,15 @@ app.post('/api/data', async (req, res) => {
 app.get('/api/getItems', async (req, res) => {
 
   const {date} = req.query;
+  try{
+    const response = await DataModel.find({date: new Date(date)})
+    const newResp = response[0]['entries']
+    const sendingResp = newResp.map(item => ({ id: item.id, content: item.content }));
+    res.json(sendingResp)
+  }
+  catch(err){
+     res.status(500).json({ message: err.message });
+  }
 
 
 })

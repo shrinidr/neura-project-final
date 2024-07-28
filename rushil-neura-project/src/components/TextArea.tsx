@@ -5,7 +5,6 @@ import DateDisplay from "./dateCompo";
 import axios from "axios";
 import { useEffect } from "react";
 import CalenderIcons from "./calender";
-import Calendar from "react-calendar";
 
 
 interface Item{
