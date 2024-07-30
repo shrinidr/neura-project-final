@@ -176,9 +176,22 @@ input[type="date"]:hover{
     background-color: rgb(17, 16, 16);
 }
 
-#first_box{
-    margin-left: 53px;
+.left_button{
+    margin-left: 430px;
 }
+.left_button_home{
+    margin-left: 110px;
+}
+
+.right_button, .disabled-button{
+    margin-left: 470px;
+}
+
+
+.cal_button{
+    margin-left: 510px;
+}
+
 .box{
     margin-top: 37px;
     background-color: rgb(39, 33, 33);
@@ -194,7 +207,6 @@ input[type="date"]:hover{
         0 -4px 6px rgba(110, 104, 104, 0.3),
         4px 0 6px rgba(47, 45, 45, 0.3),
         -4px 0 6px rgba(47, 45, 45, 0.3);
-
 
 }
 
@@ -214,7 +226,25 @@ input[type="date"]:hover{
     transition-duration: 0.3s;
 }
 
-.left_button, .right_button, .cal_button{
+.disabled-button .box::before {
+    transition-duration: 0s;
+    /* Disable transition */
+    transform: none;
+    /* Reset transform */
+    border-radius: initial;
+    /* Reset border radius */
+    mix-blend-mode: normal;
+    /* Reset blend mode */
+}
+
+.disabled-button:active .box {
+    transform: none;
+    /* Reset transform */
+    transition-duration: 0s;
+    /* Disable transition */
+}
+
+.left_button, .right_button, .cal_button, .left_button_home{
     display: flex;
     background-color: #1e2125;
     outline: none;
@@ -222,10 +252,28 @@ input[type="date"]:hover{
     color: white;
     padding-left: 0px;
     padding-right: 0px;
+    position: absolute;
+}
+
+.disabled-button{
+    display: flex;
+        background-color: #1e2125;
+        outline: none;
+        border: none;
+        color: rgb(87, 78, 78);
+        padding-left: 0px;
+        padding-right: 0px;
+        position: absolute;
 
 }
+
+
 .box:hover{
     background-color: rgb(17, 16, 16);
+}
+
+.disabled-button:hover .box{
+    background-color: rgb(39, 33, 33);
 }
 
 .secondheading {

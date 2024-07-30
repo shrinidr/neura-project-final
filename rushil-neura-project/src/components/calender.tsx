@@ -36,19 +36,19 @@ const CalenderIcons = () => {
     return (
         <>
         <Link to = "/prev" state = {{respDataState}}>
-        <button className = "left_button" onClick={displayContentLeft}>
+        <button className = "left_button_home" onClick={displayContentLeft}>
         <div className = "box" id = "first_box">
             <FontAwesomeIcon icon = {faChevronLeft}  id = "left"/>
         </div>
         </button>
         </Link>
-        <button className = "right_button">
-        <div className = "box">
-            <FontAwesomeIcon icon = {faChevronRight} id = "right" />
-        </div>
+        <button className= "disabled-button" disabled >
+            <div className = "box" id = "second_box" >
+                <FontAwesomeIcon icon = {faChevronRight} id = "right" />
+            </div>
         </button>
         <button className = "cal_button">
-        <div className = "box">
+        <div className = "box" id = "third_box">
             <input type = "date" id = "cal" className = "date-input"></input>
         </div>
         </button>
