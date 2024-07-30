@@ -1,9 +1,11 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Form, Link } from 'react-router-dom';
+import { Form, Link, useNavigate } from 'react-router-dom';
+import { ChangeEvent } from "react";
+import React from "react";
 
 const CalenderIcons = () => {
     interface Item {
@@ -13,6 +15,7 @@ const CalenderIcons = () => {
 
     const [currleft, changeLeft] = useState<number>(0);
     const [respDataState, respDataChange] = useState<Item[]>([]);
+    const navigate = useNavigate();
 
     const getNthPreviousDate  = (currleft: number) => {
         const currentDate = new Date();
@@ -33,6 +36,20 @@ const CalenderIcons = () => {
             console.log("You have a drinking problem", error)
         }
     }
+    const [calDate, calDateChange] = useState<string>('');
+
+    const handleCalChange = () => {
+            navigate(`/prev?date=${calDate}`);
+
+    }
+    const changeCalVal = (event: ChangeEvent<HTMLInputElement>) => {
+        const val = event.target.value;
+        calDateChange(val);
+    }
+
+    useEffect(() => {
+        handleCalChange();
+    }, [calDate])
     return (
         <>
         <Link to = "/prev" state = {{respDataState}}>
@@ -49,7 +66,7 @@ const CalenderIcons = () => {
         </button>
         <button className = "cal_button">
         <div className = "box" id = "third_box">
-            <input type = "date" id = "cal" className = "date-input"></input>
+            <input type = "date" id = "cal" value = {calDate} onChange = {changeCalVal} className = "date-input"></input>
         </div>
         </button>
         </>

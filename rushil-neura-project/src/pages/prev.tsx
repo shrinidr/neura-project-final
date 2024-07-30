@@ -1,16 +1,19 @@
 import Header from "../components/header"
 import SideBar from "../components/Sidebar"
 import axios from "axios";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLocation } from "react-router-dom";
+
 
 interface Item{
     content: string;
     id: string;
 }
 interface Props {
-    items: Item[];
+    date1: string;
+    date2: string;
 }
 
 interface Entry {
@@ -94,8 +97,7 @@ const PrevPage = () => {
     const lefterClick = () => {
       changeLeft(currleft+1)
     }
-    const displayContent = async (offset: number) => {
-        const date = getNthPreviousDate(offset)
+    const displayContent = async (date: string) => {
         try{
             const CalResponse = await axios.get('http://localhost:5000/api/getItems', {
                 params: {date}
@@ -106,15 +108,19 @@ const PrevPage = () => {
             console.log("You have a drinking problem", error)
         }
         setIsRightButtonDisabled(isToday(date));
-        dateManipulation();
+
     }
 
     useEffect(() => {
-    displayContent(currleft);
+        const date =  getNthPreviousDate(currleft)
+        displayContent(date);
+        dateManipulation();
     }, [currleft]);
 
     useEffect(() => {
-        displayContent(currleft);
+        const date = getNthPreviousDate(currleft)
+        displayContent(date);
+        dateManipulation();
     }, []);
 
     const TextStuff: Item[] = [{id: "input1", content: "How was your day (In one sentence)?"},
@@ -135,6 +141,32 @@ const PrevPage = () => {
     const dateToCheck = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     return today.toDateString() === dateToCheck.toDateString();
   };
+    const [calDate, calDateChange] = useState<string>('');
+
+    const handleCalChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const newDate =  event.target.value;
+        calDateChange(newDate);
+        setCurrentDate(formatDate(newDate))
+    }
+    useEffect(() => {
+        if (calDate) {
+            displayContent(calDate);
+        }
+    }, [calDate]);
+
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+    const selectedDate = query.get('date');
+    const questionsWithTooltips = [
+    { id: "input1", question: "How was your day (In one sentence)?", tooltip: "Describe your day in a brief sentence." },
+    { id: "input2", question: "How many times did you feel like smashing a wall?", tooltip: "Number of times you felt frustrated." },
+    { id: "input3", question: "How many times did you feel like dancing with said wall?", tooltip: "Number of times you felt like celebrating." },
+    { id: "input4", question: "How much did you exercise?", tooltip: "Hours spent exercising today." },
+    { id: "input5", question: "How is your stress situation?", tooltip: "Describe your stress level." },
+    { id: "input6", question: "Did you do anything that isn't part of your regular day?", tooltip: "Mention any deviations from your routine." },
+    { id: "input7", question: "Any other thing that you think is worth remembering?", tooltip: "Anything else notable about today." }
+];
+
     return (
         <>
         <Header/>
@@ -155,7 +187,7 @@ const PrevPage = () => {
                 </button>
                 <button className = "cal_button">
                     <div className = "box" id = "third_box">
-                        <input type = "date" id = "cal" className = "date-input"></input>
+                        <input type = "date" id = "cal" value = {calDate} onChange={handleCalChange} className = "date-input"></input>
                     </div>
                 </button>
             </div>
