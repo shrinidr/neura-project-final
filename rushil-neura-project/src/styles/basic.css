@@ -187,6 +187,13 @@ html, body, #root{
     position: relative;
     width: 950px;
     margin-top: 30px;
+        font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        background: linear-gradient(to right,#8449d1 0%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
 }
 
 .group-7 {
@@ -359,13 +366,20 @@ input[type="date"]:hover{
     margin-top: 100px;
     margin-left: 25px;
     margin-bottom: 25px;
+    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
 }
 
 #title {
 
     margin: 0;
     font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background: linear-gradient(to right, #b35b36 0%, #FFFFFF 100%);
+    background: linear-gradient(to right, #d85720 0%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -400,7 +414,17 @@ img {
         padding-top: 12px;
 
 }
+.mamachamamla{
+    margin: 0;
+        font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        background: linear-gradient(to right, #b35b36 0%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
 
+}
 .Btn {
     width: 130px;
     height: 40px;

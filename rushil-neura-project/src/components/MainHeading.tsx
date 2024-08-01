@@ -10,7 +10,7 @@ const MainHeading = () => {
             <div className="rectangle-2-1"></div>
         </div>
         <div className="let-s-time-travel-with-transformers">
-            <p style={{lineHeight:'59px'}}>Figure out yourself <br /> with data. </p>
+            <p style={{lineHeight:'59px'}} id="mamachamamla">Figure out yourself <br /> with data. </p>
         </div>
         <div className="group-7">
             <div className="equipment">scroll down</div>
