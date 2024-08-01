@@ -15,13 +15,12 @@ Also below each graph have some sort of a pointer to explain and or help further
 
 List of things to be added going forward:
 
-1. The Calender Featurette on the Home Page.
-2. The Chat Functionality (which is literally what this project was about)
-3. In the insights section:
+1. The Chat Functionality (which is literally what this project was about)
+2. In the insights section:
    a) Check for inconsistencies in the stream of consciousness.
    b) Remind the user about things that they planned to do or how they have deviated from the
    actions that they wished to undertake.
    c) And of course, a listing of the "problems" they have been facing and their potential solutions.
-4. Completion of the lander. Making it more informative about we are doing.
-5. Designing pages for about us, contact us and AI.
-6. If this turns out to be good, adding user AUTH and deployment.
+3. Completion of the lander. Making it more informative about we are doing.
+4. Designing pages for about us, contact us and AI.
+5. If this turns out to be good, adding user AUTH and deployment.
