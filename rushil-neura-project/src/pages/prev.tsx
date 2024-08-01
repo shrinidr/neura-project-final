@@ -7,24 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 
 
-interface Item{
-    content: string;
-    id: string;
-}
-interface Props {
-    date1: string;
-    date2: string;
-}
 
-interface Entry {
-  id: string;
-  content: string;
-}
 
-interface Data {
-  date: string;
-  entries: Entry[];
-}
 
 const PrevPage = () => {
 
@@ -106,15 +90,18 @@ const PrevPage = () => {
         }
         catch(error){
             console.log("You have a drinking problem", error)
+            respDataChange([])
         }
         setIsRightButtonDisabled(isToday(date));
-
     }
 
     useEffect(() => {
+        if(!(isCalChanged)){
         const date =  getNthPreviousDate(currleft)
         displayContent(date);
-        dateManipulation();
+        dateManipulation();}
+        calChange(false)
+
     }, [currleft]);
 
     useEffect(() => {
@@ -140,14 +127,32 @@ const PrevPage = () => {
     const [year, month, day] = dateStr.split("-");
     const dateToCheck = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     return today.toDateString() === dateToCheck.toDateString();
-  };
+    };
     const [calDate, calDateChange] = useState<string>('');
-
+    const [isCalChanged, calChange] = useState<boolean>(false)
     const handleCalChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newDate =  event.target.value;
         calDateChange(newDate);
         setCurrentDate(formatDate(newDate))
+        calChange(true)
+        changeLeft(changeCurrLeftAfterCal(newDate))
     }
+
+
+    const changeCurrLeftAfterCal = (calate: string) => {
+        const [inputYear, inputMonth, inputDay] = calate.split('-').map(Number);
+        const parsedInputDate = new Date(inputYear, inputMonth - 1, inputDay);
+
+    // Generate the current date
+        const currentDate = new Date();
+
+    // Get the difference in days
+        const differenceInMilliseconds = Math.abs(+parsedInputDate - +currentDate);
+        const differenceInDays = Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+
+        return differenceInDays-1;
+    }
+
     useEffect(() => {
         if (calDate) {
             displayContent(calDate);
@@ -166,7 +171,11 @@ const PrevPage = () => {
     { id: "input6", question: "Did you do anything that isn't part of your regular day?", tooltip: "Mention any deviations from your routine." },
     { id: "input7", question: "Any other thing that you think is worth remembering?", tooltip: "Anything else notable about today." }
 ];
-
+    const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+    const getTooltipText = (id: string) => {
+    const item = questionsWithTooltips.find(q => q.id === id);
+    return item ? item.tooltip : '';
+   };
     return (
         <>
         <Header/>
@@ -191,15 +200,35 @@ const PrevPage = () => {
                     </div>
                 </button>
             </div>
-              {respDataState.map((item) => (
-          <textarea
+            {respDataState.length!=0?(respDataState.map((item) => (
+            <div key={item.id} className="textarea-container">
+                <div
+                    className="icon-container"
+                    onMouseEnter={() => setHoveredItem(item.id)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                >
+                    <i className="fa-solid fa-angle-down"></i>
+                    {hoveredItem === item.id && (
+                    <div className="tooltip">
+                        {getTooltipText(item.id)}
+                    </div>
+                    )}
+                </div>
+                <textarea
+                className="textarea"
+                id={item.id}
+                value={item.content || ''}
+                readOnly
+                />
+            </div>
+            ))):(TextStuff.map((item)=> (
+            <textarea
             className="textarea"
-            id={item.id}
-            key={item.id}
-            value = {item.content || ''}
-            readOnly
-          />
-        ))}
+            placeholder = {item.content || ''}
+            />
+
+        )))
+        }
         {!isAtBottom &&
         (<div className="scroll-to-bottom" onClick = {scrollToBottom}>
                 <i className="fa-solid fa-arrow-down" ></i> </div>)

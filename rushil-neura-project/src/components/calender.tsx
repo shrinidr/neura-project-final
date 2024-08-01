@@ -39,13 +39,22 @@ const CalenderIcons = () => {
     const [calDate, calDateChange] = useState<string>('');
 
     const handleCalChange = () => {
-            navigate(`/prev?date=${calDate}`);
+        if(calDate){
+                navigate(`/prev?date=${calDate}`);
+        }
 
     }
     const changeCalVal = (event: ChangeEvent<HTMLInputElement>) => {
         const val = event.target.value;
         calDateChange(val);
     }
+    const leftClicker  = () => {
+        changeLeft(currleft+1)
+    }
+
+    useEffect(() => {
+        displayContentLeft()
+    }, [currleft])
 
     useEffect(() => {
         handleCalChange();
@@ -53,7 +62,7 @@ const CalenderIcons = () => {
     return (
         <>
         <Link to = "/prev" state = {{respDataState}}>
-        <button className = "left_button_home" onClick={displayContentLeft}>
+        <button className = "left_button_home" onClick={leftClicker}>
         <div className = "box" id = "first_box">
             <FontAwesomeIcon icon = {faChevronLeft}  id = "left"/>
         </div>

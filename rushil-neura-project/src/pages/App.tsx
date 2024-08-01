@@ -1,6 +1,7 @@
 
 import Bottom from "../components/Bottom"
-import Header from "../components/header"
+
+import HeaderHome from "../components/header_home";
 import MainHeading from "../components/MainHeading"
 
 
@@ -12,7 +13,7 @@ function App(){
   let text4 = " of your mental growth. ";
   return (
     <div>
-      <Header/>
+      <HeaderHome/>
       <MainHeading/>
       <Bottom text1= {text1} text2={text2} text3= {text3} text4= {text4}/>
     </div>

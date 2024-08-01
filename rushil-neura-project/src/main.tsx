@@ -9,27 +9,37 @@ import MainPage from './pages/MainPage.tsx';
 import DataPage from './pages/Data.tsx';
 import TTys from './pages/ttys.tsx';
 import PrevPage from './pages/prev.tsx';
-
+import Layout from './layout.tsx';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>
+    element: (<Layout>
+                <App/>
+              </Layout>)
   },
   {
     path: "/home",
-    element: <MainPage/>
+    element: (<Layout>
+                <MainPage/>
+              </Layout>)
   },
   {
     path: "/insights",
-    element: <DataPage/>
+    element: (<Layout>
+                <DataPage/>
+              </Layout>)
   },
   {
     path: "/chat",
-    element: <TTys/>
+    element: (<Layout>
+                <TTys/>
+              </Layout>)
   },
   {
     path: "/prev",
-    element: <PrevPage/>
+    element: (<Layout>
+                <PrevPage/>
+              </Layout>)
   }
 ]);
 
