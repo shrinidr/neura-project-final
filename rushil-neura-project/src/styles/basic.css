@@ -4,6 +4,8 @@ body {
     font-family: 'Gill Sans MT';
 }
 
+
+
 html, body, #root{
     margin: 0;
         padding: 0;
@@ -264,7 +266,7 @@ input[type="date"]:hover{
     margin-left: 430px;
 }
 .left_button_home{
-    margin-left: 59px;
+    margin-left: 106px;
 }
 
 .right_button, .disabled-button{
@@ -431,7 +433,11 @@ img {
     justify-content: center;
     background-color: black;
     border: none;
-    color: white;
+    background: linear-gradient(to right, #e95414 0%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
     font-weight: 600;
     gap: 8px;
     cursor: pointer;

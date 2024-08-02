@@ -144,6 +144,29 @@ i {
     overflow-y: auto;
 }
 
+#chatinput {
+    display: flex;
+    align-items: center;
+    width: 59%;
+    margin-top: 425px;
+    margin-left: 175px;
+    height: 37px;
+    box-shadow:
+        0 4px 6px rgba(110, 104, 104, 0.3),
+        0 -4px 6px rgba(110, 104, 104, 0.3),
+        4px 0 6px rgba(47, 45, 45, 0.3),
+        -4px 0 6px rgba(47, 45, 45, 0.3);
+    border-radius: 15px 15px 15px 15px;
+    background-color: rgb(17, 16, 16);
+    color: white;
+    outline: none;
+    border: none;
+    resize: none;
+    text-indent: 13px;
+    font-size: 16px;
+    position: fixed;
+
+}
 
 
 .sidebar {
@@ -185,10 +208,10 @@ textarea {
     gap: 8px;
     cursor: pointer;
     box-shadow:
-    0 4px 6px rgba(255, 255, 255, 0.3),
-        0 -4px 6px rgba(255, 255, 255, 0.3),
-        4px 0 6px rgba(255, 255, 255, 0.3),
-        -4px 0 6px rgba(255, 255, 255, 0.3);
+            0 4px 6px rgba(110, 104, 104, 0.3),
+            0 -4px 6px rgba(110, 104, 104, 0.3),
+            4px 0 6px rgba(47, 45, 45, 0.3),
+            -4px 0 6px rgba(47, 45, 45, 0.3);
     position: relative;
     overflow: hidden;
     transition-duration: 0.3s;
