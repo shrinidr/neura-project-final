@@ -394,6 +394,7 @@ img {
     height: 15px;
     margin-right: 15px;
     margin-left: 35px;
+    align-self: center;
 }
 
 .container {
