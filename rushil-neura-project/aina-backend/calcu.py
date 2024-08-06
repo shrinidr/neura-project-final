@@ -10,12 +10,11 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 import chromadb
 import os
 import shutil
-from langchain.schema import Document
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores.chroma import Chroma
+import openai
+from dotenv import load_dotenv
+from chromadb.config import Settings
 
-
-
+load_dotenv()
 userInput = "Hey, how are you doing?"
 
 #Say
@@ -115,11 +114,69 @@ del docs[0]
 del docs[0]
 
 
+
+
 CHROMA_PATH = "chroma"
 
 if os.path.exists(CHROMA_PATH):
    shutil.rmtree(CHROMA_PATH)
+def get_openai_embedding(text):
+    response = openai.Embedding.create(
+        input=text,
+        model="text-embedding-ada-002"
+    )
+    return response['data'][0]['embedding']
 
+def create_and_save_embeddings(texts, collection_name, db_path):
+    # Initialize Chroma Client
+    client = chromadb.Client(Settings(persist_directory=db_path))
 
-db = Chroma.from_documents(docs, OpenAIEmbeddings(), persist_directory = CHROMA_PATH)
-db.persist()
+    # Create or get collection
+    collection = client.get_or_create_collection(collection_name)
+
+    # Generate embeddings and add to collection
+    for text in texts:
+        embedding = get_openai_embedding(text)
+        collection.add(documents=[text], embeddings=[embedding])
+
+    # Persist the database
+    client.persist()
+
+def search_similar_texts(client, collection_name, query_text, top_k=5):
+    # Get collection
+    collection = client.get_collection(collection_name)
+
+    # Get embedding for query text
+    query_embedding = get_openai_embedding(query_text)
+
+    # Query collection
+    results = collection.query(embeddings=[query_embedding], top_k=top_k)
+
+    return results
+
+# Example usage
+if __name__ == "__main__":
+    texts = [
+        "The sky is blue.",
+        "I love sunny days.",
+        "The ocean is vast and beautiful.",
+        "Mountains are majestic.",
+        "Rainy days make me feel cozy."
+    ]
+
+    collection_name = "example_collection"
+    db_path = "./chroma_db"
+
+    # Create and save embeddings to Chroma
+    create_and_save_embeddings(texts, collection_name, db_path)
+
+    # Initialize Chroma Client for querying
+    client = chromadb.Client(Settings(persist_directory=db_path))
+
+    # Search for similar texts
+    query = "I enjoy sunny weather."
+    results = search_similar_texts(client, collection_name, query)
+
+    print("Similar texts to '{}':".format(query))
+    for result in results['documents']:
+        print(result)
