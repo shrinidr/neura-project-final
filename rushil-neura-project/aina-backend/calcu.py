@@ -6,6 +6,14 @@ Lets see how this one goes.
 """
 import pymongo
 import pandas as pd
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+import chromadb
+import os
+import shutil
+from langchain.schema import Document
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores.chroma import Chroma
+
 
 
 userInput = "Hey, how are you doing?"
@@ -62,3 +70,56 @@ FinalChangedFrame = pd.concat(frames)
 
 
 
+"""
+A little summary of how transformers work.
+First there is a pretrained vector embeddings matrix for all the 50,000 words on which the model has been trained.
+This is a bit like the word2vec algorithm.
+
+When user inputs a certain prompt, each of the tokens in the prompt are assigned a vector which is essentially the
+same non-contex embedding vector derived from the given matrix.
+The next step is attention which is responsible for taking into account the context of other words present in the
+prompt.
+
+Attention is generally multi headed and this is what one head of attention does.
+Essentially there are three classes of model parameters that are learned: the keys, queries and the values. The keys
+and queries essentially seek to ask and answer questions about each of the words in the prompt.
+These questions are trivial in that they are too complex to be simplified. The key matrix and the query matrix is
+multiplied with each of the embeddings to give us a n*n matrix where n is the number of tokens. Through dot products
+it is figured out which previous words influence which words further down the sentence.
+Finally the value vecs for calculated for each token in the prompt and then multiplied with the aformentioned values
+This final weighted vector is summed up for each token to give us the "changed" vector embedding
+which should store the contextual information for that token.
+
+If this is not beyond my human comprehension then what is?
+"""
+
+
+fcf_md = FinalChangedFrame.to_markdown()
+text_splitter = RecursiveCharacterTextSplitter(
+    separators=[
+        "\n\n",
+        "\n",
+        "\u200b",  # Zero-width space
+        "\uff0c",  # Fullwidth comma
+        "\u3001",  # Ideographic comma
+        "\uff0e",  # Fullwidth full stop
+        "\u3002",  # Ideographic full stop
+        "|"
+    ],
+    chunk_overlap = 10,
+    length_function = len,
+)
+docs = text_splitter.create_documents([fcf_md])
+
+del docs[0]
+del docs[0]
+
+
+CHROMA_PATH = "chroma"
+
+if os.path.exists(CHROMA_PATH):
+   shutil.rmtree(CHROMA_PATH)
+
+
+db = Chroma.from_documents(docs, OpenAIEmbeddings(), persist_directory = CHROMA_PATH)
+db.persist()
