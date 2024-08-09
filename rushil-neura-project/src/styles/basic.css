@@ -339,8 +339,8 @@ input[type="date"]:hover{
 }
 
 .left_button_home {
-    margin-left: 28px;
-    position: absolute;
+    margin-left: 105px;
+    position: sticky;
     padding-left: 0px;
     padding-right: 0px;
     display: flex;
@@ -348,6 +348,7 @@ input[type="date"]:hover{
     outline: none;
     border: none;
     color: white;
+    z-index: 1000;
 }
 .disabled-button{
     display: flex;

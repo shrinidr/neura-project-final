@@ -12,12 +12,17 @@ import shutil
 import openai
 from dotenv import load_dotenv
 from chromadb.config import Settings
+import numpy as np
+import chromadb
+from chromadb.utils import embedding_functions
+
 
 load_dotenv()
-userInput = "Hey, how are you doing?"
 
+userInput = "Hey, how are you doing?"
 #Say
 versionInput = "2024-07-23"
+LLM_output = ""
 
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client["neura-react-server"]
@@ -112,19 +117,12 @@ docs = text_splitter.create_documents([fcf_md])
 del docs[0]
 del docs[0]
 
-CHROMA_PATH = "chroma"
 
-if os.path.exists(CHROMA_PATH):
-   shutil.rmtree(CHROMA_PATH)
-
-import chromadb
-from chromadb.utils import embedding_functions
-from chromadb.config import Settings
 
 client = chromadb.Client()
 
 
-collection = client.create_collection(name="my_collection")
+collection = client.get_or_create_collection(name="my_collection")
 
 
 def add_documents_to_collection(collection, documents):
@@ -136,24 +134,75 @@ def add_documents_to_collection(collection, documents):
         ids=ids,
     )
 
-# Add documents to the collection
-add_documents_to_collection(collection, docs)
+
+docs_texts = add_documents_to_collection(collection, docs)
+
+#The idea here is to limit our query space after every single user prompt.
+#We will set it as 2 right now as anything above or below seems to give either too much or too less of a data space.
 
 
 
-def search_collection(collection, query_text):
-    # Chroma's built-in function to generate embeddings for the query
-    embedding_func = embedding_functions.jina_embedding_function('default')
-    query_embedding = embedding_func(query_text)
+def query_collection(collection, query_text, n_results=2):
+    """
+    Searches the ChromaDB collection for documents matching the query text.
 
+    Args:
+        collection: The ChromaDB collection to search in.
+        query_text: The search query text.
+        n_results: Number of top results to return. Defaults to 5.
+
+    Returns:
+        List of tuples containing document ids and corresponding contents.
+    """
+     # Perform the query
     results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=5  # Number of results to return
+        query_texts=[query_text],
+        n_results=n_results,
     )
-    return results
 
-# Example query
-query_text = "Stress has been very high lately"
-results = search_collection(collection, query_text)
-print(results)
+    # Extracting the results
+    rang = len(results['documents'][0])
+    matched_docs = [results['documents'][0] for result in range(rang) if (results['distances'][0])[result]>=1]
 
+    return matched_docs
+
+
+
+#This will be from our continuous user input stream.
+
+query_text = "How do you think you are dealing with all the stress and anxiety?"
+matched_docs = query_collection(collection, query_text)
+
+
+
+if(len(matched_docs)==0):
+    LLM_output = "You're talking about stuff that I dont really recall. Lets talk about something else."
+else:
+    when_docs_avail()
+
+
+
+def when_docs_avail():
+    all_searchRes = []
+    for i in matched_docs[0]:
+        for j in range(len(matched_docs[0])):
+            match = matched_docs[0][j].split('|')
+            match = match[2:]
+            all_searchRes.append(match)
+
+
+    all_searchRes = np.array(all_searchRes)
+    all_searchRes = np.reshape(all_searchRes, (all_searchRes.shape[0]*all_searchRes.shape[1], 1))
+
+
+    PROMPT_TEMPLATE = """
+    Respond based only on this context: {context}
+
+    Behave as much as possible as if you were the agent writing all of these things, exhibiting the
+    same traits as the hypothetical individual writing this.
+
+    Answer and converse based off of this current user prompt: {query_text}
+
+    """
+
+#from transformers import LlamaTokenizer, LlamaForCausalLM
