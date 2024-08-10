@@ -9,15 +9,12 @@ import pandas as pd
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
 import shutil
-import openai
-from dotenv import load_dotenv
 from chromadb.config import Settings
 import numpy as np
 import chromadb
 from chromadb.utils import embedding_functions
+from transformers import LlamaTokenizer, LlamaForCausalLM
 
-
-load_dotenv()
 
 userInput = "Hey, how are you doing?"
 #Say
@@ -61,9 +58,9 @@ loc1 = pd.DataFrame()
 loc2 = pd.DataFrame()
 
 for i in range(len(StartDataFrame)):
-  if(StartDataFrame['date'][i]==versionInput):
-    loc1 = StartDataFrame.loc[i-5:i]
-    loc2 = StartDataFrame.loc[i+1:i+4]
+    if(StartDataFrame['date'][i]==versionInput):
+        loc1 = StartDataFrame.loc[i-5:i]
+        loc2 = StartDataFrame.loc[i+1:i+4]
 
 frames = [loc1, loc2]
 #This is the plus minus 5 entries of the date chosen. 5 is arbitrary at the moment, we can tinker it as we go on.
@@ -174,14 +171,6 @@ query_text = "How do you think you are dealing with all the stress and anxiety?"
 matched_docs = query_collection(collection, query_text)
 
 
-
-if(len(matched_docs)==0):
-    LLM_output = "You're talking about stuff that I dont really recall. Lets talk about something else."
-else:
-    when_docs_avail()
-
-
-
 def when_docs_avail():
     all_searchRes = []
     for i in matched_docs[0]:
@@ -192,17 +181,37 @@ def when_docs_avail():
 
 
     all_searchRes = np.array(all_searchRes)
-    all_searchRes = np.reshape(all_searchRes, (all_searchRes.shape[0]*all_searchRes.shape[1], 1))
+    all_searchRes = np.reshape(all_searchRes, (all_searchRes.shape[0]*all_searchRes.shape[1], ))
+
+    context = ''.join(all_searchRes)
+
+    tokenizer = LlamaTokenizer.from_pretrained("openlm-research/open_llama_7b", token = "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")
+
+# Load the model
+    model = LlamaForCausalLM.from_pretrained("meta-llama/Meta-Llama-3.1-405B",
+                                        device_map="auto",  # To automatically map model to available GPUs
+                                        load_in_8bit=True,  # For memory efficiency (optional)
+                                        torch_dtype=torch.float16,
+                                        token = "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")  # Use float16 for efficiency
+
+    prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. \n Answer and converse based off of this current user prompt: {query_text}"
 
 
-    PROMPT_TEMPLATE = """
-    Respond based only on this context: {context}
+    inputs = tokenizer(prompt, return_tensors="pt", truncation=True)
+    outputs = model.generate(**inputs, max_new_tokens=200)
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    print(response)
 
-    Behave as much as possible as if you were the agent writing all of these things, exhibiting the
-    same traits as the hypothetical individual writing this.
 
-    Answer and converse based off of this current user prompt: {query_text}
+if(len(matched_docs)==0):
+    LLM_output = "You're talking about stuff that I dont really recall. Lets talk about something else."
+else:
+    when_docs_avail()
 
-    """
 
-#from transformers import LlamaTokenizer, LlamaForCausalLM
+"""
+
+This LLama doesnt work here but it does work in the awdo ipynb. Write the code there, convert it to
+.py and integrate it with flask.
+
+"""

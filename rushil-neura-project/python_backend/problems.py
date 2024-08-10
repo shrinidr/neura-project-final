@@ -295,7 +295,6 @@ def stress_plot():
 # Show the plot
     return pio.to_json(fig)
 
-
 #stress_plot()
 
 #Okay, maybe dont use the transformers, because they end up taking too much time. Solve this issue later on.

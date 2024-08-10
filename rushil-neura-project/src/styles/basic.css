@@ -339,16 +339,16 @@ input[type="date"]:hover{
 }
 
 .left_button_home {
-    margin-left: 105px;
-    position: sticky;
+    left: 430px;
+    margin-left: 0px;
+    position: absolute;
+    display: flex;
     padding-left: 0px;
     padding-right: 0px;
-    display: flex;
     background-color: #1e2125;
     outline: none;
     border: none;
     color: white;
-    z-index: 1000;
 }
 .disabled-button{
     display: flex;
