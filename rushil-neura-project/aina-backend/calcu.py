@@ -185,14 +185,15 @@ def when_docs_avail():
 
     context = ''.join(all_searchRes)
 
-    tokenizer = LlamaTokenizer.from_pretrained("openlm-research/open_llama_7b", token = "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")
+    tokenn = ''
+    tokenizer = LlamaTokenizer.from_pretrained("openlm-research/open_llama_7b", token = tokenn)
 
 # Load the model
     model = LlamaForCausalLM.from_pretrained("meta-llama/Meta-Llama-3.1-405B",
                                         device_map="auto",  # To automatically map model to available GPUs
                                         load_in_8bit=True,  # For memory efficiency (optional)
                                         torch_dtype=torch.float16,
-                                        token = "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")  # Use float16 for efficiency
+                                        token = tokenn)  # Use float16 for efficiency
 
     prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. \n Answer and converse based off of this current user prompt: {query_text}"
 
@@ -208,7 +209,7 @@ if(len(matched_docs)==0):
 else:
     when_docs_avail()
 
-
+#try this for torch: --index-url https://download.pytorch.org/whl/cpu instead of the other url.
 """
 
 This LLama doesnt work here but it does work in the awdo ipynb. Write the code there, convert it to
