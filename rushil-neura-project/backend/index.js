@@ -58,9 +58,9 @@ app.get('/api/getItems', async (req, res) => {
   catch(err){
      res.status(500).json({ message: err.message });
   }
-
-
 })
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

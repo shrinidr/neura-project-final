@@ -13,8 +13,10 @@ from chromadb.config import Settings
 import numpy as np
 import chromadb
 from chromadb.utils import embedding_functions
-from transformers import LlamaTokenizer, LlamaForCausalLM
+from transformers import TFAutoModelForCausalLM, AutoTokenizer
+import torch
 
+import openai
 
 userInput = "Hey, how are you doing?"
 #Say
@@ -185,34 +187,63 @@ def when_docs_avail():
 
     context = ''.join(all_searchRes)
 
-    tokenn = ''
-    tokenizer = LlamaTokenizer.from_pretrained("openlm-research/open_llama_7b", token = tokenn)
+    """
+
+    from transformers import AutoConfig
+
+# Load the model configuration
+    config = AutoConfig.from_pretrained("meta-llama/Meta-Llama-3.1-405B")
+
+# Ensure that quantization is not enabled
+    if hasattr(config, "quantization"):
+        config.quantization = False  # Disable quantization if this attribute exists
+
+    HuggingFaceToken = os.environ.get('hugging_face_api')
+    tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2", use_auth_token=HuggingFaceToken)
 
 # Load the model
-    model = LlamaForCausalLM.from_pretrained("meta-llama/Meta-Llama-3.1-405B",
-                                        device_map="auto",  # To automatically map model to available GPUs
-                                        load_in_8bit=True,  # For memory efficiency (optional)
-                                        torch_dtype=torch.float16,
-                                        token = tokenn)  # Use float16 for efficiency
+    model = AutoModelForCausalLM.from_pretrained("openai-community/gpt2",
+                                        torch_dtype=torch.float32,
+                                        token = HuggingFaceToken,
+                                        config = config)  # Use float16 for efficiency
 
-    prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. \n Answer and converse based off of this current user prompt: {query_text}"
+    """
 
+    prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. Mimic their language as well, dont make it too formal. \n Answer and converse based off of this current user prompt: {query_text}"
 
+    """
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True)
     outputs = model.generate(**inputs, max_new_tokens=200)
-    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    print(response)
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True) """
 
+
+    from openai import OpenAI
+
+    api_key = os.environ.get('OPENAI_API_KEY')
+
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    client = OpenAI()
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo-0125",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=500,
+        temperature=0.9,
+        top_p=0.9
+    )
+    return list(response.choices)[0].message.content
 
 if(len(matched_docs)==0):
     LLM_output = "You're talking about stuff that I dont really recall. Lets talk about something else."
 else:
-    when_docs_avail()
+    LLM_output = when_docs_avail()
 
-#try this for torch: --index-url https://download.pytorch.org/whl/cpu instead of the other url.
-"""
 
-This LLama doesnt work here but it does work in the awdo ipynb. Write the code there, convert it to
-.py and integrate it with flask.
 
-"""
+
+
+
+
+

@@ -165,7 +165,70 @@ i {
     text-indent: 13px;
     font-size: 16px;
     position: fixed;
+}
 
+.version-selector-button {
+
+    margin-left: 50px;
+    display: flex;
+        background-color: #1e2125;
+        outline: none;
+        border: none;
+        color: white;
+        padding-left: 0px;
+        padding-right: 0px;
+        position: absolute;
+}
+
+
+.versionI, .versionIcon{
+
+    margin-top: 34px;
+        background-color: rgb(39, 33, 33);
+        display: flex;
+        justify-content: center;
+        /* Center horizontally */
+        align-items: center;
+        /* Center vertically */
+        box-shadow:
+            0 4px 6px rgba(110, 104, 104, 0.3),
+            0 -4px 6px rgba(110, 104, 104, 0.3),
+            4px 0 6px rgba(47, 45, 45, 0.3),
+            -4px 0 6px rgba(47, 45, 45, 0.3);
+}
+
+
+.dropdown{
+
+    position: absolute;
+    height: 12px;
+    width: 75px;
+    border: none;
+    outline: none;
+    top: 17%;
+    left: 10%;
+    background-color: rgb(39, 33, 33);
+    padding:10px;
+    box-shadow:
+            0 4px 6px rgba(110, 104, 104, 0.3),
+            0 -4px 6px rgba(110, 104, 104, 0.3),
+            4px 0 6px rgba(47, 45, 45, 0.3),
+            -4px 0 6px rgba(47, 45, 45, 0.3);
+}
+
+.versionI{
+    width: 85px;
+    height: 34px;
+}
+
+
+
+.versionIcon{
+    width: 39px;
+    height: 34px;
+}
+#milf{
+    margin-left: 49px;
 }
 
 
@@ -178,6 +241,7 @@ i {
     margin-top: 20px;
     padding-left: 0px;
 }
+
 
 textarea {
     width: 900px;

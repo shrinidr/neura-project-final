@@ -1,7 +1,8 @@
 import axios from "axios"
 import SideBar from "../components/Sidebar"
 import Header from "../components/header"
-import {useState, useEffect} from "react"
+import {useState} from "react"
+import ChatCompo from "../components/chatCompo"
 
 
 const TTys = () => {
@@ -24,6 +25,7 @@ const TTys = () => {
         <Header/>
         <SideBar/>
         <div className = "main_content">
+            <ChatCompo/>
             <div className="head"></div>
             <input type = "text"
             id = "chatinput"
