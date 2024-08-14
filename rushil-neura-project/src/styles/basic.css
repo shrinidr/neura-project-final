@@ -263,16 +263,16 @@ input[type="date"]:hover{
 }
 
 .left_button{
-    margin-left: 430px;
+    margin-left: 460px;
 }
 
 .right_button, .disabled-button{
-    margin-left: 470px;
+    margin-left: 500px;
 }
 
 
 .cal_button{
-    margin-left: 510px;
+    margin-left: 540px;
 }
 
 .box{
@@ -339,7 +339,7 @@ input[type="date"]:hover{
 }
 
 .left_button_home {
-    left: 430px;
+    left: 460px;
     margin-left: 0px;
     position: absolute;
     display: flex;

@@ -15,7 +15,7 @@ const MainHeading = () => {
         <div className="group-7">
             <div className="equipment">scroll down</div>
             <div className = "homeDownArrow">
-            <i className = "fa-solid fa-arrow-down"> </i></div>
+            <i className = "fa-solid fa-arrow-down" id= "homeArrow"> </i></div>
         </div>
     </div>
     </>

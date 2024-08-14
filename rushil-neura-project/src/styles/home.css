@@ -55,14 +55,12 @@ img {
     display: flex;
 }
 
-/*Icons CSS*/
 i {
     width: 16px;
     height: 24px;
-    left: 48px;
-    top: 35px;
-    position: absolute;
+
     color: white;
+    position: absolute;
 }
 
 .scroll-to-bottom{
@@ -70,7 +68,7 @@ i {
     position: fixed;
     bottom: 2px;
     left: 50%;
-    top: 85%;
+    top: 90%;
     width: 40px;
     /* Adjust as needed */
     height: 40px;
@@ -84,15 +82,27 @@ i {
 
 
 #gear {
-    top: 74px;
+    top: 15.5%;
+    left: 24%;
     color: white;
 }
 
+#ChatIcon{
 
-#Chat{
-    top: 109px;
-    color: white;
+    left: 24%;
+    top: 23.5%;
 
+}
+
+#HomeIcon{
+    top: 7.5%;
+    left: 24%;
+}
+
+#homeArrow{
+
+    top: 140%;
+    left: 200%;
 }
 
 .data_head{
@@ -148,7 +158,8 @@ i {
     display: flex;
     align-items: center;
     width: 59%;
-    margin-top: 425px;
+    top: 89%;
+    left: 26%;
     margin-left: 175px;
     height: 37px;
     box-shadow:
@@ -164,7 +175,7 @@ i {
     resize: none;
     text-indent: 13px;
     font-size: 16px;
-    position: fixed;
+    position: sticky;
 }
 
 .version-selector-button {
@@ -198,39 +209,110 @@ i {
 }
 
 
-.dropdown{
+.versionI:hover, .versionIcon:hover{
+background-color: rgb(17, 16, 16);
 
-    position: absolute;
-    height: 12px;
-    width: 75px;
-    border: none;
-    outline: none;
-    top: 17%;
-    left: 10%;
-    background-color: rgb(39, 33, 33);
-    padding:10px;
-    box-shadow:
-            0 4px 6px rgba(110, 104, 104, 0.3),
-            0 -4px 6px rgba(110, 104, 104, 0.3),
-            4px 0 6px rgba(47, 45, 45, 0.3),
-            -4px 0 6px rgba(47, 45, 45, 0.3);
+}
+.dropdown-container {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease-in-out;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    margin-top: 8px;
 }
 
+.dropdown-container.open {
+    max-height: 200px;
+    /* Adjust based on content height */
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.dropdown {
+    background-color: rgb(39, 33, 33);
+    border-radius: 8px;
+    padding: 0;
+    margin-left: 189px;
+    list-style: none;
+    opacity: 0;
+    width: 130px;
+    transform: translateY(-10px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+    font-size: 12px;
+}
+
+.dropdown-container.open .dropdown {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+.arbit{
+
+    margin-left: 87.7%;
+    margin-top: 1.8%;
+    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+    background: linear-gradient(to right, #7a38ac 22%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+}
+.dropdown-item {
+    padding: 10px 15px;
+        color: white;
+        font-size: 13px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        /* This aligns the icon to the right */
+        align-items: center;
+        /* This vertically centers the content */
+    background-color: rgb(39, 35, 35);
+    outline: none;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    width: 130px;
+    }
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.name {
+    margin-right: 100px;
+    /* Space between the name and the icon */
+    color: pink;
+    font-weight: 300;
+
+    }
 .versionI{
     width: 85px;
     height: 34px;
 }
-
-
 
 .versionIcon{
     width: 39px;
     height: 34px;
 }
 #milf{
-    margin-left: 49px;
+    left: 75%;
 }
 
+#versionIconS{
+    left: 76%;
+    margin-top: 10px;
+
+    color: rgb(183, 79, 111);
+}
 
 .sidebar {
     position: fixed;

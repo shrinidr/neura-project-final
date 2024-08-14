@@ -231,7 +231,7 @@ const PrevPage = () => {
         }
         {!isAtBottom &&
         (<div className="scroll-to-bottom" onClick = {scrollToBottom}>
-                <i className="fa-solid fa-arrow-down" ></i> </div>)
+                <i className="fa-solid fa-arrow-down" id = "scrollArrow"></i> </div>)
        }
 
         <button className = "submitButtonDead">Submitted</button>

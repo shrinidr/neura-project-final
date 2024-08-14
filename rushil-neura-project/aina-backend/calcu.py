@@ -20,6 +20,10 @@ import openai
 
 userInput = "Hey, how are you doing?"
 #Say
+
+predefined_versions =  ["Genesis", "Origins", "Echo", "Whisper", "Now"]
+
+
 versionInput = "2024-07-23"
 LLM_output = ""
 
