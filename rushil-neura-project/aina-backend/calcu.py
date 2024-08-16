@@ -21,7 +21,11 @@ import openai
 userInput = "Hey, how are you doing?"
 #Say
 
-predefined_versions =  ["Genesis", "Origins", "Echo", "Whisper", "Now"]
+predefined_versions =  {"Genesis":{"startDate": "", "endDate": ""},
+                        "Origins": {"startDate": "", "endDate": ""},
+                        "Echo": {"startDate": "", "endDate": ""},
+                        "Whisper": {"startDate": "", "endDate": ""},
+                        "Now": {"startDate": "", "endDate": ""}}
 
 
 versionInput = "2024-07-23"
@@ -34,6 +38,18 @@ collection = db["datamodels"]
 dataBase = pd.DataFrame(list(collection.find()))
 datearray = pd.Series([str(i)[:10] for i in dataBase['date']])
 dataBase['date'] = datearray
+
+
+datearray = list(datearray)
+num_divs = int(len(datearray)/len(predefined_versions))
+
+versionsName = ["Genesis", "Origins", "Echo", "Whisper", "Now"]
+
+for i in range(num_divs):
+    omega  = i*len(predefined_versions)
+    alpha = datearray[omega: omega+num_divs]
+    predefined_versions[versionsName[i]]["startDate"] = alpha[0]
+    predefined_versions[versionsName[i]]["endDate"] = alpha[-1]
 
 
 document_array = []
@@ -239,11 +255,14 @@ def when_docs_avail():
     )
     return list(response.choices)[0].message.content
 
+
+
+"""
 if(len(matched_docs)==0):
     LLM_output = "You're talking about stuff that I dont really recall. Lets talk about something else."
 else:
     LLM_output = when_docs_avail()
-
+"""
 
 
 
