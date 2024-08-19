@@ -9,55 +9,28 @@ import pandas as pd
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
 import shutil
-from chromadb.config import Settings
 import numpy as np
 import chromadb
-from chromadb.utils import embedding_functions
-from transformers import TFAutoModelForCausalLM, AutoTokenizer
-import torch
-
 import openai
-
-userInput = "Hey, how are you doing?"
-#Say
-
-predefined_versions =  {"Genesis":{"startDate": "", "endDate": ""},
-                        "Origins": {"startDate": "", "endDate": ""},
-                        "Echo": {"startDate": "", "endDate": ""},
-                        "Whisper": {"startDate": "", "endDate": ""},
-                        "Now": {"startDate": "", "endDate": ""}}
+from dotenv import load_dotenv
 
 
-versionInput = "2024-07-23"
-LLM_output = ""
+load_dotenv()
+openai.api_key = os.environ.get('OPENAI_API_KEY')
+
+
 
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client["neura-react-server"]
 collection = db["datamodels"]
 
+
 dataBase = pd.DataFrame(list(collection.find()))
-datearray = pd.Series([str(i)[:10] for i in dataBase['date']])
-dataBase['date'] = datearray
-
-
-datearray = list(datearray)
-num_divs = int(len(datearray)/len(predefined_versions))
-
-versionsName = ["Genesis", "Origins", "Echo", "Whisper", "Now"]
-
-for i in range(num_divs):
-    omega  = i*len(predefined_versions)
-    alpha = datearray[omega: omega+num_divs]
-    predefined_versions[versionsName[i]]["startDate"] = alpha[0]
-    predefined_versions[versionsName[i]]["endDate"] = alpha[-1]
-
-
+dateArray = pd.Series([str(i)[:10] for i in dataBase['date']])
+dataBase['date'] = dateArray
+dateArray = list(dateArray)
 document_array = []
 
-"""
-import spacy
-nlp = spacy.load('en_core_web_sm')
-"""
 
 data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
 cleaned_data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
@@ -68,28 +41,71 @@ for i in range(len(dataBase)):
     stack = dataBase["entries"][i]
     for j in stack:
         data_array[j['id']].append(j['content'])
-        #document = nlp(j['content'])
-        #cleaned_data_array[j['id']].append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
-#This is how you access the data.
+
 
 StartDataFrame = pd.DataFrame(data_array)
-#CleanedDataFrame = pd.DataFrame(cleaned_data_array)
-StartDataFrame["date"] = datearray
+StartDataFrame["date"] = dateArray
 
-loc1 = pd.DataFrame()
-loc2 = pd.DataFrame()
 
-for i in range(len(StartDataFrame)):
-    if(StartDataFrame['date'][i]==versionInput):
-        loc1 = StartDataFrame.loc[i-5:i]
-        loc2 = StartDataFrame.loc[i+1:i+4]
+def return_reference_docs(version):
+    versionsName = ["Genesis", "Origins", "Echo", "Whisper", "Now"]
+    predefined_versions =  {"Genesis":{"startDate": "", "endDate": ""},
+                        "Origins": {"startDate": "", "endDate": ""},
+                        "Echo": {"startDate": "", "endDate": ""},
+                        "Whisper": {"startDate": "", "endDate": ""},
+                        "Now": {"startDate": "", "endDate": ""}}
 
-frames = [loc1, loc2]
-#This is the plus minus 5 entries of the date chosen. 5 is arbitrary at the moment, we can tinker it as we go on.
-FinalChangedFrame = pd.concat(frames)
+    num_divs = int(len(dateArray)/len(predefined_versions))
 
-#Lets create the model first and then figure out the qna thing.
+    for i in range(num_divs):
+        omega  = i*len(predefined_versions)
+        alpha = dateArray[omega: omega+num_divs]
+        predefined_versions[versionsName[i]]["startDate"] = alpha[0]
+        predefined_versions[versionsName[i]]["endDate"] = alpha[-1]
 
+    userVersionStartDate = predefined_versions[version]['startDate']
+    userVersionEndDate = predefined_versions[version]['endDate']
+
+    FinalChangedFrame = pd.DataFrame()
+
+    for i in range(len(StartDataFrame)):
+        if(StartDataFrame['date'][i]==userVersionStartDate):
+            j=i
+            while(StartDataFrame['date'][j]!=userVersionEndDate):
+                j+=1
+            FinalChangedFrame = StartDataFrame.loc[i:j+1]
+
+    fcf_md = FinalChangedFrame.to_markdown()
+    text_splitter = RecursiveCharacterTextSplitter(
+        separators=[
+            "\n\n",
+            "\n",
+            "|"
+        ]
+    )
+    docs = text_splitter.create_documents([fcf_md])
+
+    del docs[0]
+    del docs[0]
+
+    client = chromadb.PersistentClient(path = './aina-backend')
+    client.delete_collection(name="my_collection")
+    collection = client.create_collection(name="my_collection")
+
+
+
+    def add_documents_to_collection(collection, documents):
+        texts = [doc.page_content for doc in documents]
+        ids = [str(i) for i in range(len(documents))]
+
+        collection.add(
+            documents=texts,
+            ids=ids,
+        )
+
+    docs_text = add_documents_to_collection(collection, docs)
+
+    return collection
 
 
 """
@@ -116,50 +132,9 @@ If this is not beyond my human comprehension then what is?
 """
 
 
-fcf_md = FinalChangedFrame.to_markdown()
-text_splitter = RecursiveCharacterTextSplitter(
-    separators=[
-        "\n\n",
-        "\n",
-        "\u200b",  # Zero-width space
-        "\uff0c",  # Fullwidth comma
-        "\u3001",  # Ideographic comma
-        "\uff0e",  # Fullwidth full stop
-        "\u3002",  # Ideographic full stop
-        "|"
-    ],
-    chunk_overlap = 10,
-    length_function = len,
-)
-docs = text_splitter.create_documents([fcf_md])
-
-del docs[0]
-del docs[0]
-
-
-
-client = chromadb.Client()
-
-
-collection = client.get_or_create_collection(name="my_collection")
-
-
-def add_documents_to_collection(collection, documents):
-    texts = [doc.page_content for doc in documents]
-    ids = [str(i) for i in range(len(documents))]
-
-    collection.add(
-        documents=texts,
-        ids=ids,
-    )
-
-
-docs_texts = add_documents_to_collection(collection, docs)
 
 #The idea here is to limit our query space after every single user prompt.
 #We will set it as 2 right now as anything above or below seems to give either too much or too less of a data space.
-
-
 
 def query_collection(collection, query_text, n_results=2):
     """
@@ -173,7 +148,7 @@ def query_collection(collection, query_text, n_results=2):
     Returns:
         List of tuples containing document ids and corresponding contents.
     """
-     # Perform the query
+    # Perform the query
     results = collection.query(
         query_texts=[query_text],
         n_results=n_results,
@@ -185,12 +160,12 @@ def query_collection(collection, query_text, n_results=2):
 
     return matched_docs
 
-
-
 #This will be from our continuous user input stream.
 
 query_text = "How do you think you are dealing with all the stress and anxiety?"
-matched_docs = query_collection(collection, query_text)
+#matched_docs = query_collection(collection, query_text)
+
+
 
 
 def when_docs_avail():
@@ -207,47 +182,10 @@ def when_docs_avail():
 
     context = ''.join(all_searchRes)
 
-    """
-
-    from transformers import AutoConfig
-
-# Load the model configuration
-    config = AutoConfig.from_pretrained("meta-llama/Meta-Llama-3.1-405B")
-
-# Ensure that quantization is not enabled
-    if hasattr(config, "quantization"):
-        config.quantization = False  # Disable quantization if this attribute exists
-
-    HuggingFaceToken = os.environ.get('hugging_face_api')
-    tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2", use_auth_token=HuggingFaceToken)
-
-# Load the model
-    model = AutoModelForCausalLM.from_pretrained("openai-community/gpt2",
-                                        torch_dtype=torch.float32,
-                                        token = HuggingFaceToken,
-                                        config = config)  # Use float16 for efficiency
-
-    """
-
     prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. Mimic their language as well, dont make it too formal. \n Answer and converse based off of this current user prompt: {query_text}"
 
-    """
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True)
-    outputs = model.generate(**inputs, max_new_tokens=200)
-    response = tokenizer.decode(outputs[0], skip_special_tokens=True) """
-
-
-    from openai import OpenAI
-
-    api_key = os.environ.get('OPENAI_API_KEY')
-
-    from dotenv import load_dotenv
-
-    load_dotenv()
-    client = OpenAI()
-
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo-0125",
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=500,
         temperature=0.9,
@@ -256,13 +194,14 @@ def when_docs_avail():
     return list(response.choices)[0].message.content
 
 
-
 """
 if(len(matched_docs)==0):
     LLM_output = "You're talking about stuff that I dont really recall. Lets talk about something else."
 else:
     LLM_output = when_docs_avail()
+    print(LLM_output)
 """
+
 
 
 

@@ -54,11 +54,18 @@ const ChatCompo = () => {
 
     useEffect(()=> {
 
-        axios.post('http://127.0.0.1:5000/version_input', {input: vData})
-        .then(response => console.log(response))
-        .catch(error => {
-            console.error(`i hate my life ${error}`)
-        })
+        const sendData = async () => {
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/version_input', { input: vData });
+            console.log(response);
+        } catch (error) {
+            console.error(`i hate my life ${error}`);
+        }
+    };
+
+    if (vData) {
+        sendData();
+    }
 
     }, [vData])
 
