@@ -8,6 +8,7 @@ import pymongo
 import pandas as pd
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
+import glob
 import shutil
 import numpy as np
 import chromadb
@@ -17,7 +18,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
-
 
 
 client = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -88,11 +88,13 @@ def return_reference_docs(version):
     del docs[0]
     del docs[0]
 
+    path = './aina-backend'
+    if os.path.exists(path):
+        shutil.rmtree(path)
+
     client = chromadb.PersistentClient(path = './aina-backend')
-    client.delete_collection(name="my_collection")
+
     collection = client.create_collection(name="my_collection")
-
-
 
     def add_documents_to_collection(collection, documents):
         texts = [doc.page_content for doc in documents]
@@ -132,11 +134,7 @@ If this is not beyond my human comprehension then what is?
 """
 
 
-
-#The idea here is to limit our query space after every single user prompt.
-#We will set it as 2 right now as anything above or below seems to give either too much or too less of a data space.
-
-def query_collection(collection, query_text, n_results=2):
+def return_query_collection(collection, query_text):
     """
     Searches the ChromaDB collection for documents matching the query text.
 
@@ -151,7 +149,7 @@ def query_collection(collection, query_text, n_results=2):
     # Perform the query
     results = collection.query(
         query_texts=[query_text],
-        n_results=n_results,
+        n_results=2,
     )
 
     # Extracting the results
@@ -160,19 +158,11 @@ def query_collection(collection, query_text, n_results=2):
 
     return matched_docs
 
-#This will be from our continuous user input stream.
-
-query_text = "How do you think you are dealing with all the stress and anxiety?"
-#matched_docs = query_collection(collection, query_text)
-
-
-
-
-def when_docs_avail():
+def when_docs_avail(matched_documents, query_text, versionInput):
     all_searchRes = []
-    for i in matched_docs[0]:
-        for j in range(len(matched_docs[0])):
-            match = matched_docs[0][j].split('|')
+    for i in matched_documents[0]:
+        for j in range(len(matched_documents[0])):
+            match = matched_documents[0][j].split('|')
             match = match[2:]
             all_searchRes.append(match)
 
@@ -182,30 +172,13 @@ def when_docs_avail():
 
     context = ''.join(all_searchRes)
 
-    prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. Mimic their language as well, dont make it too formal. \n Answer and converse based off of this current user prompt: {query_text}"
+    prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. Mimic their language as well, dont make it too formal. When asked who you are, reply say that you are the user's version of choice which is {versionInput}. \n Answer and converse based off of this current user prompt: {query_text}"
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=500,
+        max_tokens=600,
         temperature=0.9,
         top_p=0.9
     )
     return list(response.choices)[0].message.content
-
-
-"""
-if(len(matched_docs)==0):
-    LLM_output = "You're talking about stuff that I dont really recall. Lets talk about something else."
-else:
-    LLM_output = when_docs_avail()
-    print(LLM_output)
-"""
-
-
-
-
-
-
-
-

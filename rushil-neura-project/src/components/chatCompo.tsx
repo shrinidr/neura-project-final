@@ -52,12 +52,14 @@ const ChatCompo = () => {
         vDataSet(name)
     }
 
+    const [transRespState, transRespChange] = useState<string>('')
+
     useEffect(()=> {
 
         const sendData = async () => {
         try {
             const response = await axios.post('http://127.0.0.1:5000/version_input', { input: vData });
-            console.log(response);
+            console.log(response)
         } catch (error) {
             console.error(`i hate my life ${error}`);
         }

@@ -22,7 +22,7 @@ a {
     margin-top: 30px;
     font-size: xx-large;
     color: white;
-    font-family: "Gill Sans MT";
+    font-family: Helvetica,Arial, sans-serif;
     font-weight: bold;
 }
 
@@ -154,6 +154,50 @@ i {
     overflow-y: auto;
 }
 
+
+.chat_container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user_input_bubble {
+    align-self: flex-end;
+    background-color: #0084ff;
+    color: white;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 60%;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.response_bubble {
+    align-self: flex-start;
+    background-color: #e4e6eb;
+    color: black;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 60%;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.input_container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+
+
+
 #chatinput {
     display: flex;
     align-items: center;
@@ -176,6 +220,11 @@ i {
     text-indent: 13px;
     font-size: 16px;
     position: sticky;
+}
+
+
+#chatinput:focus {
+    border-color: #0084ff;
 }
 
 .version-selector-button {
@@ -304,7 +353,8 @@ background-color: rgb(17, 16, 16);
     height: 34px;
 }
 #milf{
-    left: 75%;
+    left: 70%;
+    top: 5%;
 }
 
 #versionIconS{
