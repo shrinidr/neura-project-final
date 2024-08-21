@@ -1,7 +1,7 @@
 body {
     background-image: 'public\istockphoto-1645930993-612x612.jpg';
     color: white;
-    font-family: "Gill Sans MT";
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -109,7 +109,7 @@ i {
     margin-left: 20px;
     color: #ffffff;
     text-align: left;
-    font-family: "Gill Sans MT";
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 40px;
     font-weight: 550;
     position: relative;
@@ -162,31 +162,58 @@ i {
     gap: 10px;
     overflow-y: auto;
     padding: 10px;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #1e2125;
 }
 
 .user_input_bubble {
-    align-self: flex-end;
-    background-color: #0084ff;
-    color: white;
-    padding: 10px;
-    border-radius: 15px;
-    max-width: 60%;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+        max-width: 70%;
+        /* Limit width to ensure readability */
+        padding: 1px 20px 1px 20px;
+        /* Add padding for a balanced look */
+        background-color: #303132;
+        /* Blue color similar to ChatGPT */
+        color: white;
+        /* White text color for contrast */
+        border-radius: 23px;
+        /* Round the corners for a bubble-like appearance */
+        word-wrap: break-word;
+        /* Break long words onto the next line */
+        font-size: 15px;
+        /* Adjust font size */
+        margin-top: 2.9%;
+        margin-bottom: 2.9%;
+        /* Vertical spacing between messages */
+        text-align:center;
+        font-family: Helvetica,
+            Arial,
+            sans-serif;
+        position: relative;
+            /* Positioning relative to the parent */
+        right: 133px;
+            /* Align the element to the right */
+        float: right;
+
 }
 
 .response_bubble {
     align-self: flex-start;
-    background-color: #e4e6eb;
-    color: black;
-    padding: 10px;
-    border-radius: 15px;
-    max-width: 60%;
+    font-family: Helvetica,
+        Arial,
+        sans-serif;
+    background-color: #1e2125;
+    color: white;
+    padding: 20px 1px 20px 20px;
     margin-bottom: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-left: 12%;
+    display: block;
+    margin-top: 8%;
+
+}
+
+#newIconState{
+    margin-left: -3.6%;
+    margin-top: 1.6%;
 }
 
 .input_container {
@@ -201,17 +228,17 @@ i {
 #chatinput {
     display: flex;
     align-items: center;
-    width: 59%;
+    width: 69%;
     top: 89%;
-    left: 26%;
-    margin-left: 175px;
-    height: 37px;
+    left: 16%;
+    margin-left: 1%;
+    height: 42px;
     box-shadow:
         0 4px 6px rgba(110, 104, 104, 0.3),
         0 -4px 6px rgba(110, 104, 104, 0.3),
         4px 0 6px rgba(47, 45, 45, 0.3),
         -4px 0 6px rgba(47, 45, 45, 0.3);
-    border-radius: 15px 15px 15px 15px;
+    border-radius: 23px 23px 23px 23px;
     background-color: rgb(17, 16, 16);
     color: white;
     outline: none;
@@ -220,6 +247,7 @@ i {
     text-indent: 13px;
     font-size: 16px;
     position: sticky;
+    padding-left: 10px;
 }
 
 
@@ -302,7 +330,7 @@ background-color: rgb(17, 16, 16);
 
     margin-left: 87.7%;
     margin-top: 1.8%;
-    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: large;
     background: linear-gradient(to right, #7a38ac 22%, #FFFFFF 100%);
         -webkit-background-clip: text;
@@ -382,7 +410,11 @@ textarea {
     border-radius: 15px 15px 15px 15px;
     color: white;
     font-size: 18px;
-    font-family: "Gill Sans MT";
+    font-family: 'Gill Sans',
+        'Gill Sans MT',
+        Calibri,
+        'Trebuchet MS',
+        sans-serif;
     outline: none;
     text-align: left;
     padding-left: 19px;
@@ -451,14 +483,14 @@ textarea {
 .sidebar p {
     color: white;
     text-align: center;
-    font-family: "Gill Sans MT";
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
 #title {
     color: white;
     display: inline;
     margin: 0;
-    font-family: "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .Btn {

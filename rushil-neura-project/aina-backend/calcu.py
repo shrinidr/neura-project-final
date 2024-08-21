@@ -78,9 +78,14 @@ def return_reference_docs(version):
     fcf_md = FinalChangedFrame.to_markdown()
     text_splitter = RecursiveCharacterTextSplitter(
         separators=[
-            "\n\n",
-            "\n",
-            "|"
+        "\n\n",
+        "\n",
+        "\u200b",  # Zero-width space
+        "\uff0c",  # Fullwidth comma
+        "\u3001",  # Ideographic comma
+        "\uff0e",  # Fullwidth full stop
+        "\u3002",  # Ideographic full stop
+        "|"
         ]
     )
     docs = text_splitter.create_documents([fcf_md])
@@ -109,7 +114,6 @@ def return_reference_docs(version):
 
     return collection
 
-
 """
 A little summary of how transformers work.
 First there is a pretrained vector embeddings matrix for all the 50,000 words on which the model has been trained.
@@ -133,7 +137,6 @@ which should store the contextual information for that token.
 If this is not beyond my human comprehension then what is?
 """
 
-
 def return_query_collection(collection, query_text):
     """
     Searches the ChromaDB collection for documents matching the query text.
@@ -154,7 +157,7 @@ def return_query_collection(collection, query_text):
 
     # Extracting the results
     rang = len(results['documents'][0])
-    matched_docs = [results['documents'][0] for result in range(rang) if (results['distances'][0])[result]>=1]
+    matched_docs = [results['documents'][0] for result in range(rang)]
 
     return matched_docs
 
@@ -167,7 +170,11 @@ def when_docs_avail(matched_documents, query_text, versionInput):
             all_searchRes.append(match)
 
 
-    all_searchRes = np.array(all_searchRes)
+    max_len = max(len(sub_array) for sub_array in all_searchRes)
+
+    all_searchRes = np.array([
+        np.pad(sub_array, (0, max_len - len(sub_array)), mode='constant', constant_values='')
+        for sub_array in all_searchRes])
     all_searchRes = np.reshape(all_searchRes, (all_searchRes.shape[0]*all_searchRes.shape[1], ))
 
     context = ''.join(all_searchRes)
@@ -182,3 +189,4 @@ def when_docs_avail(matched_documents, query_text, versionInput):
         top_p=0.9
     )
     return list(response.choices)[0].message.content
+

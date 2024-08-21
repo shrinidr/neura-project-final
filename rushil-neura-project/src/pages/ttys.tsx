@@ -25,12 +25,28 @@ const TTys = () => {
         })
         }
     }
+
+    const [iconState, iconStateChange] = useState<string>('')
+    const [verVal, verStateChange] = useState<boolean>(true)
+
+
+    const handleVerValChange = (data: boolean) => {
+        verStateChange(data)
+        if(data==true){
+            setChatHistory([])
+        }
+    }
+
+    const handleIconChange = (data: string) =>{
+        iconStateChange(data)
+    }
     return (
         <>
             <Header />
             <SideBar />
             <div className="main_content">
-                <ChatCompo />
+                <ChatCompo iconDataProps={handleIconChange}  verValChange= {handleVerValChange}/>
+                {verVal==true?
                 <div className="chat_container">
                     {chatHistory.map((chat, index) => (
                         <div key={index}>
@@ -38,11 +54,12 @@ const TTys = () => {
                                 <p>{chat.user}</p>
                             </div>
                             <div className="response_bubble">
+                                <i className={iconState} id = "newIconState"> </i>
                                 <p>{chat.response}</p>
                             </div>
                         </div>
                     ))}
-                </div>
+                </div>:<div/>}
                 <input
                         type="text"
                         id="chatinput"

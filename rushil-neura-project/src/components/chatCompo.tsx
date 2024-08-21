@@ -3,17 +3,19 @@ import axios from "axios";
 import { useState, useEffect } from "react"
 
 interface NameArray{
-
     font: string;
     name: String
+}
 
+interface IconProps{
+    iconDataProps: (data: string) => void,
+    verValChange: (data: boolean) => void
 }
 
 
 {/* Lets just assume for now that we have exactly 5 models equally distributed between all the time
     that user data has been entered for simplicity purposes*/}
-const ChatCompo = () => {
-
+const ChatCompo: React.FC<IconProps> = ({iconDataProps, verValChange}) => {
 
     const Names: NameArray[] = [{font: "fa-solid fa-mountain", name: "Genesis"},
                     {font: "fa-solid fa-puzzle-piece", name: "Origins"},
@@ -27,6 +29,7 @@ const ChatCompo = () => {
 
     const toggleDropdown = () =>{
         setIsOpen(!isOpen)
+        verValChange(true)
     }
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -47,12 +50,12 @@ const ChatCompo = () => {
 
     const [versionData, setVersionData] = useState<boolean>(false)
     const [vData, vDataSet] = useState<String>('')
-    const changedForm = (name: String) => {
+
+    const changedForm = (name: String, icon: string) => {
         setVersionData(true)
         vDataSet(name)
+        iconDataProps(icon)
     }
-
-    const [transRespState, transRespChange] = useState<string>('')
 
     useEffect(()=> {
 
@@ -71,6 +74,8 @@ const ChatCompo = () => {
 
     }, [vData])
 
+
+
     return (
         <>
         {!versionData?(
@@ -87,7 +92,7 @@ const ChatCompo = () => {
                 <div className={`dropdown-container ${isOpen ? 'open' : ''}`}>
                     <div className="dropdown">
                     {Names.map((item, index) => (
-                        <button className="dropdown-item" onClick= {() => changedForm(item.name)}>
+                        <button className="dropdown-item" onClick= {() => changedForm(item.name, item.font)}>
                             <span className="name">{item.name}</span>
                             <i className={item.font} id = "versionIconS"></i>
                         </button>
@@ -97,7 +102,10 @@ const ChatCompo = () => {
                 </>):
                 <div style = {{display: 'flex'}}>
                     <i className ="fa-solid fa-arrow-left" style = {{left: '2.8%', top: '6.2%', cursor: 'pointer'}}
-                    onClick={() => setVersionData(false)}></i>
+                    onClick={() =>{
+                        setVersionData(false)
+                        verValChange(false)
+                        }}></i>
                     <i className="fa-regular fa-circle fa-xs" style={{right: '13%', top: '6.2%'}}></i>
                     <span className = "arbit"><b> {vData} </b></span>
                 </div>}

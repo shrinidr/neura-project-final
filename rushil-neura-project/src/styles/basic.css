@@ -135,7 +135,8 @@ html, body, #root{
 .icon-container {
 
     cursor: pointer;
-    margin-left: 40px;
+    margin-left: 39px;
+    margin-right: 0px;
     width: 35px;
     height: 10px;
     color: rgb(87, 78, 78);
