@@ -57,8 +57,8 @@ def return_reference_docs(version):
 
     num_divs = int(len(dateArray)/len(predefined_versions))
 
-    for i in range(num_divs):
-        omega  = i*len(predefined_versions)
+    for i in range(len(versionsName)):
+        omega  = i*num_divs
         alpha = dateArray[omega: omega+num_divs]
         predefined_versions[versionsName[i]]["startDate"] = alpha[0]
         predefined_versions[versionsName[i]]["endDate"] = alpha[-1]
@@ -161,7 +161,7 @@ def return_query_collection(collection, query_text):
 
     return matched_docs
 
-def when_docs_avail(matched_documents, query_text, versionInput):
+def when_docs_avail(matched_documents, query_text, versionInput, chatHistory):
     all_searchRes = []
     for i in matched_documents[0]:
         for j in range(len(matched_documents[0])):
@@ -180,10 +180,10 @@ def when_docs_avail(matched_documents, query_text, versionInput):
     context = ''.join(all_searchRes)
 
     prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. Mimic their language as well, dont make it too formal. When asked who you are, reply say that you are the user's version of choice which is {versionInput}. \n Answer and converse based off of this current user prompt: {query_text}"
-
+    chatHistory.append({"role": "user", "content": prompt})
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}],
+        messages= chatHistory,
         max_tokens=600,
         temperature=0.9,
         top_p=0.9

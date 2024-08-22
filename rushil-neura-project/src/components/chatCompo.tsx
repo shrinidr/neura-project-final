@@ -80,6 +80,7 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, verValChange}) => {
         <>
         {!versionData?(
             <>
+                <i className ="fa-solid fa-circle-info" id = "infoButton"></i>
                 <button className="version-selector-button" onClick={toggleDropdown}>
                     <div className = "versionI">
                         <p> Version</p>
@@ -100,7 +101,7 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, verValChange}) => {
                     </div>
                 </div>}
                 </>):
-                <div style = {{display: 'flex'}}>
+                <div style = {{display: 'flex'}} >
                     <i className ="fa-solid fa-arrow-left" style = {{left: '2.8%', top: '6.2%', cursor: 'pointer'}}
                     onClick={() =>{
                         setVersionData(false)
