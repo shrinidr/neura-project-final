@@ -15,12 +15,13 @@ const TTys = () => {
 
     const [chatHistory, setChatHistory] = useState<Array<{ user: string, response: string }>>([])
 
-
+    const [ihatemylife, ihatemylifemore] = useState<string>('')
 
     const keyDownVal = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
         const inputVal = event.currentTarget.value
         inputState('')
+        ihatemylifemore(inputVal)
         axios.post('http://127.0.0.1:5000/process-chat-input', {input: inputVal})
         .then(response => {
                     setChatHistory(prev => [...prev, { user: inputVal, response: response.data.response }])
@@ -77,7 +78,8 @@ const TTys = () => {
             <Header />
             <SideBar />
             <div className="main_content" ref = {mainContentRef}>
-                <ChatCompo iconDataProps={handleIconChange}  verValChange= {handleVerValChange}/>
+                <ChatCompo iconDataProps={handleIconChange}  verValChange= {handleVerValChange}
+                inputChange = {ihatemylife}/>
                 {verVal==true?
                 <div className="chat_container">
                     {chatHistory.map((chat, index) => (
@@ -93,8 +95,7 @@ const TTys = () => {
                 (<div className="scroll-to-bottomm" onClick = {scrollToBottom}>
                     <i className="fa-solid fa-arrow-down" id="ttysArrow"></i> </div>)
                 }
-
-                        </div>
+                    </div>
 
                     ))}
                 </div>:<div/>}

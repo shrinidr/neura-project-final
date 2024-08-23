@@ -47,22 +47,27 @@ StartDataFrame = pd.DataFrame(data_array)
 StartDataFrame["date"] = dateArray
 
 
-def return_reference_docs(version):
-    versionsName = ["Genesis", "Origins", "Echo", "Whisper", "Now"]
-    predefined_versions =  {"Genesis":{"startDate": "", "endDate": ""},
+
+versionsName = ["Genesis", "Origins", "Echo", "Whisper", "Now"]
+predefined_versions =  {"Genesis":{"startDate": "", "endDate": ""},
                         "Origins": {"startDate": "", "endDate": ""},
                         "Echo": {"startDate": "", "endDate": ""},
                         "Whisper": {"startDate": "", "endDate": ""},
                         "Now": {"startDate": "", "endDate": ""}}
 
-    num_divs = int(len(dateArray)/len(predefined_versions))
+num_divs = int(len(dateArray)/len(predefined_versions))
 
-    for i in range(len(versionsName)):
-        omega  = i*num_divs
-        alpha = dateArray[omega: omega+num_divs]
-        predefined_versions[versionsName[i]]["startDate"] = alpha[0]
-        predefined_versions[versionsName[i]]["endDate"] = alpha[-1]
+for i in range(len(versionsName)):
+    omega  = i*num_divs
+    alpha = dateArray[omega: omega+num_divs]
+    predefined_versions[versionsName[i]]["startDate"] = alpha[0]
+    predefined_versions[versionsName[i]]["endDate"] = alpha[-1]
 
+def return_date_matrix():
+    return predefined_versions
+
+
+def return_reference_docs(version):
     userVersionStartDate = predefined_versions[version]['startDate']
     userVersionEndDate = predefined_versions[version]['endDate']
 
@@ -184,7 +189,7 @@ def when_docs_avail(matched_documents, query_text, versionInput, chatHistory):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages= chatHistory,
-        max_tokens=600,
+        max_tokens=500,
         temperature=0.9,
         top_p=0.9
     )

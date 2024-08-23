@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from waitress import serve
 from flask_cors import CORS
-from calcu import return_reference_docs, return_query_collection, when_docs_avail
+from calcu import return_reference_docs, return_query_collection, when_docs_avail, return_date_matrix
 
 
 app = Flask(__name__)
@@ -31,6 +31,12 @@ def handle_version_input():
 Things that you should take care of:
 1) If the flask script is running, its possible to change the versions. Solve this later on.
 """
+
+@app.route('/datesFind', methods = ['GET'])
+def datesFind():
+    predef_version = return_date_matrix()
+    return jsonify({"response": predef_version}), 200
+
 
 
 @app.route('/process-chat-input', methods=['POST'])

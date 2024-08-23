@@ -183,6 +183,81 @@ i {
     color:#696464;
 }
 
+
+.infoToolTip{
+        background-color: rgb(47, 45, 45);
+            width: 240px;
+            height: 190px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+            font-size: 16px;
+            color: black;
+            margin-top: 6.3%;
+            left: 25px;
+            color: white;
+            position: absolute;
+            padding: 10px 10px 10px 10px;
+            line-height: 1.2;
+        }
+
+#infoButton:hover {
+            color: #cbc2c2;
+            cursor: pointer;
+        }
+
+.chatHeading{
+
+    margin-top: 7%;
+    width: 600px;
+    margin-left: 29%;
+    position: absolute;
+    text-align: right;
+}
+.card {
+    display: flex;
+    align-items: center;
+    min-height: 250px;
+    width: 400px;
+    flex-direction: column;
+    background: #1a1919;
+    border-radius: 8px;
+    margin-left: -650px;
+    /* Start off-screen */
+    margin-top: 100px;
+    opacity: 0;
+    /* Start invisible */
+    transition: margin-left 1.8s ease-out, opacity 1.8s ease-out;
+}
+
+.card.show {
+    /* Slide into view */
+    opacity: 1;
+    /* Fade in */
+    margin-left: -650px;
+}
+.arbitrarystuff{
+    text-align: right;
+    font-family: sans-serif;
+    background: linear-gradient(to right, #057ef0 22%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    position: relative;
+}
+
+
+.arbitrary{
+    font-family: sans-serif;
+        background: linear-gradient(to right, #057ef0 22%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+    align-items: center;
+}
+
 .chat_container {
     flex-grow: 1;
     display: flex;
@@ -192,6 +267,7 @@ i {
     padding: 10px;
     background-color: #1e2125;
 }
+
 
 .user_input_bubble {
         max-width: 350px;
@@ -302,7 +378,7 @@ i {
         color: white;
         padding-left: 0px;
         padding-right: 0px;
-        position: absolute;
+        position: sticky;
 }
 
 
