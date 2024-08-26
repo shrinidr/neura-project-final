@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 
 const HeaderHome = () => {
-    const button_ele = [{content: "Contact Us", id: "btn1"},{content: "About Us", id: "btn2"},{content: "AI", id: "btn3"}];
+    const button_ele = [{content: "About Us", id: "btn1"},{content: "AI", id: "btn2"},{content: "Login", id: "btn3"}];
     return (
         <>
         <div className="containerrr">

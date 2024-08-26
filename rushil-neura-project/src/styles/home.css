@@ -120,6 +120,10 @@ i {
     left: 24%;
 }
 
+#HomeIcon:hover{
+    background-color: #0084ff;
+}
+
 #homeArrow{
 
     top: 140%;
@@ -328,6 +332,9 @@ i {
 }
 
 
+.sideButton{
+    background-color: #8a2323;
+}
 
 #coverUp {
     position: fixed;
