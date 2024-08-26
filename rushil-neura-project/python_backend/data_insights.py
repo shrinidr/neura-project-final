@@ -47,6 +47,12 @@ for i in range(len(data_stack)):
 StartDataFrame = pd.DataFrame(data_array)
 CleanedDataFrame = pd.DataFrame(cleaned_data_array)
 
+def return_start_frames():
+    return StartDataFrame
+
+def return_cleaned_frames():
+    return CleanedDataFrame
+
 
 """Lets do a thing like bow or tfidf initially for the more basic functionality and then implement word
 embeddings or something when we began to reason through more complex problems."""

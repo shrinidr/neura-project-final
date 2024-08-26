@@ -227,8 +227,8 @@ for i in stress_data:
         stress_trans_results.append(result[0]['score'])
     else:
         stress_trans_results.append(0)
-#A sum of the transformers, VADER, [negativity] and my own stress data.
-ultimate_stress_levels =  stress_trans_results+ predicted_stress + stress_score_data
+#An average of the transformers, VADER, [negativity] and my own stress data.
+ultimate_stress_levels =  (stress_trans_results+ predicted_stress + stress_score_data)/3.0
 
 
 def stress_plot():
