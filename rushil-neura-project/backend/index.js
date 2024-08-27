@@ -3,9 +3,15 @@ const express = require('express')
 const BodyParser =  require('body-parser')
 const cors = require('cors')
 const DataModel = require('./schema')
+const UserRoutes = require('./user')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+
+//User Routes connection
+app.use('/api/user', UserRoutes)
+
 
 // Middleware
 app.use(cors());

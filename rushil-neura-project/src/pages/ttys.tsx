@@ -4,7 +4,6 @@ import Header from "../components/header"
 import {useState, useEffect} from "react"
 import ChatCompo from "../components/chatCompo"
 import { useRef } from "react"
-import { useFetcher } from "react-router-dom"
 
 
 
