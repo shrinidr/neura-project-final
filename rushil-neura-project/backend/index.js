@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 const express = require('express')
 const BodyParser =  require('body-parser')
 const cors = require('cors')
-const DataModel = require('./schema')
-const UserRoutes = require('./user')
+const DataModel = require('./Models/schema')
+const UserRoutes = require('./Routes/user')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 
 //User Routes connection
-app.use('/api/user', UserRoutes)
+
 
 
 // Middleware
@@ -24,6 +24,7 @@ mongoose.connect('mongodb://localhost:27017/neura-react-server').then(()=>{
     console.log("Failed");
 })
 
+app.use('/api/user', UserRoutes)
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
