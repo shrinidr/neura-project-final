@@ -7,14 +7,12 @@ from gensim.utils import simple_preprocess
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from tensorflow.keras.preprocessing.text import Tokenizer
 from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.pipeline import Pipeline
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
 import joblib
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
-from transformers import pipeline
 
 
 db = pymongo.MongoClient('mongodb://localhost:27017/')
@@ -218,6 +216,8 @@ tfidf_vect_new = tfidf_vect_stress[:,:tfidf_vect_docs_shape[1]]
 predicted_stress = model.predict(tfidf_vect_new)
 print(predicted_stress)
 
+
+"""
 classifier = pipeline('sentiment-analysis')
 
 stress_trans_results = []
@@ -227,8 +227,11 @@ for i in stress_data:
         stress_trans_results.append(result[0]['score'])
     else:
         stress_trans_results.append(0)
+
+
+"""
 #An average of the transformers, VADER, [negativity] and my own stress data.
-ultimate_stress_levels =  (stress_trans_results+ predicted_stress + stress_score_data)/3.0
+ultimate_stress_levels =  (predicted_stress + stress_score_data)/2.0
 
 
 def stress_plot():
