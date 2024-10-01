@@ -4,6 +4,7 @@ const BodyParser =  require('body-parser')
 const cors = require('cors')
 const DataModel = require('./Models/schema')
 const UserRoutes = require('./Routes/user')
+const { requireAuth } = require('@clerk/clerk-sdk-node');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,6 +17,8 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(BodyParser.json());
+app.use(requireAuth());
+
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/neura-react-server').then(()=>{

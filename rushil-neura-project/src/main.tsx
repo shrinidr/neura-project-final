@@ -15,6 +15,7 @@ import PrevPage from './pages/prev.tsx';
 import Layout from './layout.tsx';
 
 
+
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 
@@ -27,35 +28,35 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: (<SignedIn>
+    element: (
                 <Layout>
                   <MainPage/>
                 </Layout>
-              </SignedIn>)
+              )
   },
   {
     path: "/insights",
-    element: (<SignedIn>
+    element: (
                 <Layout>
                   <DataPage/>
                 </Layout>
-              </SignedIn>)
+              )
   },
   {
     path: "/chat",
-    element: (<SignedIn>
+    element: (
                 <Layout>
                   <TTys/>
                 </Layout>
-              </SignedIn>)
+              )
   },
   {
     path: "/prev",
-    element: (<SignedIn>
+    element: (
                 <Layout>
                   <PrevPage/>
                 </Layout>
-              </SignedIn>)
+              )
   },
   {
     path: '/sign-in',

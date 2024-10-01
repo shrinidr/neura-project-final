@@ -11,9 +11,9 @@ const Header = () => {
         <div className="container">
                 <img src="/neura-removebg-preview.png" />
                 <Link to ='/'>  <p id="title"><b> Neura </b> </p> </Link>
-                {button_ele.map((element) => (
-                    <button className="Btn" id={element.id} key = {element.id}>{element.content}</button>
-                ))}
+                <button className="Btn" id = "btn1" key = "btn1"> About Us</button>
+                <button className="Btn" id=  "btn2" key = "btn2"> AI </button>
+                <Link to = '/sign-in'><button className="Btn" id= "btn3" key = "btn3"> Login </button></Link>
         </div>
         </>
     );
