@@ -88,43 +88,6 @@ app.post('/api/webhooks/signupclerk', async (req, res) => {
   }
 });
 
-function preprocessJournalData(data) {
-  return data.map((entry) => ({
-    ...entry,
-    date: new Date(entry.date["$date"]), // Convert $date to Date object
-    entries: entry.entries.map((e) => ({
-      ...e,
-      _id: e._id["$oid"], // Convert _id to string if needed
-    })),
-    _id: entry._id["$oid"], // Convert outer _id to string if needed
-  }));
-}
-
-
-const userId = 'user_2nfHQVBgWgA5kOhtOYwyHEuKkrn';
-async function assignJournalToUser() {
-  try {
-    const processedJournalData = preprocessJournalData(journalData);
-
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { userId: userId }, // Find the user by their unique ID
-      { $set: { journal: processedJournalData } }, // Set the journal field
-      { new: true }
-    );
-
-    if (updatedUser) {
-      console.log('User journal updated successfully:', updatedUser);
-    } else {
-      console.log('User not found');
-    }
-  } catch (error) {
-    console.error('Error updating user journal:', error);
-  }
-}
-
-assignJournalToUser();
-
-
 
 app.post('/api/signup', async (req, res) => {
   console.log(req.body)
