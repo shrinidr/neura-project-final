@@ -1,10 +1,71 @@
 // SignUpPage.tsx
 import { CSSProperties } from 'react';
-import { SignUp} from '@clerk/clerk-react';
+import { SignUp, useSignUp, useAuth } from '@clerk/clerk-react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
 const SignUpPage = () => {
+
+
+  const navigate = useNavigate();
+  const { isSignedIn } = useAuth();
+  const { signUp, isLoaded } = useSignUp(); // Using the useSignUp hook to access signup information
+
+  {/*useEffect(() => {
+    // Redirect if already signed in
+    if (isSignedIn) {
+      navigate('/');
+    }
+  }, [isSignedIn, navigate]);
+*/}
+
+  const handleCompleteSignUp = async () => {
+    if (signUp && signUp.createdUserId) {
+      try {
+        // Making the API call to backend once sign-up is completed
+
+        console.log('Attempting to make a request to backend to save user data');
+        console.log('UserID:', signUp.createdUserId);
+        console.log('Email Address:', signUp.emailAddress);
+
+        await axios.post("http://localhost:5000/api/signup", {
+          userId: signUp.createdUserId,
+          email: signUp.emailAddress,
+        }, { withCredentials: true });
+        console.log('User saved to backend, navigating to home...');
+        //navigate('/'); // Redirect after successful sign-up and backend creation
+      } catch (error) {
+        console.error('Error creating user in MongoDB:', error);
+      }
+    }
+  };
+
+  // If the signUp object is loaded and signup completed, trigger handleCompleteSignUp
+{/* useEffect(() => {
+    if (isLoaded && signUp && signUp.createdUserId) {
+      console.log("User ID:", signUp.createdUserId);
+      console.log("Email Address:", signUp.emailAddress);
+      handleCompleteSignUp();
+    }
+  }, [isLoaded, signUp]);
+*/}
+
+
+  useEffect(() => {
+    if (isSignedIn && signUp && signUp.createdUserId) {
+      console.log("User ID:", signUp.createdUserId);
+      console.log("Email Address:", signUp.emailAddress);
+      // Now the user is signed in and has completed email verification
+      handleCompleteSignUp();
+    }
+  }, [isSignedIn, signUp]);
+
   return (
     <div style={styles.container}>
       <SignUp
+        routing='virtual'
+        signInUrl="/sign-in"
         appearance={{
           elements: {
             card: styles.card, // Customize the card style
@@ -12,12 +73,13 @@ const SignUpPage = () => {
             headerTitle: styles.headerTitle, // Style for header title if needed
             footerActionText: styles.footerText, // Footer text (e.g. "Don't have an account?")
           },
-        }}
-        signInUrl='/sign-in'
-      />
+        }}/>
     </div>
   );
 };
+
+
+
 
 const styles: { [key: string]: CSSProperties } = {
   container: {

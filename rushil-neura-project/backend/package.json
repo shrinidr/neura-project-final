@@ -10,14 +10,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@clerk/clerk-sdk-node": "^5.0.46",
+    "@clerk/clerk-sdk-node": "^5.0.48",
+    "@clerk/express": "^1.2.3",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.9.0",
     "mongoose": "^8.4.5",
     "nodemon": "^3.1.4",
+    "svix": "^1.37.0",
     "validator": "^13.12.0"
   }
 }

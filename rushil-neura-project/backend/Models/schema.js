@@ -6,11 +6,20 @@ const data_schema = new mongoose.Schema({
 })
 
 const daily_schema = new mongoose.Schema({
-    date: {type: Date, required: true, unique: true},
+    date: {type: Date, unique: false}, //add unique=true if we get conflicts later on
     entries: [data_schema]
 })
 
+// User schema (each user has multiple daily entries)
+const userSchema = new mongoose.Schema({
+  userId: { type: String, required: true, unique: true }, // Clerk user ID
+  email: { type: String, required: true }, // Primary email address
+  username: { type: String }, // Username (if available)
+  profileImageUrl: { type: String }, // URL of the user's profile image
+  journal: [daily_schema], // Array of daily entries for the user
+});
+
 //this is the model which is basically like a blueprint.
-const DataModel = mongoose.model("DataModel", daily_schema)
-module.exports = DataModel;
+const UserModel = mongoose.model("User", userSchema)
+module.exports = UserModel;
 
