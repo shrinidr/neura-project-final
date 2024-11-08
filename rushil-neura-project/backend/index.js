@@ -10,12 +10,12 @@ const fs = require('fs');
 const DataModel = require('./Models/oldschema')
 
 const app = express();
-const PORT = 3000
+const PORT = 5000
 
 // Middleware
 app.use(cors())
-app.use(bodyParser.raw({ type: 'application/json' }));  // Raw body parsing for webhook
-
+//app.use(bodyParser.raw({ type: 'application/json' }));  // This is the correct one.
+//app.use(express.json())
 //app.use(BodyParser.json());
 ///app.use(express.json())
 
@@ -37,13 +37,13 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-app.post('/api/webhooks/signupclerk', async (req, res) => {
+app.post('/api/webhooks/signupclerk', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
   try {
     console.log("Received webhook request");
 
     // Step 1: Check the raw body
     const payload = req.body.toString();
-    console.log("Raw Payload:", payload); // Log the raw payload
+     console.log("Raw Payload:", payload); // Log the raw payload
 
     // Step 2: Check headers and ensure they’re valid
     const headers = req.headers;
@@ -52,7 +52,8 @@ app.post('/api/webhooks/signupclerk', async (req, res) => {
     // Step 3: Verify the webhook payload (temporarily disable if necessary)
     const wh = new Webhook(process.env.WEBHOOK_SECRET);
     const evt = wh.verify(payload, headers);
-    console.log("Webhook verified:", evt); // Log the verified event
+
+     console.log("Webhook verified:", evt); // Log the verified event
 
     // Extract data from the verified event
     const { id: userId, email_addresses, username, image_url } = evt.data;
@@ -60,9 +61,7 @@ app.post('/api/webhooks/signupclerk', async (req, res) => {
     const eventType = evt.type;
 
     console.log(`Event Type: ${eventType}`);
-
     if (eventType === "user.created") {
-      console.log(`Creating user with ID: ${userId}`);
 
       // Create a new user
       const newUser = new UserModel({
@@ -88,9 +87,7 @@ app.post('/api/webhooks/signupclerk', async (req, res) => {
   }
 });
 
-
 app.post('/api/signup', async (req, res) => {
-  console.log(req.body)
   const { userId, email } = req.auth.sessionClaims;
   //const { userId, email } = req.body; // Clerk provides userId and email from the session
 
@@ -110,7 +107,6 @@ app.post('/api/signup', async (req, res) => {
 
     // Save the user document to the database
     await newUser.save();
-    console.log(newUser)
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error creating user', error: error.message });
@@ -118,33 +114,54 @@ app.post('/api/signup', async (req, res) => {
 });
 
 //Still follows old schema.
-app.post('/api/data', async (req, res) => {
-  const { formData, date } = req.body;
-
-  const dataArr = Object.keys(formData).map(key => ({
-    id: key,
-    content: formData[key],
-  }));
-
+app.post('/api/data', express.json(), async (req, res) => {
+  const userId = req.headers['x-user-id'];
+  console.log("Request Body:", req.body); // Log entire req.body for debugging
+  const { formData, formattedDate: date } = req.body;
+  console.log("User ID:", userId);
+  console.log("data:", formData);
+  console.log("date:", date);
   try {
-      // Create a new entry for the day
-      const newEntry = new DataModel({entries: dataArr, date })
-      await newEntry.save();
+    let user = await UserModel.findOne({ userId });
+    const entry = {
+      date,
+      entries: Object.entries(formData).map(([id, content]) => ({ id, content })),
+    };
 
-    res.status(200).json({ message: 'Data submitted successfully' });
+    user.journal.push(entry);
+    await user.save();
+    res.status(200).json({ message: "Entry saved successfully." });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: "Error saving entry" });
   }
 });
 
 app.get('/api/getItems', async (req, res) => {
 
   const {date} = req.query;
+  const userId = req.headers['x-user-id']; // Assuming the client sends Clerk's userId in the header
   try{
-    const response = await DataModel.find({date: new Date(date)})
-    const newResp = response[0]['entries']
-    const sendingResp = newResp.map(item => ({ id: item.id, content: item.content }));
-    res.json(sendingResp)
+    const startDate = new Date(date); // 2024-10-20T00:00:00.000Z
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 1); // 2024-10-21T00:00:00.000Z
+
+    const user = await UserModel.findOne({ userId });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const entry = user.journal.find(j =>
+      j.date >= startDate && j.date < endDate
+    );
+
+    if (!entry) {
+      return res.status(404).json({ message: 'No entries found for the specified date' });
+    }
+    // Prepare the response
+    const sendingResp = entry.entries.map(item => ({
+      id: item.id,
+      content: item.content,
+    }));
+    res.json(sendingResp);
   }
   catch(err){
     res.status(500).json({ message: err.message });

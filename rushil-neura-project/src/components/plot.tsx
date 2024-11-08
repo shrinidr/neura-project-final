@@ -2,6 +2,7 @@
 import Plot from 'react-plotly.js'
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import { useAuth } from '@clerk/clerk-react'; // Import the Clerk useAuth hook
 
 interface PlotProps {
   url: string;

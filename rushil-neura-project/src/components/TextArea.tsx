@@ -1,22 +1,23 @@
-
 import { useState } from "react";
 import { useRef } from "react";
 import DateDisplay from "./dateCompo";
 import axios from "axios";
 import { useEffect } from "react";
 import CalenderIcons from "./calender";
-
+import { useUser } from "@clerk/clerk-react";
 
 interface Item{
     content: string;
     id: string;
 }
+
 interface Props {
     items: Item[];
 }
 
 const TextArea = (data: Props) => {
 
+  const { user, isSignedIn } = useUser();
   //destructuring an array []
     const [formData, setFormData] = useState<{[key: string]: string}>({});
     //the type of the state is defined within the <> which is basically that the keys are strings and so are the
@@ -43,15 +44,24 @@ const TextArea = (data: Props) => {
   const handleSubmit = async () =>{
 
   try{
+    if (!isSignedIn || !user) return;
     const formattedDate = new Date().toISOString().split('T')[0];
     console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
-
-    await axios.post("http://localhost:5000/api/data", {formData, date: formattedDate })
+    await axios.post(
+    'http://localhost:5000/api/data',
+    { formData, formattedDate },  // The data payload
+    {
+      headers: {
+        'x-user-id': user.id,
+        'Content-Type': 'application/json'  // Explicitly set Content-Type
+      },
+    }
+  );
     console.log("Data submitted successfully.")
 
-   }catch(error){
+  }catch(error){
     console.log(`Error: ${error}`)
-   }
+  }
 
   };
   //all of this to ensure that the arrow disappears when we scroll to the bottom.
@@ -108,7 +118,7 @@ const TextArea = (data: Props) => {
         {!isAtBottom &&
         (<div className="scroll-to-bottom" onClick = {scrollToBottom}>
                 <i className="fa-solid fa-arrow-down" ></i> </div>)
-       }
+        }
 
         <button className = "submitButtonMain" onClick={handleSubmit}>Submit All</button>
         </div>

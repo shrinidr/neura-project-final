@@ -5,25 +5,25 @@ import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
-
-
+import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
+import { useAuth } from "@clerk/clerk-react";
 const PrevPage = () => {
 
-     interface Item {
+    interface Item {
         content: string;
         id: string;
     }
-
+    const { user, isLoaded, isSignedIn } = useUser(); // Access user data
+    const {getToken} = useAuth();
     const [currleft, changeLeft] = useState<number>(0);
     const [respDataState, respDataChange] = useState<Item[]>([]);
     const [isRightButtonDisabled, setIsRightButtonDisabled] = useState<boolean>(false);
     const mainContentRef = useRef<HTMLDivElement>(null);
     const [isAtBottom, setIsAtBottom] = useState(false);
-
     const [currentDate, setCurrentDate] = useState<string>('');
 
     const dateManipulation = () => {
-        const dateString = getNthPreviousDate(currleft);
+        const dateString = getNthPreviousDate(currleft-1);
         const finalDate = formatDate(dateString)
         setCurrentDate(finalDate);
     }
@@ -60,6 +60,8 @@ const PrevPage = () => {
     }
     };
 
+
+
     useEffect(() => {
         const mainContent = mainContentRef.current;
         if (mainContent) {
@@ -72,17 +74,25 @@ const PrevPage = () => {
     const getNthPreviousDate  = (currleft: number) => {
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate() - currleft);
-        return currentDate.toISOString().split('T')[0];
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const answer = `${year}-${month}-${day}`;
+        return answer;
     }
 
     const lefterClick = () => {
-      changeLeft(currleft+1)
+        changeLeft(currleft+1)
     }
     const displayContent = async (date: string) => {
+        if (!isSignedIn || !user) return; // Ensure the user is signed in
+        console.log(`current date: ${date}`)
         try{
             const CalResponse = await axios.get('http://localhost:5000/api/getItems', {
-                params: {date}
+                headers: { 'x-user-id': user.id },
+                params: { date: date },
             })
+            console.log(CalResponse)
             respDataChange(CalResponse.data);
         }
         catch(error){
@@ -172,7 +182,7 @@ const PrevPage = () => {
     const getTooltipText = (id: string) => {
     const item = questionsWithTooltips.find(q => q.id === id);
     return item ? item.tooltip : '';
-   };
+    };
     return (
         <>
         <Header/>
@@ -212,6 +222,7 @@ const PrevPage = () => {
                     )}
                 </div>
                 <textarea
+                key={item.id} // Add this key prop
                 className="textarea"
                 id={item.id}
                 value={item.content || ''}
@@ -229,7 +240,7 @@ const PrevPage = () => {
         {!isAtBottom &&
         (<div className="scroll-to-bottom" onClick = {scrollToBottom}>
                 <i className="fa-solid fa-arrow-down" id = "scrollArrow"></i> </div>)
-       }
+        }
 
         <button className = "submitButtonDead">Submitted</button>
         </div>

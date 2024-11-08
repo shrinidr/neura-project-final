@@ -12,63 +12,12 @@ import itertools
 import plotly.io as pio
 from dotenv import load_dotenv
 import os
-
-
-load_dotenv()
-client = pymongo.MongoClient("mongodb://localhost:27017/")
-db = client["neura-react-server"]
-collection = db["datamodels"]
-
-
-questions_dict = {"input1": "How was your day (In one sentence)?",
-        "input2": "How many times did you feel like smashing a wall?",
-        "input3": "How many times did you feel like dancing with said wall?",
-        "input4": "How much did you exercise?",
-        "input5": "How is your stress situation?",
-        "input6": "Did you do anything that isn't part of your regular day?",
-        "input7": "Any other thing that you think is worth remembering?"}
-
-
-
-data_stack = pd.DataFrame(list(collection.find()))
-document_array = []
+import datetime
 
 nlp = spacy.load('en_core_web_sm')
 
-data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
-cleaned_data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
-
-
-date_array = data_stack['date']
-for i in range(len(data_stack)):
-    stack = data_stack["entries"][i]
-    for j in stack:
-        data_array[j['id']].append(j['content'])
-        document = nlp(j['content'])
-        cleaned_data_array[j['id']].append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
-#This is how you access the data.
-
-
-
-StartDataFrame = pd.DataFrame(data_array)
-CleanedDataFrame = pd.DataFrame(cleaned_data_array)
-
-def return_start_frames():
-    return StartDataFrame
-
-def return_cleaned_frames():
-    return CleanedDataFrame
-
-
-"""Lets do a thing like bow or tfidf initially for the more basic functionality and then implement word
-embeddings or something when we began to reason through more complex problems."""
-
-
-#Sorting the most used words [Want this to be on all words ever said not just todays.]
-
 
 def most_used_words(cleaned_df, cols):
-
     words = {}
     for col in cols:
         for data in range(len(cleaned_df)):
@@ -80,12 +29,11 @@ def most_used_words(cleaned_df, cols):
                     words[word]+=1
     return (dict(sorted(words.items(), key = lambda item: item[1], reverse = True)))
 
+def most_words_plot(CleanedDataFrame, data_array):
 
-most_words_spoken = most_used_words(CleanedDataFrame, data_array.keys())
-better_words_spoken = dict(itertools.islice(most_words_spoken.items(), 10))
+    most_words_spoken = most_used_words(CleanedDataFrame, data_array.keys())
+    better_words_spoken = dict(itertools.islice(most_words_spoken.items(), 10))
 
-
-def most_words_plot():
     xdata = [val for val in better_words_spoken.values() if val>2]
     ydata = [key for key in better_words_spoken.keys() if better_words_spoken[key]>2 ]
     bubble_size = [val * 150 for val in xdata]
@@ -149,16 +97,6 @@ def most_words_plot():
 
     return pio.to_json(fig)
 
-#most_words_plot()
-
-#This is an okish plot. Change the CSS of it later on.
-
-#The Happiness Card and the stress card and so on:
-#Happiness and stress index
-
-
-#Daily Happiness Card:
-
 def daily_happiness(dataset, cols, indx):
     sid_obj = SentimentIntensityAnalyzer()
     happy = 0
@@ -166,9 +104,10 @@ def daily_happiness(dataset, cols, indx):
         happy+=((sid_obj.polarity_scores(dataset[col][indx])['pos']))
     return happy/7
 
-score_today = daily_happiness(StartDataFrame, data_array.keys(), 0)
-
-def happiness_card_graph():
+def happiness_card_graph(StartDataFrame, data_array, date_array):
+    score_today = daily_happiness(StartDataFrame, data_array.keys(), 0)
+    happiness_array = cum_happiness(StartDataFrame, data_array.keys(), date_array)
+    happiness_array = [i*100 for i in happiness_array]
     val = happiness_array[-1]
     last_happiness = np.mean(happiness_array)
     fig = go.Figure(go.Indicator(
@@ -204,26 +143,23 @@ def happiness_card_graph():
         )
     return(pio.to_json(fig))
 
-#Cumulative Happiness Card
-
 def cum_happiness(dataset, cols, date_array):
     x = date_array
     y = [daily_happiness(dataset, cols, i) for i in range(len(dataset))]
     return y
 
+def cum_happy_graph(StartDataFrame, data_array, date_array):
+    happiness_array = cum_happiness(StartDataFrame, data_array.keys(), date_array)
+    happiness_array = [i*100 for i in happiness_array]
+    date_array = [str(i)[:10] for i in date_array]
 
-happiness_array = cum_happiness(StartDataFrame, data_array.keys(), date_array)
+    print("Dates Length:", len(date_array))
+    print("Values Length:", len(happiness_array))
+    print("Dates:", date_array)
+    print("Values:", happiness_array)
 
-#happiness_card_graph()
-
-happiness_array = [i*100 for i in happiness_array]
-date_array = [str(i)[:10] for i in date_array]
-
-
-def cum_happy_graph(user_id):
     dates = date_array
     values = happiness_array
-
 # Create a DataFrame
     df = pd.DataFrame({'Date': dates, 'Value': values})
 
@@ -319,36 +255,3 @@ def cum_happy_graph(user_id):
 )
 
     return (pio.to_json(fig))
-
-
-#cum_happy_graph()
-
-
-"""Ideas for what we should have: an LDA for 'things that you spend most of your time on'
-We either have an interface where the user can ask questions about themselves and we answer.
-Or we provide answers to custom questions.
-
-
-Your favourite swear words also put for fun.
-
-Find out the things that you tend to complain about or the like. Seem to bicker on about.
-List them and find solutions for them.
-
-We first design machinery ourselves to find out these problems using training. Then we maybe fine tune an LLM
-to figure out the 'solutions' part.
-
-Lets have a seperate file for this because this one's getting too complicated.
-More ideas for the data:
-1) Check for inconsistencies in the stream of consciousness.
-2) Remind the user about things that they planned to do or how they have deviated from the
-actions that they wished to undertake.
-
-"""
-
-stress_data = []
-
-
-for i in range(len(StartDataFrame)):
-    stress_data.append(StartDataFrame['input5'][i])
-
-#print(stress_data)

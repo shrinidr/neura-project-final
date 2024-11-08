@@ -4,24 +4,30 @@ import Header from "../components/header"
 import {useState, useEffect} from "react"
 import ChatCompo from "../components/chatCompo"
 import { useRef } from "react"
-
+import { useAuth } from "@clerk/clerk-react"
 
 
 
 const TTys = () => {
 
     const [userInput, inputState] = useState<string>('')
-
+    const {getToken} = useAuth();
     const [chatHistory, setChatHistory] = useState<Array<{ user: string, response: string }>>([])
 
+    const [babyState, babyStateChange] = useState<boolean>(false)
     const [ihatemylife, ihatemylifemore] = useState<string>('')
 
-    const keyDownVal = (event: React.KeyboardEvent<HTMLInputElement>) => {
+
+    {/*const keyDownVal = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-        const inputVal = event.currentTarget.value
+        const inputVal = event.currentTarget.value;
+        const token = givemeToken();
+        console.log(token)
         inputState('')
         ihatemylifemore(inputVal)
-        axios.post('http://127.0.0.1:5000/process-chat-input', {input: inputVal})
+        axios.post('http://127.0.0.1:5000/process-chat-input', {input: inputVal}, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
         .then(response => {
                     setChatHistory(prev => [...prev, { user: inputVal, response: response.data.response }])
                 })
@@ -29,6 +35,36 @@ const TTys = () => {
             console.error(`i hate my life ${error}`)
         })
         }
+    }*/}
+
+    const keyDownVal = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+        const inputVal = event.currentTarget.value;
+
+        try {
+            const token = await getToken(); // Await the token
+            console.log("Retrieved Token:", token);
+
+            if (!token || token.split('.').length !== 3) {
+                console.error("Invalid token format:", token);
+                return;
+            }
+
+            inputState('')
+            ihatemylifemore(inputVal)
+
+            const response = await axios.post('http://127.0.0.1:5002/process-chat-input',
+                { input: inputVal },
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            setChatHistory(prev => [...prev, { user: inputVal, response: response.data.response }]);
+        } catch (error) {
+            console.error("Error in process-chat-input request:");
+        }
+    }
     }
 
     const [iconState, iconStateChange] = useState<string>('')
@@ -72,12 +108,35 @@ const TTys = () => {
     }, []);
 
 
+
+    const makeBackendCall = async () => {
+
+        try{
+        const token = await getToken();
+        console.log(token)
+        const response2 = await axios.post("http://127.0.0.1:5002/store", {}, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(response2)
+        }
+        catch (error) {
+        console.error("Error sending token data", error);
+        }
+    }
+
+    useEffect(() => {
+        if (!babyState) {
+            makeBackendCall();
+            babyStateChange(true)
+        }
+    }, [])
+
     return (
         <>
             <Header />
             <SideBar />
             <div className="main_content" ref = {mainContentRef}>
-                <ChatCompo iconDataProps={handleIconChange}  verValChange= {handleVerValChange}
+                <ChatCompo iconDataProps={handleIconChange}  babyState = {babyState} verValChange= {handleVerValChange}
                 inputChange = {ihatemylife}/>
                 {verVal==true?
                 <div className="chat_container">

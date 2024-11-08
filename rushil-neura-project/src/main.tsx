@@ -15,6 +15,9 @@ import PrevPage from './pages/prev.tsx';
 import Layout from './layout.tsx';
 import { SignedOut } from '@clerk/clerk-react';
 import { RedirectToSignIn } from '@clerk/clerk-react';
+import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
+
+
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 
@@ -27,34 +30,42 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: (
+    element: (  <ProtectedRoute>
                 <Layout>
                   <MainPage/>
                 </Layout>
+                </ProtectedRoute>
+
               )
   },
   {
     path: "/insights",
-    element: (
+    element: (  <ProtectedRoute>
                 <Layout>
                   <DataPage/>
                 </Layout>
+                </ProtectedRoute>
+
               )
   },
   {
     path: "/chat",
-    element: (
+    element: (  <ProtectedRoute>
                 <Layout>
                   <TTys/>
                 </Layout>
+                </ProtectedRoute>
+
               )
   },
   {
     path: "/prev",
-    element: (
+    element: (  <ProtectedRoute>
                 <Layout>
                   <PrevPage/>
                 </Layout>
+                </ProtectedRoute>
+
               )
   },
   {

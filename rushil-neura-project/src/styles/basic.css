@@ -21,7 +21,7 @@ html, body, #root{
 }
 
 .special-background {
-    background-color: black;
+    background-color: rgb(0, 0, 0);
         color: white;
         font-family: 'Gill Sans MT';
     /* Or any other background you want for the special page */
@@ -391,7 +391,7 @@ input[type="date"]:hover{
 
     margin: 0;
     font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background: linear-gradient(to right, #d85720 0%, #FFFFFF 100%);
+    background: linear-gradient(to right, #d85720 0%, #d758e0 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;

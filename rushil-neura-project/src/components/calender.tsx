@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
 import { ChangeEvent } from "react";
+import { useUser } from "@clerk/clerk-react";
 
 const CalenderIcons = () => {
     interface Item {
@@ -12,28 +13,44 @@ const CalenderIcons = () => {
         id: string;
     }
 
+    const { user, isSignedIn } = useUser();
     const [currleft, changeLeft] = useState<number>(0);
     const [respDataState, respDataChange] = useState<Item[]>([]);
+    const [skipInitialFetch, setSkipInitialFetch] = useState(true);  // New flag
+    const [isFetching, setIsFetching] = useState(false);  // Debounce flag
+
     const navigate = useNavigate();
 
     const getNthPreviousDate  = (currleft: number) => {
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate() - currleft);
-        return currentDate.toISOString().split('T')[0];
+
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const answer = `${year}-${month}-${day}`;
+        return answer;
     }
 
     const displayContentLeft = async () => {
-        changeLeft(currleft+1)
+        //changeLeft(currleft+1)
+         if (isFetching || !isSignedIn || !user) return;  // Skip if already fetching
+        setIsFetching(true);  // Set fetching to true
         const date = getNthPreviousDate(currleft)
         try{
+            console.log(`Todays date bello: ${date}`)
+            console.log(`value of currLeft: ${currleft}`)
             const CalResponse = await axios.get<Item[]>('http://localhost:5000/api/getItems', {
-                params: {date}
+                headers: { 'x-user-id': user.id },
+                params: { date },
             })
             respDataChange(CalResponse.data);
         }
         catch(error){
             console.log("You have a drinking problem", error)
-        }
+        } finally {
+        setIsFetching(false);  // Reset fetching flag
+    }
     }
     const [calDate, calDateChange] = useState<string>('');
 
@@ -47,17 +64,26 @@ const CalenderIcons = () => {
         const val = event.target.value;
         calDateChange(val);
     }
-    const leftClicker  = () => {
-        changeLeft(currleft+1)
-    }
 
-    useEffect(() => {
-        displayContentLeft()
-    }, [currleft])
+    const leftClicker = () => {
+        changeLeft((prev) => prev + 1); // Only increment `currleft`
+        setSkipInitialFetch(false);
+    };
 
+    // Trigger API call when `currleft` changes and user is authenticated
     useEffect(() => {
-        handleCalChange();
-    }, [calDate])
+        if (user && !skipInitialFetch) {
+            displayContentLeft();
+        }
+    }, [currleft, user, skipInitialFetch]);
+
+    // Handle calendar date input change
+    useEffect(() => {
+        if (user) {
+            handleCalChange();
+        }
+    }, [calDate, user]);
+
     return (
         <>
         <Link to = "/prev" state = {{respDataState}}>

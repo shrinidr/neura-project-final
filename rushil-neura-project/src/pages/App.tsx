@@ -1,6 +1,6 @@
 
 import Bottom from "../components/Bottom"
-
+import { useEffect } from "react";
 import HeaderHome from "../components/header_home";
 import MainHeading from "../components/MainHeading"
 
@@ -11,6 +11,7 @@ function App(){
   let text2 = " Record your thoughts, emotions and fears within minutes ";
   let text3 = "and get access to a personalized data repository";
   let text4 = " of your mental growth. ";
+
   return (
     <div>
       <HeaderHome/>

@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import { useState, useEffect } from "react"
-
+import { useAuth } from "@clerk/clerk-react";
 interface NameArray{
     font: string;
     name: String
@@ -9,6 +9,7 @@ interface NameArray{
 
 interface IconProps{
     iconDataProps: (data: string) => void,
+    babyState: boolean,
     verValChange: (data: boolean) => void,
     inputChange: string
 }
@@ -16,8 +17,10 @@ interface IconProps{
 
 {/* Lets just assume for now that we have exactly 5 models equally distributed between all the time
     that user data has been entered for simplicity purposes*/}
-const ChatCompo: React.FC<IconProps> = ({iconDataProps, verValChange, inputChange}) => {
+const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange, inputChange}) => {
 
+
+    const {getToken} = useAuth();
     const Names: NameArray[] = [{font: "fa-solid fa-mountain", name: "Genesis"},
                     {font: "fa-solid fa-puzzle-piece", name: "Origins"},
                     {font: "fa-solid fa-leaf", name: "Echo"},
@@ -62,7 +65,11 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, verValChange, inputChang
 
         const sendData = async () => {
         try {
-            const response = await axios.post('http://127.0.0.1:5000/version_input', { input: vData });
+            const token = await getToken();
+            const response = await axios.post('http://127.0.0.1:5002/version_input', { input: vData },
+                {
+            headers: { Authorization: `Bearer ${token}` },
+        });
             console.log(response)
         } catch (error) {
             console.error(`i hate my life ${error}`);
@@ -97,7 +104,11 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, verValChange, inputChang
         }
     const findVersionData = async () => {
         try{
-            const response = await axios.get('http://127.0.0.1:5000/datesFind');
+            const token = await getToken();
+            const response = await axios.get('http://127.0.0.1:5002/datesFind', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            console.log(response)
             genesisObjChange(response.data.response["Genesis"])
             originsObjChange(response.data.response["Origins"])
         }

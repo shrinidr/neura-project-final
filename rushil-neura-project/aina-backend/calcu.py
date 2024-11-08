@@ -20,54 +20,30 @@ load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 
-client = pymongo.MongoClient("mongodb://localhost:27017/")
-db = client["neura-react-server"]
-collection = db["datamodels"]
+def get_predef_versions(StartDataFrame, dateArray):
+    StartDataFrame["date"] = dateArray
 
-
-dataBase = pd.DataFrame(list(collection.find()))
-dateArray = pd.Series([str(i)[:10] for i in dataBase['date']])
-dataBase['date'] = dateArray
-dateArray = list(dateArray)
-document_array = []
-
-
-data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
-cleaned_data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
-
-
-date_array = dataBase['date']
-for i in range(len(dataBase)):
-    stack = dataBase["entries"][i]
-    for j in stack:
-        data_array[j['id']].append(j['content'])
-
-
-StartDataFrame = pd.DataFrame(data_array)
-StartDataFrame["date"] = dateArray
-
-
-
-versionsName = ["Genesis", "Origins", "Echo", "Whisper", "Now"]
-predefined_versions =  {"Genesis":{"startDate": "", "endDate": ""},
+    versionsName = ["Genesis", "Origins", "Echo", "Whisper", "Now"]
+    predefined_versions =  {"Genesis":{"startDate": "", "endDate": ""},
                         "Origins": {"startDate": "", "endDate": ""},
                         "Echo": {"startDate": "", "endDate": ""},
                         "Whisper": {"startDate": "", "endDate": ""},
                         "Now": {"startDate": "", "endDate": ""}}
 
-num_divs = int(len(dateArray)/len(predefined_versions))
+    num_divs = int(len(dateArray)/len(predefined_versions))
 
-for i in range(len(versionsName)):
-    omega  = i*num_divs
-    alpha = dateArray[omega: omega+num_divs]
-    predefined_versions[versionsName[i]]["startDate"] = alpha[0]
-    predefined_versions[versionsName[i]]["endDate"] = alpha[-1]
-
-def return_date_matrix():
+    for i in range(len(versionsName)):
+        omega  = i*num_divs
+        alpha = dateArray[omega: omega+num_divs]
+        predefined_versions[versionsName[i]]["startDate"] = alpha[0]
+        predefined_versions[versionsName[i]]["endDate"] = alpha[-1]
     return predefined_versions
 
+def return_date_matrix(predefined_versions_changed):
+        return predefined_versions_changed
 
-def return_reference_docs(version):
+def return_reference_docs(version, StartDataFrame, date_array):
+    predefined_versions = get_predef_versions(StartDataFrame, date_array)
     userVersionStartDate = predefined_versions[version]['startDate']
     userVersionEndDate = predefined_versions[version]['endDate']
 

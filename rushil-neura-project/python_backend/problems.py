@@ -13,38 +13,59 @@ import joblib
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
-db = pymongo.MongoClient('mongodb://localhost:27017/')
-client = db["neura-react-server"]
-database = client["datamodels"]
+mongo_uri = os.getenv('MONGO_URI')
+client = pymongo.MongoClient(mongo_uri)
+db = client["test"]
+collection = db["users"]
 
-data_stack = pd.DataFrame(list(database.find()))
+questions_dict = {"input1": "How was your day (In one sentence)?",
+        "input2": "How many times did you feel like smashing a wall?",
+        "input3": "How many times did you feel like dancing with said wall?",
+        "input4": "How much did you exercise?",
+        "input5": "How is your stress situation?",
+        "input6": "Did you do anything that isn't part of your regular day?",
+        "input7": "Any other thing that you think is worth remembering?"}
+
 
 document_array = []
-
 nlp = spacy.load('en_core_web_sm')
 
 data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
 cleaned_data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
 
+date_array = []
+userId = "user_2nfHQVBgWgA5kOhtOYwyHEuKkrn"
 
-date_array = data_stack['date']
-for i in range(len(data_stack)):
-    stack = data_stack["entries"][i]
-    for j in stack:
-        data_array[j['id']].append(j['content'])
-        document = nlp(j['content'])
-        cleaned_data_array[j['id']].append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
-#This is how you access the data.
+def testing_graph(userId, value):
+    data_stack = pd.DataFrame(list(collection.find({"userId": userId})))
+    req_vals = data_stack.journal[0]
+    for i in range(len(req_vals)):
+        dt = req_vals[i]['date']
+        date_str = f"{dt.year}-{dt.month}-{dt.day}"
+        date_array.append(date_str)
+        req_obj= req_vals[i]['entries']
+        for j in range(len(req_obj)):
+            data_array[req_obj[j]['id']].append(req_obj[j]['content'])
+            document = nlp(req_obj[j]['content'])
+            cleaned_data_array[req_obj[j]['id']].append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
 
-StartDataFrame = pd.DataFrame(data_array)
-CleanedDataFrame = pd.DataFrame(cleaned_data_array)
+    StartDataFrame = pd.DataFrame(data_array)
+    CleanedDataFrame = pd.DataFrame(cleaned_data_array)
+    stress_plot(StartDataFrame)
 
-stress_data = []
 
-for i in range(len(StartDataFrame)):
-    stress_data.append(StartDataFrame['input5'][i])
+
+def get_stress_data(StartDataFrame):
+
+    stress_data = []
+    for i in range(len(StartDataFrame)):
+        stress_data.append(StartDataFrame['input5'][i])
+    return stress_data
 
 
 """ Stress Dataset: https://www.kaggle.com/datasets/kreeshrajani/human-stress-prediction
@@ -66,16 +87,16 @@ The topics are arbitrary.
 What we actually get is a collection of words that should form one topic which we define ourselves.
 
 """
-doc = []
-for i in CleanedDataFrame.columns:
-    for j in range(4):
-        doc.append(CleanedDataFrame[i][j])
 
-data_dict=gensim.corpora.Dictionary(doc)
-data_bow = [data_dict.doc2bow(m) for m in doc]
+def topics_array(LDA_diss, num_topics, CleanedDataFrame):
 
+    doc = []
+    for i in CleanedDataFrame.columns:
+        for j in range(4):
+            doc.append(CleanedDataFrame[i][j])
 
-def topics_array(LDA_diss, num_topics):
+    data_dict=gensim.corpora.Dictionary(doc)
+    data_bow = [data_dict.doc2bow(m) for m in doc]
 
     smol_array = []
     big_array = []
@@ -155,8 +176,6 @@ def stress_scores(stress_data):
     stress_scores = [sia.polarity_scores(stress_data[i])['neg'] for i in range(len(stress_data))]
     return stress_scores
 
-stress_score_data = stress_scores(stress_data)
-
 #stress_data is the files with all the stress responses
 
 
@@ -164,57 +183,31 @@ stress_score_data = stress_scores(stress_data)
 
 
 def text_preprocess(doc):
-  doc = nlp(doc)
-  return ' '.join([tok.lemma_ for tok in doc if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
+    doc = nlp(doc)
+    return ' '.join([tok.lemma_ for tok in doc if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
 
-
-new_stress_corpus = [text_preprocess(doc) for doc in stress_data]
-data = pd.read_csv(r'C:\Users\rushi\Downloads\stress_data.csv')
-tokenizer = Tokenizer()
-
-
+def some_fucking_thing(StartDataFrame):
+    stress_data = get_stress_data(StartDataFrame)
+    new_stress_corpus = [text_preprocess(doc) for doc in stress_data]
+    data = pd.read_csv(r'C:\Users\rushi\Downloads\stress_data.csv')
+    tokenizer = Tokenizer()
 #Now, lets use the tokenizer on the actual training data.
 
-training_cleaned = [text_preprocess(doc) for doc in data['text']]
-tokenizer.fit_on_texts(training_cleaned)
-
-"""
-#First using CountVectorizer
-count_vect_docs = tokenizer.texts_to_matrix(training_cleaned, mode='count')
-
-#Using TFIDF Vectorizer which basically assigns more importance to words that occur infrequently within the entire courpus
-#But more frequently in individual documents.
-
-tfidf_vect_docs = tokenizer.texts_to_matrix(training_cleaned, mode='tfidf')
-
-xtrain_count, xtest_count, ytrain_count, ytest_count = train_test_split(tfidf_vect_docs, data['label'], test_size=0.05, random_state=42)
+    training_cleaned = [text_preprocess(doc) for doc in data['text']]
+    tokenizer.fit_on_texts(training_cleaned)
+    model = joblib.load('multinb_neura_tfidf.joblib')
 
 
-cf=Pipeline([
-    ('mnb',MultinomialNB())
-])
+    tfidf_vect_docs_shape = (2838, 8656)
 
-cf.fit(xtrain_count, ytrain_count)
-y_pred=cf.predict(xtest_count)
-print(classification_report(y_pred, ytest_count))
+    changed_stress_data = [text_preprocess(doc) for doc in stress_data]
+    tokenizer.fit_on_texts(changed_stress_data)
 
-joblib.dump(cf, 'multinb_neura_tfidf.joblib')
-"""
+    tfidf_vect_stress = tokenizer.texts_to_matrix(changed_stress_data, mode='tfidf')
+    tfidf_vect_new = tfidf_vect_stress[:,:tfidf_vect_docs_shape[1]]
 
-
-model = joblib.load('multinb_neura_tfidf.joblib')
-
-
-tfidf_vect_docs_shape = (2838, 8656)
-
-changed_stress_data = [text_preprocess(doc) for doc in stress_data]
-tokenizer.fit_on_texts(changed_stress_data)
-
-tfidf_vect_stress = tokenizer.texts_to_matrix(changed_stress_data, mode='tfidf')
-tfidf_vect_new = tfidf_vect_stress[:,:tfidf_vect_docs_shape[1]]
-
-predicted_stress = model.predict(tfidf_vect_new)
-print(predicted_stress)
+    predicted_stress = model.predict(tfidf_vect_new)
+    return predicted_stress
 
 
 """
@@ -231,11 +224,12 @@ for i in stress_data:
 
 """
 #An average of the transformers, VADER, [negativity] and my own stress data.
-ultimate_stress_levels =  (predicted_stress + stress_score_data)/2.0
 
 
-def stress_plot():
+def stress_plot(StartDataFrame):
     np.random.seed(42)
+    stress_data = get_stress_data(StartDataFrame)
+    ultimate_stress_levels =  (some_fucking_thing(StartDataFrame) + stress_scores(stress_data))/2.0
     date_rng = pd.date_range(start='2024-07-16', end='2024-07-23', freq='D')
     df = pd.DataFrame(date_rng, columns=['date'])
     df['value'] = np.random.randn(len(date_rng)).cumsum()
@@ -285,7 +279,7 @@ def stress_plot():
 
 # Add some more unique styling
     fig.update_traces(marker=dict(size=5, color='white', line=dict(width=2, color='DarkSlateGrey')),
-                  selector=dict(mode='markers'))
+                selector=dict(mode='markers'))
 
 # Adding custom hovertemplate
     fig.update_traces(
@@ -296,7 +290,8 @@ def stress_plot():
     fig.add_vline(x=pd.Timestamp('2024-07-16'), line=dict(color='firebrick', width=2, dash='dash'))
 
 # Show the plot
-    return pio.to_json(fig)
+    fig.show()
+    #return pio.to_json(fig)
 
 #stress_plot()
 
@@ -304,3 +299,27 @@ def stress_plot():
 #We need to refine this stress thing. At regular intervals, keep adding data labelled by you and train it with
 #the model. This is not perfect yet, but we can perfect it over time.
 
+
+
+"""
+#First using CountVectorizer
+count_vect_docs = tokenizer.texts_to_matrix(training_cleaned, mode='count')
+
+#Using TFIDF Vectorizer which basically assigns more importance to words that occur infrequently within the entire courpus
+#But more frequently in individual documents.
+
+tfidf_vect_docs = tokenizer.texts_to_matrix(training_cleaned, mode='tfidf')
+
+xtrain_count, xtest_count, ytrain_count, ytest_count = train_test_split(tfidf_vect_docs, data['label'], test_size=0.05, random_state=42)
+
+
+cf=Pipeline([
+    ('mnb',MultinomialNB())
+])
+
+cf.fit(xtrain_count, ytrain_count)
+y_pred=cf.predict(xtest_count)
+print(classification_report(y_pred, ytest_count))
+
+joblib.dump(cf, 'multinb_neura_tfidf.joblib')
+"""
