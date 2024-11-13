@@ -5,7 +5,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import CalenderIcons from "./calender";
 import { useUser } from "@clerk/clerk-react";
-
+import APISButton from "./apisButt";
 interface Item{
     content: string;
     id: string;
@@ -30,6 +30,16 @@ const TextArea = (data: Props) => {
     }));
 };
 
+    const bitch  = (currleft: number) => {
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() - currleft);
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const answer = `${year}-${month}-${day}`;
+        return answer;
+    }
+
   // Handle textarea blur (when cursor leaves the textarea)
     const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
       //e.target is the value of the text input given by the user.
@@ -45,7 +55,7 @@ const TextArea = (data: Props) => {
 
   try{
     if (!isSignedIn || !user) return;
-    const formattedDate = new Date().toISOString().split('T')[0];
+    const formattedDate = bitch(0);
     console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
     await axios.post(
     'http://localhost:5000/api/data',
@@ -102,7 +112,7 @@ const TextArea = (data: Props) => {
                 <DateDisplay/>
                 <CalenderIcons/>
             </div>
-
+            <APISButton/>
               {data.items.map((item) => (
           <textarea
             className="textarea"

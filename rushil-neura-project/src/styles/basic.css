@@ -764,3 +764,125 @@ strong {
         blinkCursor 0.5s step-end infinite alternate;
     margin-top: 1.5em;
 }
+
+
+
+/* Overlay and Blurred Background */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    /* This applies the blur effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Rectangle Component */
+
+
+.content.blurred {
+    filter: blur(5px);
+    pointer-events: none;
+    /* Prevent interaction with background when overlay is open */
+}
+
+/* From Uiverse.io by Kabak */
+.chotu {
+    height: 40px;
+    margin: 5px;
+    margin-left: 80%;
+    margin-top: 12%;
+    width: 90px;
+    background: #333;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-family: Consolas, Courier New, monospace;
+    border: solid #404c5d 1px;
+    font-size: 16px;
+    color: rgb(161, 161, 161);
+    -webkit-transition: 500ms;
+    transition: 500ms;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #2e2d2d, #212121);
+    -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+        inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+    box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+        inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+}
+
+.chotu:hover {
+    -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 13px #545b78;
+    box-shadow: 1px 1px 13px #20232e, -1px -1px 13px #545b78;
+    color: #d6d6d6;
+    -webkit-transition: 500ms;
+    transition: 500ms;
+}
+
+.chotu:active {
+    -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+    box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+    color: #d6d6d6;
+    -webkit-transition: 100ms;
+    transition: 100ms;
+}
+
+
+.somebodyiusedtoknow{
+    color: black;
+    margin-top: 0.2%;
+    font-size: 3.2vw;
+    margin-left: -20%;
+    font-family: 'Helvetica'
+}
+
+
+.rectangle {
+    height: 50%;
+    width: 50%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    align-items: center;
+    justify-content: flex-end;
+    /* Positions the content to the right */
+    gap: 10px;
+    /* Space between images */
+}
+
+.buttonIcon {
+    margin-top: 3%;
+    width: 8.3%;
+    /* Adjust as needed */
+    height: 18%;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.whoopIcon{
+
+    width: 11%;
+
+}
+
+/* Click effect */
+.buttonIcon:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 6px rgba(20, 19, 19, 0.3);
+}
+
+.buttonIcon:hover {
+    transform: scale(0.95);
+    box-shadow: 4px 4px 6px rgba(20, 19, 19, 0.3);
+}

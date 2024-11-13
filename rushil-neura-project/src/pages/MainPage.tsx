@@ -5,6 +5,7 @@ import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { useEffect } from "react";
+import APISButton from "../components/apisButt";
 
 const MainPage = () => {
 
@@ -52,6 +53,7 @@ const MainPage = () => {
         <Header/>
         <SideBar/>
         <TextArea items = {TextStuff} />
+
         </div>
     );
 }

@@ -11,6 +11,11 @@ import { useAuth } from "@clerk/clerk-react"
 const TTys = () => {
 
     const [userInput, inputState] = useState<string>('')
+    const [isVisible, setIsVisible] = useState(false);
+
+    const toggleRectangle = () => {
+    setIsVisible(!isVisible);
+    };
     const {getToken} = useAuth();
     const [chatHistory, setChatHistory] = useState<Array<{ user: string, response: string }>>([])
 
