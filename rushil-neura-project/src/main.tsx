@@ -16,6 +16,7 @@ import Layout from './layout.tsx';
 import { SignedOut } from '@clerk/clerk-react';
 import { RedirectToSignIn } from '@clerk/clerk-react';
 import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
+import StravaCallback from './components/stravaCallback.tsx';
 
 
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -82,6 +83,14 @@ const router = createBrowserRouter([
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
+    ),
+  },
+
+  {
+    path: '/exchange_token',
+    element: (
+        <StravaCallback/>
+
     ),
   }
 

@@ -17,6 +17,7 @@ const SignInPage = () => {
           },
         }}
         signUpUrl="/sign-up" // Redirect to your custom sign-up page
+        fallbackRedirectUrl="/home"
       />
     </div>
   );

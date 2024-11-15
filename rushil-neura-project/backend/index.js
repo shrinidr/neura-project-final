@@ -8,6 +8,7 @@ const UserModel = require('./Models/schema')
 const {Svix, Webhook} = require('svix');
 const fs = require('fs');
 const DataModel = require('./Models/oldschema')
+const axios = require('axios');
 
 const app = express();
 const PORT = 5000
@@ -167,6 +168,42 @@ app.get('/api/getItems', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 })
+
+app.post('/api/auth/strava/callback', express.json(), async (req, res) => {
+  const { code } = req.body;
+
+  if (!code) {
+    return res.status(400).json({ error: 'Authorization code is required' });
+  }
+
+  try {
+    // Exchange the authorization code for an access token
+    const response = await axios.post('https://www.strava.com/oauth/token', {
+      client_id: process.env.STRAVA_CLIENT_ID,
+      client_secret: process.env.STRAVA_CLIENT_SECRET,
+      code: code,
+      grant_type: 'authorization_code',
+    });
+
+    const { access_token, refresh_token, athlete } = response.data;
+    console.log(response)
+    // Example: Here, you could store access and refresh tokens in your database
+    // For example: await User.updateOne({ userId }, { stravaAccessToken: access_token, stravaRefreshToken: refresh_token, stravaAthlete: athlete });
+
+    res.status(200).json({ message: 'Authenticated with Strava', athlete });
+  } catch (error) {
+    console.error('Error exchanging token with Strava:', error);
+    res.status(500).json({ error: 'Failed to exchange token with Strava' });
+  }
+});
+
+app.get('/auth/strava', (req, res) => {
+    const authUrl = `https://www.strava.com/oauth/authorize?client_id=${process.env.STRAVA_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.STRAVA_REDIRECT_URI)}&response_type=code&scope=read&approval_prompt=force`;
+
+  // Redirect the user to the Strava authorization page
+    res.redirect(authUrl);
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
