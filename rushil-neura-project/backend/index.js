@@ -9,16 +9,26 @@ const {Svix, Webhook} = require('svix');
 const fs = require('fs');
 const DataModel = require('./Models/oldschema')
 const axios = require('axios');
+const { requireAuth } = require('@clerk/clerk-sdk-node');
+const { ClerkExpressRequireAuth } = require('@clerk/clerk-sdk-node');
 
 const app = express();
 const PORT = 5000
 
 // Middleware
 app.use(cors())
+
 //app.use(bodyParser.raw({ type: 'application/json' }));  // This is the correct one.
 //app.use(express.json())
 //app.use(BodyParser.json());
 ///app.use(express.json())
+
+
+
+app.use(ClerkExpressRequireAuth({
+apiKey: process.env.CLERK_API_KEY, // Clerk API Key
+}));
+
 
 const uri = process.env.MONGO_URI;
 const journalData = JSON.parse(
@@ -169,32 +179,49 @@ app.get('/api/getItems', async (req, res) => {
   }
 })
 
-app.post('/api/auth/strava/callback', express.json(), async (req, res) => {
+
+
+app.post('/api/auth/strava/callback', express.json(),  ClerkExpressRequireAuth(),  async (req, res) => {
+
+  const userId = req.auth.userId; // Securely extracted from the session
   const { code } = req.body;
 
-  if (!code) {
-    return res.status(400).json({ error: 'Authorization code is required' });
-  }
+  if (!userId || !code) {
+        return res.status(400).json({ message: 'Missing required parameters' });
+    }
 
   try {
     // Exchange the authorization code for an access token
-    const response = await axios.post('https://www.strava.com/oauth/token', {
-      client_id: process.env.STRAVA_CLIENT_ID,
-      client_secret: process.env.STRAVA_CLIENT_SECRET,
-      code: code,
-      grant_type: 'authorization_code',
-    });
+    const payload = {
+    client_id: process.env.STRAVA_CLIENT_ID,
+    client_secret: process.env.STRAVA_CLIENT_SECRET,
+    code: code,
+    grant_type: 'authorization_code',
+    };
 
-    const { access_token, refresh_token, athlete } = response.data;
-    console.log(response)
-    // Example: Here, you could store access and refresh tokens in your database
-    // For example: await User.updateOne({ userId }, { stravaAccessToken: access_token, stravaRefreshToken: refresh_token, stravaAthlete: athlete });
+    const stravaResponse = await axios.post('https://www.strava.com/oauth/token', payload);
 
-    res.status(200).json({ message: 'Authenticated with Strava', athlete });
-  } catch (error) {
-    console.error('Error exchanging token with Strava:', error);
-    res.status(500).json({ error: 'Failed to exchange token with Strava' });
+    const stravaData = {
+    stravaUserId: stravaResponse.data.athlete.id,
+    accessToken: stravaResponse.data.access_token,
+    refreshToken: stravaResponse.data.refresh_token,
+    expiresAt: stravaResponse.data.expires_at,
+    };
+
+    const result = await UserModel.updateOne(
+      { userId: userId }, // Match the current signed-in user
+      { $set: { strava: stravaData } }, // Add or update the "strava" object
+      { upsert: true } // Create the document if it doesn't exist
+    );
+
+    console.log(result)
+
+    res.status(200).json({ message: 'Strava account linked successfully!' });
   }
+  catch (error) {
+        console.error('Error linking Strava:', error);
+        res.status(500).json({ message: 'Failed to link Strava account' });
+    }
 });
 
 app.get('/auth/strava', (req, res) => {

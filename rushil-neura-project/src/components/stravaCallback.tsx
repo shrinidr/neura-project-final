@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '@clerk/clerk-react';
 
 const StravaCallback: React.FC = () => {
     const navigate = useNavigate();
+    const { getToken } = useAuth();
 
     useEffect(() => {
         const fetchToken = async () => {
@@ -13,8 +15,14 @@ const StravaCallback: React.FC = () => {
         if (code) {
         try {
           // Send the code to the backend to get the access token
-            await axios.post('http://localhost:5000/api/auth/strava/callback', { code });
-          // Redirect the user to the dashboard or home page
+            const token = await getToken();
+            await axios.post('http://localhost:5000/api/auth/strava/callback',
+              { code: code},
+              {
+              headers: {
+              Authorization: `Bearer ${token}`,
+              },
+            });
             navigate('/home');
         } catch (error) {
             console.error('Error authenticating with Strava', error);

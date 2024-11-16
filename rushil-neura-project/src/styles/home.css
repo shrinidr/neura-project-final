@@ -127,6 +127,15 @@ i {
     left: 200%;
 }
 
+#moreInsightsIcon{
+    left: 24%;
+}
+
+.moreInsightsText{
+    margin-left: 4%;
+    margin-top: 0.1%;
+}
+
 .data_head{
     margin-left: 20px;
     color: #ffffff;
