@@ -188,7 +188,7 @@ i {
 
 #infoButton{
 
-    left: 36px;
+    left: 215px;
     top: 43px;
     color:#696464;
 }
@@ -383,7 +383,7 @@ i {
 
 .version-selector-button {
 
-    margin-left: 80px;
+    margin-left: 250px;
     display: flex;
         background-color: #1e2125;
         outline: none;

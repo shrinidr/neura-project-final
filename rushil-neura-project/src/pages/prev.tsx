@@ -89,9 +89,13 @@ const PrevPage = () => {
         if (!isSignedIn || !user) return; // Ensure the user is signed in
         console.log(`current date: ${date}`)
         try{
+            const token = await getToken();
             const CalResponse = await axios.get('http://localhost:5000/api/getItems', {
-                headers: { 'x-user-id': user.id },
-                params: { date: date },
+                headers: { Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+                },
+                params: {
+                    date: date, // Pass any additional parameters in the query string
+                },
             })
             console.log(CalResponse)
             respDataChange(CalResponse.data);

@@ -62,6 +62,7 @@ def initialize_user_data(user_id):
         if response.status_code == 200:
             stats = response.json()
             user_data[user_id]['activityDataRaw'] = stats
+            print(user_data[user_id])
             return jsonify({'stats': stats}), 200
         else:
             return jsonify({'error': 'Failed to fetch athlete stats', 'details': response.json()}), response.status_code
