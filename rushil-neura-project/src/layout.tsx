@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import React from "react";
 import './styles/basic.css'
 import './styles/home.css'
+import './styles/james.css'
+
 
 
 interface LayoutProps {

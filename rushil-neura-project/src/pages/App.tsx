@@ -1,8 +1,8 @@
 
-import Bottom from "../components/Bottom"
 import { useEffect } from "react";
 import HeaderHome from "../components/header_home";
 import MainHeading from "../components/MainHeading"
+import Bottom from "../components/Bottom"
 
 
 function App(){

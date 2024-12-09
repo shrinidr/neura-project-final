@@ -26,7 +26,7 @@ const HeaderHome = () => {
 
   return (
         <>
-        <div className="containerrr">
+        <div className="navbar">
                 <img src="/neura-removebg-preview.png" />
                 <Link to ='/'>  <p id="title"><b> Neura </b> </p> </Link>
                 <button className="Btn" id = "btn1" key = "btn1"> About Us</button>
