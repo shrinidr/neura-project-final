@@ -13,7 +13,7 @@ const { requireAuth } = require('@clerk/clerk-sdk-node');
 const { ClerkExpressRequireAuth } = require('@clerk/clerk-sdk-node');
 
 const app = express();
-const PORT = 5000
+const PORT = process.env.PORT
 
 // Middleware
 app.use(cors())
@@ -147,10 +147,10 @@ app.post('/api/data', express.json(), async (req, res) => {
   }
 });
 
-app.get('/api/getItems', async (req, res) => {
+app.get('/api/getItems', ClerkExpressRequireAuth(),  async (req, res) => {
 
-  const {date} = req.query;
-  const userId = req.headers['x-user-id']; // Assuming the client sends Clerk's userId in the header
+  const { date } = req.query;
+  const userId = req.auth.userId;
   try{
     const startDate = new Date(date); // 2024-10-20T00:00:00.000Z
     const endDate = new Date(startDate);

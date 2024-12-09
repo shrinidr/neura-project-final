@@ -5,11 +5,10 @@ import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { useEffect } from "react";
-import APISButton from "../components/apisButt";
 
 const MainPage = () => {
 
-    const { user, isSignedIn } = useUser();
+    const { isSignedIn } = useUser();
     const {getToken} = useAuth();
     if (!isSignedIn) {
     return <div>Please sign in to access this page.</div>;
