@@ -33,16 +33,16 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                 <div className="LinkBox">
                     <div className="row">
                         <div className="section">
-                            <h2 className="BoxOne">Who Are We?</h2>
+                            <h2 className="BoxOne">But what exactly?</h2>
                             <div className="package">
                             <p style={{ lineHeight: '19px' }}>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-                                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br />
+                                Track your mental health using our insights section. <br />
+                                Have a problem? Talk to yourself from the past and figure it out! <br />
+                                Fitness data too complex? We gotchu. Read your data like a story and make actual sense of it to take actionable steps to fix your problems. <br />
                             </p>
                                 <Link to="/home">
                                     <button className="btn" type="button">
-                                        <strong> Filler </strong>
+                                        <strong> Talk to yourself. </strong>
                                         <div id="container-stars">
                                             <div id="stars"></div>
                                         </div>
@@ -54,19 +54,19 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                 </Link>
                             </div>
                         </div>
-
                         <div className="section">
                             <h2 className="BoxTwo">Our Mission</h2>
                             <div className="package">
                             <p style={{ lineHeight: '19px' }}>
-                                Two roads diverged in a yellow wood <br />
-                                And sorry I could not travel both <br />
-                                And be one traveler, long I stood <br />
-                                And looked down one as far as I could <br />
+                                We help you bring together <br />
+                                your mental and physical health <br />
+                                all in one place. <br />
+                                To help you understand yourself in powerful ways.<br />
+                                That totally did not rhyme.
                             </p>
                                 <Link to="/home">
                                     <button className="btn" type="button">
-                                        <strong> Filler </strong>
+                                        <strong> About Us </strong>
                                         <div id="container-stars">
                                             <div id="stars"></div>
                                         </div>
@@ -85,14 +85,12 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
 
             <footer className="footer">
                 <div className="footer-content">
-                    <p>&copy; 2024 Your Company Name </p> 
+                    <p>&copy; 2024 Neura</p>
                     <p>All rights reserved.</p>
                     <div className="footer-links">
                         <Link to="/privacy">Privacy Policy</Link>
                         <Link to="/terms">Terms of Service</Link>
-                        <Link to="/contact">Contact</Link> 
-                        <Link to="/blog">Blog</Link>
-                        <Link to="/phonenumber">Call Us</Link>
+                        <Link to="/contact">Contact</Link>
                         <Link to="/email">Email Us</Link>
                     </div>
                 </div>

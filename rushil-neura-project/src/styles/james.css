@@ -40,14 +40,31 @@ body { padding-top: 5vh;}
 html, body { overflow-x: hidden; margin: 0; padding: 0; height: 100%; overflow-y: auto;}
 .navbar { align-items: center; margin-left: 12px; margin-top: 25px; display: flex;}
 .LinkBox { display: block; justify-content: space-between; align-items: flex-start; width: 100%;}
-footer.footer { background-color: grey; color: #ffffff; padding: 20px 0; width: 100%; position: relative; text-align: center; font-size: 14px; bottom: 0; margin-top: 50px; box-sizing: border-box; left: 0; right: 0;}
+footer.footer { background-color: rgb(32, 30, 30); color: #ffffff; padding: 20px 0; width: 100%; position: relative; text-align: center; font-size: 14px; bottom: 0; margin-top:600px; box-sizing: border-box; left: 0; right: 0;}
 footer .footer-content { display: flex; flex-direction: column; align-items: center; justify-content: center;}
-footer .footer-links { margin-top: 10px; display: flex; gap: 20px;}
+footer .footer-links { margin-top: 10px; display: flex; gap: 20px}
 footer .footer-links a { color: white; text-decoration: none; font-size: 14px;}
 footer .footer-links a:hover { text-decoration: underline;}
 footer .footer p { margin: 10px 0; padding: 0 20px; font-size: 14px; display: inline-block; white-space: normal;}
 .LinkBox { width: 100%; margin: 0 auto;}
 .row { display: flex; justify-content: space-between; gap: 20px;}
 .section { width: 48%;}
-.BoxOne, .BoxTwo { font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 65px; background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; display: inline-block; margin-left: 100px; margin-bottom: 20px;}
+.expAI{
+    left: 2%;
+
+}
+.BoxOne { font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 65px; background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; display: inline-block; margin-left: 100px; margin-bottom: 20px; margin-top: 350px}
+.BoxTwo {
+    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 65px;
+    background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    margin-left: 100px;
+    margin-bottom: 20px;
+    margin-top: 50px
+}
 .package { font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 19px; margin-top: 0px;}
