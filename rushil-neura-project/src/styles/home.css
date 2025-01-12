@@ -103,7 +103,7 @@ i {
 
 }
 #gear {
-    top: 15.5%;
+    top: 13.5%;
     left: 24%;
     color: white;
 }
@@ -111,20 +111,21 @@ i {
 #ChatIcon{
 
     left: 24%;
-    top: 23.5%;
+    top: 19.9%;
 
 }
 
 #HomeIcon{
-    top: 7.5%;
+    top: 6.8%;
     left: 24%;
 }
 
 
+
 #homeArrow{
 
-    top: 140%;
-    left: 200%;
+    margin-top: 30%;
+    margin-left: 70%;
 }
 
 #moreInsightsIcon{

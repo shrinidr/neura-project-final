@@ -31,10 +31,7 @@ apiKey: process.env.CLERK_API_KEY, // Clerk API Key
 
 
 const uri = process.env.MONGO_URI;
-const journalData = JSON.parse(
-  fs.readFileSync('C:/Users/rushi/Downloads/neura-react-server.datamodels.json', 'utf8')
-);
-//mongoose connection string for local compass: 'mongodb://localhost:27017/neura-react-server
+
 
 mongoose.connect(uri).then(()=>{
     console.log("connected")})
