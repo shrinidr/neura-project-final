@@ -18,7 +18,7 @@
     "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0",
-    "mongoose": "^8.8.3",
+    "mongoose": "^8.9.5",
     "svix": "^1.37.0",
     "validator": "^13.12.0"
   },
