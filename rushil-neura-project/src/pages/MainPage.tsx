@@ -23,7 +23,7 @@ const MainPage = () => {
     ]
 
 
-    const makeBackendCall = async () => {
+    /*const makeBackendCall = async () => {
 
         try{
         const token = await getToken();
@@ -44,7 +44,7 @@ const MainPage = () => {
             makeBackendCall();
             isCalled = true;
         }
-    }, [])
+    }, [])*/
 
 
     return (

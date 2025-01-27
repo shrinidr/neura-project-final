@@ -38,8 +38,7 @@ const CalenderIcons = () => {
         setIsFetching(true);  // Set fetching to true
         const date = getNthPreviousDate(currleft)
         try{
-            console.log(`Todays date bello: ${date}`)
-            console.log(`value of currLeft: ${currleft}`)
+
             const CalResponse = await axios.get<Item[]>('http://localhost:5000/api/getItems', {
                 headers: { 'x-user-id': user.id },
                 params: { date },
@@ -47,7 +46,7 @@ const CalenderIcons = () => {
             respDataChange(CalResponse.data);
         }
         catch(error){
-            console.log("You have a drinking problem", error)
+            console.log("Seems to be some problem", error)
         } finally {
         setIsFetching(false);  // Reset fetching flag
     }

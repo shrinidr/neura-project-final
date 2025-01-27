@@ -9,8 +9,8 @@ const {Svix, Webhook} = require('svix');
 const fs = require('fs');
 const DataModel = require('./Models/oldschema')
 const axios = require('axios');
-const { requireAuth } = require('@clerk/clerk-sdk-node');
-const { ClerkExpressRequireAuth } = require('@clerk/clerk-sdk-node');
+const { requireAuth } = require('@clerk/express');
+//const { ClerkExpressRequireAuth } = require('@clerk/express');
 
 const app = express();
 const PORT = process.env.PORT
@@ -25,7 +25,7 @@ app.use(cors())
 
 
 
-app.use(ClerkExpressRequireAuth({
+app.use(requireAuth({
 apiKey: process.env.CLERK_API_KEY, // Clerk API Key
 }));
 
@@ -144,7 +144,7 @@ app.post('/api/data', express.json(), async (req, res) => {
   }
 });
 
-app.get('/api/getItems', ClerkExpressRequireAuth(),  async (req, res) => {
+app.get('/api/getItems', requireAuth(),  async (req, res) => {
 
   const { date } = req.query;
   const userId = req.auth.userId;
@@ -178,7 +178,7 @@ app.get('/api/getItems', ClerkExpressRequireAuth(),  async (req, res) => {
 
 
 
-app.post('/api/auth/strava/callback', express.json(),  ClerkExpressRequireAuth(),  async (req, res) => {
+app.post('/api/auth/strava/callback', express.json(),  requireAuth(),  async (req, res) => {
 
   const userId = req.auth.userId; // Securely extracted from the session
   const { code } = req.body;

@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.9.4",
-    "@fortawesome/fontawesome-svg-core": "^6.7.1",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/plotly.js": "^2.33.1",
     "axios": "^1.7.8",
