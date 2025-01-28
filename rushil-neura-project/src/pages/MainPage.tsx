@@ -2,14 +2,11 @@ import SideBar from "../components/Sidebar";
 import TextArea from "../components/TextArea";
 import Header from "../components/header";
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
-import { useAuth } from "@clerk/clerk-react";
-import axios from "axios";
-import { useEffect } from "react";
+
 
 const MainPage = () => {
 
     const { isSignedIn } = useUser();
-    const {getToken} = useAuth();
     if (!isSignedIn) {
     return <div>Please sign in to access this page.</div>;
     }
