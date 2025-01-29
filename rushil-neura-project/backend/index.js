@@ -149,9 +149,9 @@ app.get('/api/getItems', requireAuth(),  async (req, res) => {
   const { date } = req.query;
   const userId = req.auth.userId;
   try{
-    const startDate = new Date(date); // 2024-10-20T00:00:00.000Z
+    const startDate = new Date(date); 
     const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + 1); // 2024-10-21T00:00:00.000Z
+    endDate.setDate(endDate.getDate() + 1); 
 
     const user = await UserModel.findOne({ userId });
     if (!user) {
