@@ -87,7 +87,7 @@ const PrevPage = () => {
     }
     const displayContent = async (date: string) => {
         if (!isSignedIn || !user) return; // Ensure the user is signed in
-        console.log(`current date: ${date}`)
+
         try{
             const token = await getToken();
             const CalResponse = await axios.get('http://localhost:5000/api/getItems', {
@@ -97,11 +97,9 @@ const PrevPage = () => {
                     date: date, // Pass any additional parameters in the query string
                 },
             })
-            console.log(CalResponse)
             respDataChange(CalResponse.data);
         }
         catch(error){
-            console.log("You have a drinking problem", error)
             respDataChange([])
         }
         setIsRightButtonDisabled(isToday(date));
@@ -227,7 +225,6 @@ const PrevPage = () => {
                     )}
                 </div>
                 <textarea
-                key={item.id} // Add this key prop
                 className="textarea"
                 id={item.id}
                 value={item.content || ''}
@@ -236,6 +233,7 @@ const PrevPage = () => {
             </div>
             ))):(TextStuff.map((item)=> (
             <textarea
+            key={item.id} // Add the key here
             className="textarea"
             placeholder = {item.content || ''}
             />
