@@ -1,7 +1,6 @@
 import pymongo
 import pandas as pd
 import nltk
-import spacy
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
@@ -14,7 +13,6 @@ from dotenv import load_dotenv
 import os
 import datetime
 
-nlp = spacy.load('en_core_web_sm')
 
 
 def most_used_words(cleaned_df, cols):

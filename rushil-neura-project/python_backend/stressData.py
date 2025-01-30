@@ -1,15 +1,9 @@
 import pymongo
 import pandas as pd
-import spacy
-import gensim
 import numpy as np
-from gensim.utils import simple_preprocess
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-from tensorflow.keras.preprocessing.text import Tokenizer
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import classification_report
 import joblib
+import spacy
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
@@ -17,48 +11,14 @@ from dotenv import load_dotenv
 import os
 
 
-nlp = spacy.load('en_core_web_sm')
 
+nlp = spacy.load("en_core_web_sm")
 def get_stress_data(StartDataFrame):
 
     stress_data = []
     for i in range(len(StartDataFrame)):
         stress_data.append(StartDataFrame['input5'][i])
     return stress_data
-
-def topics_array(LDA_diss, num_topics, CleanedDataFrame):
-
-    doc = []
-    for i in CleanedDataFrame.columns:
-        for j in range(4):
-            doc.append(CleanedDataFrame[i][j])
-
-    data_dict=gensim.corpora.Dictionary(doc)
-    data_bow = [data_dict.doc2bow(m) for m in doc]
-
-    smol_array = []
-    big_array = []
-    for i in range(num_topics):
-        smol_array = []
-        for j in LDA_diss.print_topics()[i][1]:
-            if type(j)==str:
-                smol_array.append(j)
-        big_array.append(smol_array)
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
-    words_smol = []
-    words_big = []
-    word = ''
-    for array in big_array:
-        words_smol = []
-        for k in array:
-            if (k in alphabet):
-                word+=(k)
-            elif (k== "\""):
-                words_smol.append(word)
-                word = ''
-        topic1 = [word for word in words_smol if word!='']
-        words_big.append(topic1)
-    return words_big
 
 def stress_scores(stress_data):
     sia = SentimentIntensityAnalyzer()
@@ -69,12 +29,13 @@ def text_preprocess(doc):
     doc = nlp(doc)
     return ' '.join([tok.lemma_ for tok in doc if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
 
-def some_fucking_thing(StartDataFrame):
+
+"""def some_fucking_thing(StartDataFrame):
     stress_data = get_stress_data(StartDataFrame)
     new_stress_corpus = [text_preprocess(doc) for doc in stress_data]
-    data = pd.read_csv(r'C:\Users\rushi\Downloads\stress_data.csv')
+    data = pd.read_csv
     tokenizer = Tokenizer()
-#Now, lets use the tokenizer on the actual training data.
+    Now, lets use the tokenizer on the actual training data.
 
     training_cleaned = [text_preprocess(doc) for doc in data['text']]
     tokenizer.fit_on_texts(training_cleaned)
@@ -90,12 +51,12 @@ def some_fucking_thing(StartDataFrame):
     tfidf_vect_new = tfidf_vect_stress[:,:tfidf_vect_docs_shape[1]]
 
     predicted_stress = model.predict(tfidf_vect_new)
-    return predicted_stress
+    return predicted_stress"""
 
 def stress_plot(StartDataFrame, date_array):
     np.random.seed(42)
     stress_data = get_stress_data(StartDataFrame)
-    ultimate_stress_levels =  (some_fucking_thing(StartDataFrame) + stress_scores(stress_data))/2.0
+    ultimate_stress_levels =  (stress_scores(stress_data))
     date_rng = pd.date_range(start='2024-07-16', end='2024-07-23', freq='D')
     df = pd.DataFrame(date_rng, columns=['date'])
     df['value'] = np.random.randn(len(date_rng)).cumsum()

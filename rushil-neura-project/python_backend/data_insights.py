@@ -1,7 +1,6 @@
 import pymongo
 import pandas as pd
 import nltk
-import spacy
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
@@ -12,9 +11,12 @@ import itertools
 import plotly.io as pio
 from dotenv import load_dotenv
 import os
-
-
+import spacy
 load_dotenv()
+
+
+
+nlp = spacy.load("en_core_web_sm")
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client["neura-react-server"]
 collection = db["datamodels"]
@@ -33,8 +35,6 @@ questions_dict = {"input1": "How was your day (In one sentence)?",
 data_stack = pd.DataFrame(list(collection.find()))
 document_array = []
 
-nlp = spacy.load('en_core_web_sm')
-
 data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
 cleaned_data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
 
@@ -46,8 +46,6 @@ for i in range(len(data_stack)):
         data_array[j['id']].append(j['content'])
         document = nlp(j['content'])
         cleaned_data_array[j['id']].append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
-#This is how you access the data.
-
 
 
 StartDataFrame = pd.DataFrame(data_array)

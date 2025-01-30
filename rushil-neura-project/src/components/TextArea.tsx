@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import CalenderIcons from "./calender";
 import { useUser } from "@clerk/clerk-react";
 import APISButton from "./apisButt";
-
+import { useAuth } from "@clerk/clerk-react";
 interface Item{
     content: string;
     id: string;
@@ -17,7 +17,8 @@ interface Props {
 }
 
 const TextArea = (data: Props) => {
-
+  const {getToken} = useAuth();
+  
   const { user, isSignedIn } = useUser();
   //destructuring an array []
     const [formData, setFormData] = useState<{[key: string]: string}>({});
@@ -58,16 +59,16 @@ const TextArea = (data: Props) => {
     if (!isSignedIn || !user) return;
     const formattedDate = bitch(0);
     console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
+    const token = await getToken();
     await axios.post(
-    'http://localhost:5000/api/data',
-    { formData, formattedDate },  // The data payload
-    {
-      headers: {
-        'x-user-id': user.id,
-        'Content-Type': 'application/json'  // Explicitly set Content-Type
-      },
-    }
-  );
+      'http://localhost:5000/api/data',
+      { formData, formattedDate },  // The data payload
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
+        },
+      }
+    );
     console.log("Data submitted successfully.")
 
   }catch(error){

@@ -25,7 +25,6 @@ from dotenv import load_dotenv
 import os
 import datetime
 
-
 """ Hello, there are still some bugs in this code and we have to add user session management soon using
 something like Redis. For now (11/3) I am keeping this as is. I will look into it at a later time.
 Also token auth is done through mainpage.tsx which has a bit of latency. We have to fix that as well, of course,
@@ -52,7 +51,6 @@ questions_dict = {"input1": "How was your day (In one sentence)?",
 
 
 document_array = []
-nlp = spacy.load('en_core_web_sm')
 
 data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
 cleaned_data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "input5": [], "input6": [], "input7":[]}
@@ -60,6 +58,9 @@ cleaned_data_array = {"input1": [],  "input2": [], "input3": [], "input4": [], "
 date_array = []
 StartDataFrame = None
 CleanedDataFrame = None
+
+nlp = spacy.load('en_core_web_sm')
+
 
 clerk_jwt_key = os.getenv('CLERK_PUBLIC_JWT_KEY')
 jwk_url = os.getenv('CLERK_JWK_URL')
@@ -89,9 +90,11 @@ def initialize_data(userId):
         date_array.append(date_str)
         req_obj= req_vals[i]['entries']
         for j in range(len(req_obj)):
+
             data_array[req_obj[j]['id']].append(req_obj[j]['content'])
             document = nlp(req_obj[j]['content'])
             cleaned_data_array[req_obj[j]['id']].append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
+
 
     min_len = min(len(lst) for lst in data_array.values())
     data_array = {k: v[:min_len] for k, v in data_array.items()}  # Trim lists to the shortest length
