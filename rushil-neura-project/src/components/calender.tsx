@@ -55,9 +55,9 @@ const CalenderIcons = () => {
 
     const handleCalChange = () => {
         if(calDate){
-                navigate(`/prev?date=${calDate}`);
+                navigate(`/prev`);
         }
-
+//date=${calDate}
     }
     const changeCalVal = (event: ChangeEvent<HTMLInputElement>) => {
         const val = event.target.value;

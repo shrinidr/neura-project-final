@@ -13,11 +13,10 @@ const { requireAuth } = require('@clerk/express');
 //const { ClerkExpressRequireAuth } = require('@clerk/express');
 
 const app = express();
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 
 // Middleware
-app.use(cors())
-
+app.use(cors());
 //app.use(bodyParser.raw({ type: 'application/json' }));  // This is the correct one.
 //app.use(express.json())
 //app.use(BodyParser.json());
@@ -25,9 +24,9 @@ app.use(cors())
 
 
 
-app.use(requireAuth({
+/*app.use(requireAuth({
 apiKey: process.env.CLERK_API_KEY, // Clerk API Key
-}));
+}));*/
 
 
 const uri = process.env.MONGO_URI;
@@ -117,13 +116,13 @@ app.post('/api/signup', async (req, res) => {
     await newUser.save();
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating user', error: error.message });
-  }
+    res.status(500).json({ message: 'Error creating user', error: error.message});
+}
 });
 
 //Still follows old schema.
-app.post('/api/data', express.json(), async (req, res) => {
-  const userId = req.headers['x-user-id'];
+app.post('/api/data', express.json(), requireAuth(), async (req, res) => {
+  const userId = req.auth.userId;
   console.log("Request Body:", req.body); // Log entire req.body for debugging
   const { formData, formattedDate: date } = req.body;
   console.log("User ID:", userId);
@@ -155,7 +154,7 @@ app.get('/api/getItems', requireAuth(),  async (req, res) => {
 
     const user = await UserModel.findOne({ userId });
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(200).json([]); // Return an empty array instead of 404
     }
     const entry = user.journal.find(j =>
       j.date >= startDate && j.date < endDate
