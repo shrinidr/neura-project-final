@@ -258,8 +258,7 @@ body {
 
 .bottom-section {
   padding: 0;
-  margin-top: 20px;
-  position: relative;
+  margin-top: 20px
 }
 
 .package {
@@ -394,6 +393,7 @@ footer .footer p {
 .row {
   display: flex;
   justify-content: space-between;
+  gap: 20px
 }
 
 .section {
@@ -415,6 +415,7 @@ footer .footer p {
   display: inline-block;
   margin-left: 100px;
   margin-bottom: 20px;
+  margin-top: 350px
 }
 
 .BoxTwo {
@@ -437,6 +438,11 @@ footer .footer p {
   margin-top: 0px
 }
 
+.bottom-section {
+  position: relative;
+  padding: 40px 20px
+}
+
 .PageTwo {
   width: 100%
 }
@@ -445,11 +451,11 @@ footer .footer p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
-  padding-right: 8vw;
+  margin-bottom: 40px
 }
 
 .section {
+  width: 48%;
   padding: 20px
 }
 
@@ -458,11 +464,11 @@ footer .footer p {
 }
 
 .right {
-  text-align: left
+  text-align: right
 }
 
 .image-gap {
-  width: 70%;
+  width: 48%;
   display: flex;
   justify-content: center;
   align-items: center
@@ -478,7 +484,7 @@ footer .footer p {
 
 section img {
   max-width: 100%;
-  max-height: auto;
+  max-height: 400px;
   object-fit: cover;
   border-radius: 8px
 }
@@ -497,6 +503,18 @@ section img {
 
 .right-gap {
   order: 1
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column
+  }
+
+  .section,
+  .image-gap {
+    width: 100%;
+    margin-bottom: 20px
+  }
 }
 
 .PageTwo {
@@ -535,7 +553,7 @@ footer.footer {
   background-color: rgb(32, 30, 30);
   color: #ffffff;
   padding: 20px 0;
-  width: 100vw;
+  width: 100%;
   position: relative;
   text-align: center;
   font-size: 14px;
@@ -546,6 +564,12 @@ footer.footer {
   box-sizing: border-box
 }
 
+.bottom-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%
+}
+
 .PageTwo {
   flex: 1;
   padding-bottom: 20px
@@ -554,10 +578,3 @@ footer.footer {
 footer {
   margin-top: auto
 }
-
-.image-gap img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;  
-  }
-  
