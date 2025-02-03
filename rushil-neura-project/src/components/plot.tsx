@@ -14,33 +14,70 @@ interface PlotData {
 }
 
 const PlotComponent: React.FC<PlotProps> = ({ url }) => {
+  const {getToken} = useAuth();
   const [plotData, setPlotData] = useState<PlotData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    axios.get(url)
-      .then(response => {
-        setPlotData(JSON.parse(response.data));
-      })
-      .catch(error => console.error('Error fetching the plot data:', error));
-  }, [url]);
 
+
+   const makeBackendCall = async () => {
+
+        try{
+        const token = await getToken();
+        console.log(token)
+        const response2 = await axios.post("http://127.0.0.1:5001/storeCache", {}, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(response2)
+        }
+        catch (error) {
+        console.error("Error sending token data", error);
+        }
+    }
+
+    useEffect(() => {
+        let isCalled = false;
+        if (!isCalled) {
+            makeBackendCall();
+            isCalled = true;
+        }
+    }, [])
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const token = await getToken(); // Get the token
+          if (!token) {
+            throw new Error("User not authenticated");
+          }
+    
+          const response = await axios.get(url, {
+            headers: { Authorization: `Bearer ${token}` }, // Pass token
+          });
+    
+          setPlotData(JSON.parse(response.data));
+        } catch (error) {
+          console.error("Error fetching the plot data:", error);
+          setError("Failed to load graph data. Please try again later.");
+        } finally {
+          setLoading(false);
+        }
+      };
+    
+      fetchData();
+    }, [url]);
+    
 
   return (
-    <>
-
-    <div className = "plotS" >
+    <div className="plotS">
       {plotData ? (
-        <Plot
-          data={plotData.data}
-          layout={plotData.layout}
-        />
+        <Plot data={plotData.data} layout={plotData.layout} />
       ) : (
-        <p>Loading...</p>
+        <p>No data available.</p>
       )}
     </div>
-      </>
-
   );
 };
 
-export default PlotComponent
+export default PlotComponent;
