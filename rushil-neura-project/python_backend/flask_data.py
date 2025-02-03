@@ -12,8 +12,8 @@ import requests
 import pandas as pd
 import spacy
 import pymongo
-from dataTesting import cum_happy_graph, most_words_plot
-
+from dataTesting import cum_happy_graph, most_words_plot, happiness_card_graph
+from stressData import stress_plot
 load_dotenv()
 
 app = Flask(__name__)
@@ -144,11 +144,52 @@ def get_words():
     cache_key = f"{user_id}_daily_word_bc"
     if not redis_client.exists(cache_key):
         CleanedDataFrame = pd.read_json(redis_client.get(f"{user_id}_CleanedDataFrame").decode("utf-8"))
-        answer = jsonify(most_words_plot(CleanedDataFrame))
+        data_array = pd.read_json(redis_client.get(f"{user_id}_data_array").decode("utf-8"))
+        answer = jsonify(most_words_plot(CleanedDataFrame, data_array))
         redis_client.set(cache_key, answer.get_data(as_text=True))
         return answer
     else:
         return jsonify(json.loads(redis_client.get(cache_key).decode("utf-8")))
+
+
+@app.route('/dailyhappyplot')
+def daily_happy_plot():
+    user_id = get_user_id()
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    cache_key = f"{user_id}_daily_happy_plot"
+    if not redis_client.exists(cache_key):
+        StartDataFrame = pd.read_json(redis_client.get(f"{user_id}_StartDataFrame").decode("utf-8"))
+        data_array = pd.read_json(redis_client.get(f"{user_id}_data_array").decode("utf-8"))
+        json_data = redis_client.get(f"{user_id}_date_array")
+        json_string = json_data.decode('utf-8')
+        date_array = json.loads(json_string)
+        answer = jsonify(happiness_card_graph(StartDataFrame, data_array, date_array))
+        redis_client.set(cache_key, answer.get_data(as_text=True))
+        return answer
+    else:
+        return jsonify(json.loads(redis_client.get(cache_key).decode("utf-8")))
+    
+@app.route('/stress')
+def stress_plot_graph():
+    user_id = get_user_id()
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    cache_key = f"{user_id}_stress_plot"
+    if not redis_client.exists(cache_key):
+        StartDataFrame = pd.read_json(redis_client.get(f"{user_id}_StartDataFrame").decode("utf-8"))
+        json_data = redis_client.get(f"{user_id}_date_array")
+        json_string = json_data.decode('utf-8')
+        date_array = json.loads(json_string)
+        answer = jsonify(stress_plot(StartDataFrame, date_array))
+        redis_client.set(cache_key, answer.get_data(as_text=True))
+        return answer
+    else:
+        return jsonify(json.loads(redis_client.get(cache_key).decode("utf-8")))
+    
+
 
 if __name__ == "__main__":
     from waitress import serve
