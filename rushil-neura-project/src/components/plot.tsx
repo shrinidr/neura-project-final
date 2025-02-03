@@ -19,6 +19,10 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  if (loading){
+    if (error){
+    }
+  }
 
 
    const makeBackendCall = async () => {

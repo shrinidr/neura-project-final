@@ -21,6 +21,7 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
 
 
     const {getToken} = useAuth();
+    if(babyState){}
     const Names: NameArray[] = [{font: "fa-solid fa-mountain", name: "Genesis"},
                     {font: "fa-solid fa-puzzle-piece", name: "Origins"},
                     {font: "fa-solid fa-leaf", name: "Echo"},
@@ -146,7 +147,7 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
                 {isOpen &&
                 <div className={`dropdown-container ${isOpen ? 'open' : ''}`}>
                     <div className="dropdown">
-                    {Names.map((item, index) => (
+                    {Names.map((item) => (
                         <button className="dropdown-item" onClick= {() => changedForm(item.name, item.font)}>
                             <span className="name">{item.name}</span>
                             <i className={item.font} id = "versionIconS"></i>

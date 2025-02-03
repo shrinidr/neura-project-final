@@ -1,8 +1,7 @@
-import { useSignOut } from '@clerk/clerk-react';
+import { useAuth } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
-import useSign
 const LogoutButton = () => {
-    const { signOut } = useSignOut();
+    const { signOut } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
