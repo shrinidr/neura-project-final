@@ -35,7 +35,7 @@ def text_preprocess(doc):
     new_stress_corpus = [text_preprocess(doc) for doc in stress_data]
     data = pd.read_csv
     tokenizer = Tokenizer()
-    Now, lets use the tokenizer on the actual training data.
+    #Now, lets use the tokenizer on the actual training data.
 
     training_cleaned = [text_preprocess(doc) for doc in data['text']]
     tokenizer.fit_on_texts(training_cleaned)
