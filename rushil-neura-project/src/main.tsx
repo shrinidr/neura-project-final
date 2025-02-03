@@ -18,7 +18,7 @@ import { RedirectToSignIn } from '@clerk/clerk-react';
 import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
 import StravaCallback from './components/stravaCallback.tsx';
 import MoreInsights from './pages/moreInsights.tsx';
-
+import { Analytics } from '@vercel/analytics/react';
 
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -109,6 +109,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={clerkFrontendApi}>
       <RouterProvider router={router} />
+      <Analytics /> {/* Add Analytics component here */}
     </ClerkProvider>
   </React.StrictMode>,
 );
