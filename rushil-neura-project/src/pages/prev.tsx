@@ -4,17 +4,17 @@ import axios from "axios";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useLocation } from "react-router-dom";
+//import { useLocation } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 import { useAuth } from "@clerk/clerk-react";
-import APISButton from "../components/apisButt";
+
 const PrevPage = () => {
 
     interface Item {
         content: string;
         id: string;
     }
-    const { user, isLoaded, isSignedIn } = useUser(); // Access user data
+    const { user, isSignedIn } = useUser(); // Access user data
     const {getToken} = useAuth();
     const [currleft, changeLeft] = useState<number>(0);
     const [respDataState, respDataChange] = useState<Item[]>([]);
@@ -169,9 +169,9 @@ const PrevPage = () => {
         }
     }, [calDate]);
 
-    const location = useLocation();
-    const query = new URLSearchParams(location.search);
-    const selectedDate = query.get('date');
+    //const location = useLocation();
+    //const query = new URLSearchParams(location.search);
+    //const selectedDate = query.get('date');
     const questionsWithTooltips = [
     { id: "input1", question: "How was your day (In one sentence)?", tooltip: "Describe your day in a brief sentence." },
     { id: "input2", question: "How many times did you feel like smashing a wall?", tooltip: "Number of times you felt frustrated." },

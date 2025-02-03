@@ -2,15 +2,12 @@
 import { CSSProperties } from 'react';
 import { SignUp, useSignUp, useAuth } from '@clerk/clerk-react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 const SignUpPage = () => {
 
-
-  const navigate = useNavigate();
   const { isSignedIn } = useAuth();
-  const { signUp, isLoaded } = useSignUp(); // Using the useSignUp hook to access signup information
+  const { signUp } = useSignUp(); // Using the useSignUp hook to access signup information
 
   {/*useEffect(() => {
     // Redirect if already signed in
