@@ -19,31 +19,6 @@ const MainPage = () => {
         {id: "input7", content: "Any other thing that you think is worth remembering?"}
     ]
 
-
-    /*const makeBackendCall = async () => {
-
-        try{
-        const token = await getToken();
-        console.log(token)
-        const response2 = await axios.post("http://127.0.0.1:5001/storeCache", {}, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-        console.log(response2)
-        }
-        catch (error) {
-        console.error("Error sending token data", error);
-        }
-    }
-
-    useEffect(() => {
-        let isCalled = false;
-        if (!isCalled) {
-            makeBackendCall();
-            isCalled = true;
-        }
-    }, [])*/
-
-
     return (
         <div>
         <Header/>
