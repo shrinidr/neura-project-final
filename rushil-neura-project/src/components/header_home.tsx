@@ -26,15 +26,25 @@ const HeaderHome = () => {
 
   return (
         <>
-        <div className="navbar">
-                <img src="/neura-removebg-preview.png" className = "homePageBackground"/>
-                <Link to ='/'>  <p id="title"><b> Neura </b> </p> </Link>
-                <button className="Btn" id = "btn1" key = "btn1"> About Us</button>
-                <button className="Btn" id=  "btn2" key = "btn2"> AI </button>
-                {loggedIn == false ?<Link to = '/sign-in'><button className="Btn" id= "btn3" key = "btn3"> Login </button></Link>:
-                <button className="Btn" id= "btn3" key = "btn3" onClick={handleSignOut}>Sign Out</button>}
-
-        </div>
+          <div className="navbar">
+            <div className="logo-container">
+              <img src="/neura-removebg-preview.png" className="homePageBackground" alt="Neura Logo" />
+              <Link to="/" className="title-link">
+                <p id="title"><b>Neura</b></p>
+              </Link>
+            </div>
+            <div className="button-container">
+              <button className="Btn" id="btn1"><span>About Us</span></button>
+              <button className="Btn" id="btn2"><span>AI</span></button>
+              {loggedIn === false ? (
+                <Link to='/sign-in'>
+                  <button className="Btn" id="btn3">Login</button>
+                </Link>
+              ) : (
+                <button className="Btn" id="btn3" onClick={handleSignOut}>Sign Out</button>
+              )}
+            </div>
+          </div>
         </>
     );
 }
