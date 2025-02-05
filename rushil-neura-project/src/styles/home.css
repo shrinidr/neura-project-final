@@ -627,49 +627,12 @@ textarea {
     font-family: Helvetica, Arial, sans-serif;
 }
 
-.Btn {
-    width: 130px;
-    height: 40px;
-    justify-content: center;
-    background-color: black;
-    border: none;
-    color: white;
-    font-weight: 600;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
-    position: relative;
-    overflow: hidden;
-    transition-duration: 0.3s;
-}
 
-#btn1 {
-    margin-left: 60%;
-}
 
-.Btn::before {
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    content: "";
-    background-color: white;
-    border-radius: 50%;
-    left: -100%;
-    top: 0;
-    transition-duration: 0.3s;
-    mix-blend-mode: difference;
-}
 
-.Btn:hover::before {
-    transition-duration: 0.3s;
-    transform: translate(100%, -50%);
-    border-radius: 0;
-}
 
-.Btn:active {
-    transform: translate(5px, 5px);
-    transition-duration: 0.3s;
-}
+
+
 
 
 ::selection {

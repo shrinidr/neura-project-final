@@ -429,67 +429,8 @@ img {
         padding-top: 12px;
 
 }
-.mamachamamla{
-    margin: 0;
-        font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        background: linear-gradient(to right, #b35b36 0%, #FFFFFF 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        display: inline-block;
-
-}
-.Btn {
-    width: 130px;
-    height: 40px;
-    justify-content: center;
-    background-color: black;
-    border: none;
-    background: linear-gradient(to right, #e95414 0%, #FFFFFF 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-    font-weight: 600;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
-    position: relative;
-    overflow: hidden;
-    transition-duration: .3s;
-
-}
-
-#btn1 {
-    margin-left: 60%;
-}
 
 
-.Btn::before {
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    content: "";
-    background-color: white;
-    border-radius: 50%;
-    left: -100%;
-    top: 0;
-    transition-duration: .3s;
-    mix-blend-mode: difference;
-}
-
-.Btn:hover::before {
-    transition-duration: .3s;
-    transform: translate(100%, -50%);
-    border-radius: 0;
-}
-
-
-.Btn:active {
-    transform: translate(5px, 5px);
-    transition-duration: .3s;
-}
 
 .btn {
     display: flex;
