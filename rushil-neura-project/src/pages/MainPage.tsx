@@ -3,10 +3,10 @@ import TextArea from "../components/TextArea";
 import Header from "../components/header";
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 
-
 const MainPage = () => {
 
-    const { isSignedIn } = useUser();
+    const { isLoaded, isSignedIn } = useUser();
+    if (!isLoaded) return <p>Loading...</p>;
     if (!isSignedIn) {
     return <div>Please sign in to access this page.</div>;
     }
