@@ -34,7 +34,11 @@ const HeaderHome = () => {
               </Link>
             </div>
             <div className="button-container">
-              <button className="Btn" id="btn1"><span>About Us</span></button>
+              <button className="Btn" id="btn1">
+                <Link to="/contact">
+                  <span>About Us</span>
+                </Link>
+              </button>
               <button className="Btn" id="btn2"><span>AI</span></button>
               {loggedIn === false ? (
                 <Link to='/sign-in'>

@@ -30,7 +30,7 @@ body,html {
   width: 72px;
   height: 2px;
   position: absolute;
-  top: 140px;
+  top: 80px;
   left: 30%;
   transform: translateX(-50%);
   transform-origin: 0 0;
@@ -44,7 +44,7 @@ body,html {
 }
 .HomeBG {
   font-family: "Gill Sans MT", serif;
-  font-size: 5vw;
+  font-size: 4.5vw;
   line-height: 1.4;
   font-weight: 600;
   position: relative;
@@ -551,6 +551,12 @@ footer {
 .Btn:active {
   transform: scale(1);
 }
+
+.Btn a{
+  color: inherit;
+  text-decoration: none; 
+}
+
 @media (max-width: 768px) {
   .Rectangle {
       top: calc(30%);

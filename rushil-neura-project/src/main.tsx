@@ -19,6 +19,7 @@ import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute comp
 import StravaCallback from './components/stravaCallback.tsx';
 import MoreInsights from './pages/moreInsights.tsx';
 import { Analytics } from '@vercel/analytics/react';
+import Contact from './pages/Contact.tsx';
 
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -101,7 +102,15 @@ const router = createBrowserRouter([
                 <MoreInsights/>
               </Layout>
             </ProtectedRoute>)
-  }
+  },
+  {
+    path: "/contact",  // Define the path you want for this page
+    element: (
+      <Layout>
+        <Contact/>  {/* This will render the Contact page inside the Layout */}
+      </Layout>
+    ),
+  },
 
 ]);
 
@@ -113,3 +122,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </ClerkProvider>
   </React.StrictMode>,
 );
+
