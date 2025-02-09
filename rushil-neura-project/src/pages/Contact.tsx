@@ -43,7 +43,8 @@ const Contact = () => {
         <div className="contact-form">
           <h3 className="title">Contact us</h3>
           <div className="input-container">
-            <input type="text" className="input" placeholder="Username" />
+            <input type="text" className="input" placeholder="First Name" />
+            <input type="text" className="input" placeholder="Last Name" />
           </div>
           <div className="input-container">
             <input type="email" className="input" placeholder="Email" />
@@ -52,7 +53,7 @@ const Contact = () => {
             <input type="tel" className="input" placeholder="Phone" />
           </div>
           <div className="input-container textarea">
-            <textarea className="input" placeholder="Message"></textarea>
+            <textarea className="input" placeholder="Tell us what we can help you with"></textarea>
           </div>
           <button className="contactbtn" type="button">Send</button>
         </div>

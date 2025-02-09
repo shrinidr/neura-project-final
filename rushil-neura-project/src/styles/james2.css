@@ -28,7 +28,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     text-align: center;
-    margin-top: 5vh;
+    margin-top: 2.5vh
 }
 
 .contact-form {
@@ -36,7 +36,8 @@
     text-align: center;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%);    position: relative;
+    position: relative;
+    background: black;
 }
 
 .information {
@@ -132,11 +133,6 @@ form {
     font-size: 4vh;
 }
 
-.input-container {
-    position: relative;
-    margin: 1rem 0;
-}
-
 .input {
     outline: none;
     border: 2px solid #fafafa;
@@ -218,3 +214,25 @@ textarea.input {
     color: #ffffff; 
     opacity: 0.8;
 }
+
+.input-container {
+    display: flex;
+    position: relative;
+    margin: 1rem 0;
+    gap: 1rem; 
+    margin-bottom: 1.5rem;
+  }
+  
+  .input::placeholder {
+    color: #ffffff; 
+    opacity: 0.9; 
+  }
+  
+  .input:focus {
+    border-color: #1abc9c; 
+  }
+  
+  .input:hover {
+    border-color: #007bff; 
+  }
+  
