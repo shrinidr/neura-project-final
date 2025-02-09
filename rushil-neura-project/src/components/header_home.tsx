@@ -36,7 +36,7 @@ const HeaderHome = () => {
             <div className="button-container">
               <button className="Btn" id="btn1">
                 <Link to="/contact">
-                  <span>About Us</span>
+                  <span>Contact Us</span>
                 </Link>
               </button>
               <button className="Btn" id="btn2"><span>AI</span></button>
