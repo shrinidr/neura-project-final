@@ -5,8 +5,7 @@ import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 
 const MainPage = () => {
 
-    const { isLoaded, isSignedIn } = useUser();
-    if (!isLoaded) return <p>Loading...</p>;
+    const {isSignedIn } = useUser();
     if (!isSignedIn) {
     return <div>Please sign in to access this page.</div>;
     }
