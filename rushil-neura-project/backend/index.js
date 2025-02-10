@@ -29,7 +29,7 @@ apiKey: process.env.CLERK_API_KEY, // Clerk API Key
 }));*/
 
 
-const uri = process.env.MONGO_URI;
+const uri = process.env.MONGODB_URI;
 
 
 mongoose.connect(uri).then(()=>{
