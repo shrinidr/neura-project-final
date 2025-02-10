@@ -60,8 +60,8 @@ const TextArea = (data: Props) => {
     const formattedDate = bitch(0);
     console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
     const token = await getToken();
-    await axios.post(
-      'http://localhost:5000/api/data',
+    //http://localhost:5000/api/data'
+    await axios.post( `${import.meta.env.VITE_BACKEND_URL}/api/data`,
       { formData, formattedDate },  // The data payload
       {
         headers: {

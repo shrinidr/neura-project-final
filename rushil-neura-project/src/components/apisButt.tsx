@@ -12,7 +12,8 @@ const APISButton = () => {
   const handleConnect = () => {
     {/*const clientId = import.meta.env.VITE_CLIENT_ID;
     const redirectURI = import.meta.env.VITE_REDIRECT_URI;*/}
-    window.location.href = 'http://localhost:5000/auth/strava';
+    //'http://localhost:5000/auth/strava'
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/strava`;
     //window.location.href = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectURI)}&response_type=code&scope=read`;
 
   };

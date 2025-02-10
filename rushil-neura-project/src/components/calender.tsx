@@ -38,8 +38,9 @@ const CalenderIcons = () => {
         setIsFetching(true);  // Set fetching to true
         const date = getNthPreviousDate(currleft)
         try{
-
-            const CalResponse = await axios.get<Item[]>('http://localhost:5000/api/getItems', {
+            //http://localhost:5000/api/getItems
+            
+            const CalResponse = await axios.get<Item[]>(`${import.meta.env.VITE_BACKEND_URL}/api/getItems`, { 
                 headers: { 'x-user-id': user.id },
                 params: { date },
             })

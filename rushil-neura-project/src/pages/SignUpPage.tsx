@@ -26,7 +26,7 @@ const SignUpPage = () => {
         console.log('UserID:', signUp.createdUserId);
         console.log('Email Address:', signUp.emailAddress);
 
-        await axios.post("http://localhost:5000/api/signup", {
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/signup`, {
           userId: signUp.createdUserId,
           email: signUp.emailAddress,
         }, { withCredentials: true });

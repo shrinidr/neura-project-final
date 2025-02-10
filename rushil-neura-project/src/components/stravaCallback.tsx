@@ -16,7 +16,9 @@ const StravaCallback: React.FC = () => {
         try {
           // Send the code to the backend to get the access token
             const token = await getToken();
-            await axios.post('http://localhost:5000/api/auth/strava/callback',
+            
+             //'http://localhost:5000/api/auth/strava/callback'
+            await axios.post( `${import.meta.env.VITE_BACKEND_URL}/api/auth/strava/callback`,
               { code: code},
               {
               headers: {

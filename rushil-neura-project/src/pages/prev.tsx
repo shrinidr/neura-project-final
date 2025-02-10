@@ -90,7 +90,8 @@ const PrevPage = () => {
 
         try{
             const token = await getToken();
-            const CalResponse = await axios.get('http://localhost:5000/api/getItems', {
+            //http://localhost:5000/api/getItems
+            const CalResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getItems`, {
                 headers: { Authorization: `Bearer ${token}`, // Include the token in the Authorization header
                 },
                 params: {
