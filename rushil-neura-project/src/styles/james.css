@@ -39,7 +39,7 @@ html {
   height: 2px;
   position: absolute;
   left: 45px;
-  top: 65px;
+  top: 73px;
   transform-origin: 0 0;
   transform: rotate(0deg) scale(1, 1)
 }
@@ -75,7 +75,7 @@ html {
 
 .mamachamamla {
   margin: 0;
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   background: linear-gradient(to right, #b35b36 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

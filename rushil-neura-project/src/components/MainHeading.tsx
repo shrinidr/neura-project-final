@@ -6,7 +6,7 @@ const MainHeading = () => {
             <div className="Rectangle"></div>
         </div>
         <div className="HomeBG">
-            <p style={{lineHeight:'50px'}} id="mamachamamla">Figure out yourself <br /> with data. </p>
+            <p style={{lineHeight:'50px'}} id="plssomethingdifferent">Figure out yourself <br /> with data. </p>
         </div>
         <div className="Pointer">
             <div className="Marker">scroll down</div>

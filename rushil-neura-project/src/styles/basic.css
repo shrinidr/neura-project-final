@@ -1,7 +1,7 @@
 body {
     background-color: black;
     color: white;
-    font-family: 'Gill Sans MT';
+    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
     overflow-y: hidden;
 }
 
@@ -24,7 +24,7 @@ html, body, #root{
 .special-background {
     background-color: rgb(0, 0, 0);
         color: white;
-        font-family: 'Gill Sans MT';
+        font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
         z-index: 10;
     /* Or any other background you want for the special page */
 }
@@ -86,7 +86,7 @@ html, body, #root{
     align-items: flex-start;
     justify-content: flex-start;
     position: relative;
-    font-family: "Gill Sans MT";
+    font-family: 'DM Sans';
     font-size: 19px;
     margin-bottom: 12px;
     margin-top: 0px;
@@ -185,14 +185,14 @@ html, body, #root{
 .let-s-time-travel-with-transformers {
     color: #ffffff;
     text-align: left;
-    font-family: "Gill Sans MT";
+    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
     font-size: 55px;
     line-height: 100px;
     font-weight: 700;
     position: relative;
     width: 950px;
     margin-top: 30px;
-        font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
         background: linear-gradient(to right,#8449d1 0%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -236,7 +236,7 @@ html, body, #root{
 
 h1 {
     text-align: center;
-    font-family: 'Gill Sans MT';
+    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
     margin-top: 50px;
     font-size: 45px;
 }
@@ -375,12 +375,11 @@ input[type="date"]:hover{
 
 .secondheading {
     text-align: left;
-    font-family: 'Gill Sans MT';
+    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
     font-size: 65px;
     margin-top: 100px;
     margin-left: 25px;
     margin-bottom: 25px;
-    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -392,8 +391,9 @@ input[type="date"]:hover{
 #title {
 
     margin: 0;
-    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background: linear-gradient(to right, #d85720 0%, #d758e0 100%);
+    font-size: 3vh;
+    font-family: 'Helvetica';
+        background: linear-gradient(to right, #d85720 0%, #d758e0 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -431,8 +431,21 @@ img {
 }
 .mamachamamla{
     margin: 0;
-        font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-family:'Times New Roman', Times, serif;
         background: linear-gradient(to right, #b35b36 0%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+
+}
+
+#plssomethingdifferent{
+
+    top: -2%;
+        font-family: "DM Sans";
+        background: linear-gradient(to right, #5936b3 0%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -855,7 +868,6 @@ strong {
     padding: 20px;
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
     align-items: center;
     justify-content: flex-end;
     /* Positions the content to the right */
