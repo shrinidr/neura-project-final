@@ -49,8 +49,6 @@ const TTys = () => {
 
         try {
             const token = await getToken(); // Await the token
-            console.log("Retrieved Token:", token);
-
             if (!token || token.split('.').length !== 3) {
                 console.error("Invalid token format:", token);
                 return;
