@@ -5,9 +5,9 @@ const express = require('express')
 const bodyParser = require('body-parser'); // Make sure to use raw body parsing
 const cors = require('cors')
 const UserModel = require('./Models/schema')
-const {Svix, Webhook} = require('svix');
-const fs = require('fs');
-const DataModel = require('./Models/oldschema')
+const {Webhook} = require('svix');
+//const fs = require('fs');
+//const DataModel = require('./Models/oldschema')
 const axios = require('axios');
 const { requireAuth } = require('@clerk/express');
 //const { ClerkExpressRequireAuth } = require('@clerk/express');
@@ -29,7 +29,7 @@ apiKey: process.env.CLERK_API_KEY, // Clerk API Key
 }));*/
 
 
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGO_URI;
 
 
 mongoose.connect(uri).then(()=>{
