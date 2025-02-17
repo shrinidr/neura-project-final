@@ -58,9 +58,9 @@ const TextArea = (data: Props) => {
   try{
     if (!isSignedIn || !user) return;
     const formattedDate = bitch(0);
+    console.log(user)
     console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
     const token = await getToken();
-    //http://localhost:5000/api/data'
     await axios.post( `${import.meta.env.VITE_BACKEND_URL}/api/data`,
       { formData, formattedDate },  // The data payload
       {

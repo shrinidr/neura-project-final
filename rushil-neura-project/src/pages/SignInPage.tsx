@@ -1,5 +1,5 @@
 // SignInPage.tsx
-import { CSSProperties } from 'react';
+/*import { CSSProperties } from 'react';
 import { SignIn } from '@clerk/clerk-react';
 const SignInPage = () => {
 
@@ -54,4 +54,13 @@ const styles: { [key: string]: CSSProperties } = {
   },
 };
 
+export default SignInPage;*/
+
+import { RedirectToSignIn } from "@clerk/clerk-react";
+
+const SignInPage = () => {
+  return <RedirectToSignIn />;
+};
+
 export default SignInPage;
+

@@ -1,5 +1,5 @@
 // SignUpPage.tsx
-import { CSSProperties } from 'react';
+/*import { CSSProperties } from 'react';
 import { SignUp, useSignUp, useAuth } from '@clerk/clerk-react';
 import { useEffect } from 'react';
 
@@ -15,7 +15,7 @@ const SignUpPage = () => {
       navigate('/');
     }
   }, [isSignedIn, navigate]);
-*/}
+
 
   const handleCompleteSignUp = async () => {
     if (signUp && signUp.createdUserId) {
@@ -46,7 +46,7 @@ const SignUpPage = () => {
       handleCompleteSignUp();
     }
   }, [isLoaded, signUp]);
-*/}
+
 
 
   useEffect(() => {
@@ -107,6 +107,14 @@ const styles: { [key: string]: CSSProperties } = {
     textAlign: 'center',
     fontWeight: 'bold',
   },
+};
+
+export default SignUpPage;*/
+
+import { RedirectToSignUp } from "@clerk/clerk-react";
+
+const SignUpPage = () => {
+  return <RedirectToSignUp />;
 };
 
 export default SignUpPage;
