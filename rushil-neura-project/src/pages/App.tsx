@@ -10,6 +10,8 @@ function App(){
   let text3 = "and get access to a personalized data repository";
   let text4 = " of your mental growth. ";
 
+
+  
   return (
     <div>
       <HeaderHome/>

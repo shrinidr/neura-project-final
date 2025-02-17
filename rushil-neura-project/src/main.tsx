@@ -11,8 +11,8 @@ import DataPage from './pages/Data.tsx';
 import TTys from './pages/ttys.tsx';
 import PrevPage from './pages/prev.tsx';
 import Layout from './layout.tsx';
-import { SignedOut } from '@clerk/clerk-react';
-import { RedirectToSignIn } from '@clerk/clerk-react';
+//import { SignedOut } from '@clerk/clerk-react';
+//import { RedirectToSignIn } from '@clerk/clerk-react';
 import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
 import StravaCallback from './components/stravaCallback.tsx';
 import MoreInsights from './pages/moreInsights.tsx';
@@ -58,14 +58,14 @@ const router = createBrowserRouter([
 
               )
   },
-  {
+  /*{
     path: '*',
     element: (
       <SignedOut>
-        <RedirectToSignIn redirectUrl="https://www.neura-inc.com/home" />
+        <RedirectToSignIn signInFallbackRedirectUrl="/home" />
       </SignedOut>
     ),
-  },  
+  },*/  
   {
     path: "/prev",
     element: (  <ProtectedRoute>
