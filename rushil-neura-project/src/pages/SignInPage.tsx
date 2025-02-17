@@ -59,7 +59,7 @@ export default SignInPage;*/
 import { RedirectToSignIn } from "@clerk/clerk-react";
 
 const SignInPage = () => {
-  return <RedirectToSignIn redirectUrl="/home"/>;
+  return <RedirectToSignIn/>;
 };
 
 export default SignInPage;

@@ -59,6 +59,14 @@ const router = createBrowserRouter([
               )
   },
   {
+    path: '*',
+    element: (
+      <SignedOut>
+        <RedirectToSignIn redirectUrl="https://www.neura-inc.com/home" />
+      </SignedOut>
+    ),
+  },  
+  {
     path: "/prev",
     element: (  <ProtectedRoute>
                 <Layout>
@@ -69,19 +77,9 @@ const router = createBrowserRouter([
               )
   },
   {
-    path: '*',
-    element: (
-      <SignedOut>
-        <RedirectToSignIn />
-      </SignedOut>
-    ),
-  },
-
-  {
     path: '/exchange_token',
     element: (
         <StravaCallback/>
-
     ),
   },
   {
