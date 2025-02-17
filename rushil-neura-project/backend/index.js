@@ -130,12 +130,14 @@ app.post('/api/data', express.json(), requireAuth(), async (req, res) => {
   console.log("date:", date);
   try {
     let user = await UserModel.findOne({ userId });
+    console.log("user found", user)
     const entry = {
       date,
       entries: Object.entries(formData).map(([id, content]) => ({ id, content })),
     };
-
+    console.log("entry to be pused", entry)
     user.journal.push(entry);
+    console.log("entry pushed")
     await user.save();
     res.status(200).json({ message: "Entry saved successfully." });
   } catch (error) {
