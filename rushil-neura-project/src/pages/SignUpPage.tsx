@@ -114,7 +114,7 @@ export default SignUpPage;*/
 import { RedirectToSignUp } from "@clerk/clerk-react";
 
 const SignUpPage = () => {
-  return <RedirectToSignUp />;
+  return <RedirectToSignUp redirectUrl="/home"/>;
 };
 
 export default SignUpPage;
