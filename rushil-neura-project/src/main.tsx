@@ -17,7 +17,7 @@ import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute comp
 import StravaCallback from './components/stravaCallback.tsx';
 import MoreInsights from './pages/moreInsights.tsx';
 import { Analytics } from '@vercel/analytics/react';
-
+import SignInPage from './pages/SignInPage.tsx';
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 
@@ -89,7 +89,11 @@ const router = createBrowserRouter([
                 <MoreInsights/>
               </Layout>
             </ProtectedRoute>)
-  }
+  },
+  {
+    path: "/sign-in",
+    element: <SignInPage />,
+  },
 
 ]);
 
