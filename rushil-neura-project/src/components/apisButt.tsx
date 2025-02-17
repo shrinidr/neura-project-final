@@ -36,7 +36,7 @@ const APISButton = () => {
             <button onClick={handleConnect} className = "stravaButton">
             <img className = "buttonIcon stravaPic" src= "/strava.256x256.png"></img>
             </button>
-            <img className = "buttonIcon whoopIcon" src = "Fitbit-Symbol.jpg"></img>
+            <img className = "buttonIcon whoopIcon" src = "/Fitbit-Symbol.jpg"></img>
             <button className = "chotu" onClick ={toggleRectangle}> Close </button>
 
           </div>

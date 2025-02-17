@@ -1,9 +1,13 @@
 {
     "routes": [
       {
+        "src": "/public/(.*)",
+        "dest": "/$1"
+      },
+      {
         "src": "/assets/.*",
         "headers": {
-          "Cache-Control": "public, max-age=86400" 
+          "Cache-Control": "public, max-age=86400"
         }
       },
       {
