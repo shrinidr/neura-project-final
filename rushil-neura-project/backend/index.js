@@ -6,11 +6,10 @@ const bodyParser = require('body-parser'); // Make sure to use raw body parsing
 const cors = require('cors')
 const UserModel = require('./Models/schema')
 const {Webhook} = require('svix');
-//const fs = require('fs');
-//const DataModel = require('./Models/oldschema')
 const axios = require('axios');
 const { requireAuth } = require('@clerk/express');
-//const { ClerkExpressRequireAuth } = require('@clerk/express');
+import rateLimit from 'express-rate-limit';
+
 
 const app = express();
 const PORT = process.env.PORT || 5000
@@ -31,6 +30,13 @@ apiKey: process.env.CLERK_API_KEY, // Clerk API Key
 
 const uri = process.env.MONGO_URI;
 
+const webhookLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 10, // Max 10 requests per IP per windowMs
+  message: { success: false, message: "Too many requests, please try again later." },
+  headers: true, // Send rate limit info in response headers
+});
+
 
 mongoose.connect(uri).then(()=>{
     console.log("connected")})
@@ -44,7 +50,7 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-app.post('/api/webhooks/signupclerk', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
+app.post('/api/webhooks/signupclerk',  webhookLimiter, bodyParser.raw({ type: 'application/json' }), async (req, res) => {
   try {
     console.log("Received webhook request");
 
