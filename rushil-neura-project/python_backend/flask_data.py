@@ -14,6 +14,7 @@ import spacy
 import pymongo
 from dataTesting import cum_happy_graph, most_words_plot, happiness_card_graph
 from stressData import stress_plot
+from waitress import serve
 load_dotenv()
 
 app = Flask(__name__)
@@ -191,6 +192,10 @@ def stress_plot_graph():
     
 
 
+"""if __name__ == "__main__":
+    
+    serve(app, port=5001)"""
+
 if __name__ == "__main__":
-    from waitress import serve
-    serve(app, port=5001)
+    port = int(os.getenv("PORT", 5001))  # Use PORT from environment, default to 5001
+    serve(app, host="0.0.0.0", port=port)
