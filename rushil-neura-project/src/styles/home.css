@@ -1,7 +1,7 @@
 body {
     background-image: 'public\istockphoto-1645930993-612x612.jpg';
     color: white;
-    font-family:sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -141,7 +141,7 @@ i {
     margin-left: 20px;
     color: #ffffff;
     text-align: left;
-    font-family:"DM Sans", "DM Sans Placeholder", sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 40px;
     font-weight: 550;
     position: relative;
@@ -462,7 +462,7 @@ background-color: rgb(17, 16, 16);
 
     margin-left: 87.7%;
     margin-top: 1.8%;
-    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: large;
     background: linear-gradient(to right, #7a38ac 22%, #FFFFFF 100%);
         -webkit-background-clip: text;
@@ -544,7 +544,11 @@ textarea {
     border-radius: 15px 15px 15px 15px;
     color: white;
     font-size: 18px;
-    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+    font-family: 'Gill Sans',
+        'Gill Sans MT',
+        Calibri,
+        'Trebuchet MS',
+        sans-serif;
     outline: none;
     text-align: left;
     padding-left: 19px;
@@ -613,59 +617,22 @@ textarea {
 .sidebar p {
     color: white;
     text-align: center;
-    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
 #title {
     color: white;
     display: inline;
     margin: 0;
-    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
-.Btn {
-    width: 130px;
-    height: 40px;
-    justify-content: center;
-    background-color: black;
-    border: none;
-    color: white;
-    font-weight: 600;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
-    position: relative;
-    overflow: hidden;
-    transition-duration: 0.3s;
-}
 
-#btn1 {
-    margin-left: 60%;
-}
 
-.Btn::before {
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    content: "";
-    background-color: white;
-    border-radius: 50%;
-    left: -100%;
-    top: 0;
-    transition-duration: 0.3s;
-    mix-blend-mode: difference;
-}
 
-.Btn:hover::before {
-    transition-duration: 0.3s;
-    transform: translate(100%, -50%);
-    border-radius: 0;
-}
 
-.Btn:active {
-    transform: translate(5px, 5px);
-    transition-duration: 0.3s;
-}
+
+
 
 
 ::selection {

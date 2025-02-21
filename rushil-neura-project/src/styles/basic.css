@@ -1,7 +1,7 @@
 body {
     background-color: black;
     color: white;
-    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+    font-family: 'Gill Sans MT';
     overflow-y: hidden;
 }
 
@@ -24,7 +24,7 @@ html, body, #root{
 .special-background {
     background-color: rgb(0, 0, 0);
         color: white;
-        font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+        font-family: 'Gill Sans MT';
         z-index: 10;
     /* Or any other background you want for the special page */
 }
@@ -86,7 +86,7 @@ html, body, #root{
     align-items: flex-start;
     justify-content: flex-start;
     position: relative;
-    font-family: 'DM Sans';
+    font-family: "Gill Sans MT";
     font-size: 19px;
     margin-bottom: 12px;
     margin-top: 0px;
@@ -185,14 +185,14 @@ html, body, #root{
 .let-s-time-travel-with-transformers {
     color: #ffffff;
     text-align: left;
-    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+    font-family: "Gill Sans MT";
     font-size: 55px;
     line-height: 100px;
     font-weight: 700;
     position: relative;
     width: 950px;
     margin-top: 30px;
-        font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+        font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         background: linear-gradient(to right,#8449d1 0%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -236,7 +236,7 @@ html, body, #root{
 
 h1 {
     text-align: center;
-    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+    font-family: 'Gill Sans MT';
     margin-top: 50px;
     font-size: 45px;
 }
@@ -375,11 +375,12 @@ input[type="date"]:hover{
 
 .secondheading {
     text-align: left;
-    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+    font-family: 'Gill Sans MT';
     font-size: 65px;
     margin-top: 100px;
     margin-left: 25px;
     margin-bottom: 25px;
+    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -391,9 +392,8 @@ input[type="date"]:hover{
 #title {
 
     margin: 0;
-    font-size: 3vh;
-    font-family: 'Helvetica';
-        background: linear-gradient(to right, #d85720 0%, #d758e0 100%);
+    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background: linear-gradient(to right, #d85720 0%, #d758e0 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -429,80 +429,8 @@ img {
         padding-top: 12px;
 
 }
-.mamachamamla{
-    margin: 0;
-        font-family:'Times New Roman', Times, serif;
-        background: linear-gradient(to right, #b35b36 0%, #FFFFFF 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        display: inline-block;
-
-}
-
-#plssomethingdifferent{
-
-    top: -2%;
-        font-family: "DM Sans";
-        background: linear-gradient(to right, #5936b3 0%, #FFFFFF 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        display: inline-block;
-
-}
-.Btn {
-    width: 130px;
-    height: 40px;
-    justify-content: center;
-    background-color: black;
-    border: none;
-    background: linear-gradient(to right, #e95414 0%, #FFFFFF 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-    font-weight: 600;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
-    position: relative;
-    overflow: hidden;
-    transition-duration: .3s;
-
-}
-
-#btn1 {
-    margin-left: 60%;
-}
 
 
-.Btn::before {
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    content: "";
-    background-color: white;
-    border-radius: 50%;
-    left: -100%;
-    top: 0;
-    transition-duration: .3s;
-    mix-blend-mode: difference;
-}
-
-.Btn:hover::before {
-    transition-duration: .3s;
-    transform: translate(100%, -50%);
-    border-radius: 0;
-}
-
-
-.Btn:active {
-    transform: translate(5px, 5px);
-    transition-duration: .3s;
-}
 
 .btn {
     display: flex;
@@ -868,6 +796,7 @@ strong {
     padding: 20px;
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
     align-items: center;
     justify-content: flex-end;
     /* Positions the content to the right */
