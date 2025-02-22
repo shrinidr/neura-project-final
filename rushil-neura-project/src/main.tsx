@@ -18,6 +18,7 @@ import StravaCallback from './components/stravaCallback.tsx';
 import MoreInsights from './pages/moreInsights.tsx';
 import { Analytics } from '@vercel/analytics/react';
 import SignInPage from './pages/SignInPage.tsx';
+import Contact from './components/contactUs.tsx';
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 
@@ -94,6 +95,14 @@ const router = createBrowserRouter([
     path: "/sign-in",
     element: <SignInPage />,
   },
+  {
+    path: "/contact-us",
+    element: (
+      <Layout>
+        <Contact/>
+      </Layout>
+    )
+  }
 
 ]);
 

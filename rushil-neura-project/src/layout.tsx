@@ -3,6 +3,7 @@ import React from "react";
 import './styles/basic.css'
 import './styles/home.css'
 import './styles/james.css'
+import './styles/james2.css'
 import RedirectAfterAuth from "./components/redirectComponent";
 
 interface LayoutProps {
