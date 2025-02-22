@@ -30,7 +30,7 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
         try{
         const token = await getToken();
         console.log("Data Sent to the Flask Server")
-        const response2 = await axios.post( `${import.meta.env.PYTHON_BACKEND_URL}/storeCache`, {}, {
+        const response2 = await axios.post( `${import.meta.env.VITE_PYTHON_BACKEND_URL}/storeCache`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         });
         console.log(response2)
