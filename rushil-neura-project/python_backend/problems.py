@@ -1,4 +1,4 @@
-import pymongo
+"""import pymongo
 import pandas as pd
 import spacy
 import gensim
@@ -68,7 +68,7 @@ def get_stress_data(StartDataFrame):
     return stress_data
 
 
-""" Stress Dataset: https://www.kaggle.com/datasets/kreeshrajani/human-stress-prediction
+ Stress Dataset: https://www.kaggle.com/datasets/kreeshrajani/human-stress-prediction
 
 Lets do LDA for the 'problems'. Figure out the common topics that pervade the conversation over the past, say,
 five days. Next, classify if the topics are "problems" or not. For this, it might be easier to train a dataset
@@ -86,7 +86,6 @@ a document from the given words that is closest to one of the actual documents. 
 The topics are arbitrary.
 What we actually get is a collection of words that should form one topic which we define ourselves.
 
-"""
 
 def topics_array(LDA_diss, num_topics, CleanedDataFrame):
 
@@ -126,7 +125,7 @@ def topics_array(LDA_diss, num_topics, CleanedDataFrame):
 # main module at start. You need to insert an if __name__ == '__main__': guard in the main
 # module to avoid creating subprocesses recursively.
 
-"""
+
 topics = []
 if __name__ == '__main__':
     LDA_diss=gensim.models.LdaMulticore(data_bow, id2word= data_dict, workers=3, passes=2, num_topics=5)
@@ -167,8 +166,6 @@ shitty data that took me 10 days to find.
 Ultimately, for the time being we are adding to the neg sentiment intensity analyser the value of whether stress exists or
 not so that we get a non zero number which would be continous and also reflect quite geniunely the stress levels
 over time adios.
-"""
-
 
 
 def stress_scores(stress_data):
@@ -210,7 +207,7 @@ def some_fucking_thing(StartDataFrame):
     return predicted_stress
 
 
-"""
+
 classifier = pipeline('sentiment-analysis')
 
 stress_trans_results = []
@@ -222,7 +219,7 @@ for i in stress_data:
         stress_trans_results.append(0)
 
 
-"""
+
 #An average of the transformers, VADER, [negativity] and my own stress data.
 
 
@@ -301,7 +298,7 @@ def stress_plot(StartDataFrame):
 
 
 
-"""
+
 #First using CountVectorizer
 count_vect_docs = tokenizer.texts_to_matrix(training_cleaned, mode='count')
 

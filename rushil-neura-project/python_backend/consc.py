@@ -31,7 +31,7 @@ choice.
 
 
 Some tools:  D3.js
-"""
+
 
 import pymongo
 from data_insights import return_cleaned_frames, return_start_frames
@@ -42,7 +42,7 @@ StartDataFrame = return_start_frames()
 CleanedDataFrame = return_cleaned_frames()
 
 
-"""
+
 What those "features" might be:
 Morals, values [and other behavioral traits], ideas, goals, fears and inhibitions. Things I want to do to get
 'there', things I want to avoid to get away from somewhere else.
@@ -62,7 +62,6 @@ existence of certain feelings, moral judgements, relationships, habits,
 More direct goals: eg, weight loss, better academics, have to learn guitar by so and so etc.
 
 
-"""
 
 #For the long term:
 
@@ -99,6 +98,6 @@ relevant_words = ["want", "do", "need", "change", "should", "feel", "work", "mor
 #LDA here
 
 
-
+"""
 
 

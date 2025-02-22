@@ -1,4 +1,4 @@
-import pymongo
+"""import pymongo
 import pandas as pd
 import nltk
 import numpy as np
@@ -58,8 +58,8 @@ def return_cleaned_frames():
     return CleanedDataFrame
 
 
-"""Lets do a thing like bow or tfidf initially for the more basic functionality and then implement word
-embeddings or something when we began to reason through more complex problems."""
+Lets do a thing like bow or tfidf initially for the more basic functionality and then implement word
+embeddings or something when we began to reason through more complex problems.
 
 
 #Sorting the most used words [Want this to be on all words ever said not just todays.]
@@ -322,7 +322,7 @@ def cum_happy_graph(user_id):
 #cum_happy_graph()
 
 
-"""Ideas for what we should have: an LDA for 'things that you spend most of your time on'
+Ideas for what we should have: an LDA for 'things that you spend most of your time on'
 We either have an interface where the user can ask questions about themselves and we answer.
 Or we provide answers to custom questions.
 
@@ -341,7 +341,6 @@ More ideas for the data:
 2) Remind the user about things that they planned to do or how they have deviated from the
 actions that they wished to undertake.
 
-"""
 
 stress_data = []
 
@@ -350,3 +349,4 @@ for i in range(len(StartDataFrame)):
     stress_data.append(StartDataFrame['input5'][i])
 
 #print(stress_data)
+"""
