@@ -41,10 +41,13 @@ const DataPage = () => {
         <div className="head">
             <p className='data_head'> You,  visualized. </p>
         </div>
-        <PlotComponent url= "http://127.0.0.1:5001/chp" />
-        <PlotComponent url= "http://127.0.0.1:5001/words" />
+        <PlotComponent url =  {`${import.meta.env.PYTHON_BACKEND_URL}/chp`} />
+        <PlotComponent url =  {`${import.meta.env.PYTHON_BACKEND_URL}/words`} />
+        <PlotComponent url =  {`${import.meta.env.PYTHON_BACKEND_URL}/dailyhappyplot`} />
+        <PlotComponent url =  {`${import.meta.env.PYTHON_BACKEND_URL}/stress`} />
+        {/*<PlotComponent url= "http://127.0.0.1:5001/words" />
         <PlotComponent url="http://127.0.0.1:5001/dailyhappyplot" />
-        <PlotComponent url=  "http://127.0.0.1:5001/stress" />
+        <PlotComponent url=  "http://127.0.0.1:5001/stress" />*/}
         {!isAtBottom &&
         (<div className="scroll-bottom" onClick = {scrollToBottom}>
                 <i className="fa-solid fa-arrow-down" ></i> </div>)

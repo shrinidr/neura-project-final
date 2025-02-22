@@ -30,7 +30,7 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
         try{
         const token = await getToken();
         console.log(token)
-        const response2 = await axios.post("http://127.0.0.1:5001/storeCache", {}, {
+        const response2 = await axios.post( `${import.meta.env.PYTHON_BACKEND_URL}/storeCache`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         });
         console.log(response2)
