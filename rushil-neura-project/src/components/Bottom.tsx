@@ -100,12 +100,10 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
 
             <footer className="footer">
                 <div className="footer-content">
-                    <p>&copy; 2025 Neura</p>
-                    <p>All rights reserved.</p>
+                    <p> Neura</p>
                     <div className="footer-links">
-                        <Link to="/privacy">Privacy Policy</Link>
-                        <Link to="/terms">Terms of Service</Link>
-                        <Link to="/contact">Contact</Link>
+                        <Link to="/privacy-policy">Privacy Policy</Link>
+                        <Link to="/contact-us">Contact</Link>
                         <Link to="/email">Email Us</Link>
                     </div>
                 </div>
