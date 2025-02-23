@@ -30,7 +30,10 @@ const TextArea = (data: Props) => {
       ...prevData,
       [id]: value,
     }));
-};
+};  
+
+const [isSubmitted, setIsSubmitted] = useState(false);
+
 
     const bitch  = (currleft: number) => {
         const currentDate = new Date();
@@ -58,6 +61,7 @@ const TextArea = (data: Props) => {
   try{
     if (!isSignedIn || !user) return;
     const formattedDate = bitch(0);
+    setIsSubmitted(true);
     console.log(user)
     console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
     const token = await getToken();
@@ -70,7 +74,7 @@ const TextArea = (data: Props) => {
       }
     );
     console.log("Data submitted successfully.")
-
+    
   }catch(error){
     console.log(`Error: ${error}`)
   }
@@ -104,8 +108,7 @@ const TextArea = (data: Props) => {
     }
   }, []);
 
-
-
+  
     return (
         <>
         <div className="main_content" ref={mainContentRef}>
@@ -132,7 +135,13 @@ const TextArea = (data: Props) => {
                 <i className="fa-solid fa-arrow-down" ></i> </div>)
         }
 
-        <button className = "submitButtonMain" onClick={handleSubmit}>Submit All</button>
+<button
+      className={isSubmitted ? "submitButtonDead" : "submitButtonMain"}
+      onClick={handleSubmit}
+      disabled={isSubmitted} // Disables the button after submission
+    >
+      {isSubmitted ? "Submitted" : "Submit All"}
+    </button>
         </div>
         </>
     )

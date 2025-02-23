@@ -183,6 +183,8 @@ const PrevPage = () => {
     { id: "input7", question: "Any other thing that you think is worth remembering?", tooltip: "Anything else notable about today." }
 ];
     const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+    
     const getTooltipText = (id: string) => {
     const item = questionsWithTooltips.find(q => q.id === id);
     return item ? item.tooltip : '';
