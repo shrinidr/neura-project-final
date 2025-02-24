@@ -19,6 +19,7 @@ import MoreInsights from './pages/moreInsights.tsx';
 import { Analytics } from '@vercel/analytics/react';
 import SignInPage from './pages/SignInPage.tsx';
 import Contact from './components/contact.tsx';
+import Privacy from './components/Privacy.tsx';
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 
@@ -102,8 +103,15 @@ const router = createBrowserRouter([
         <Contact/>
       </Layout>
     )
+  },
+  {
+    path: "/privacy",
+    element: (
+      <Layout>
+        <Privacy/>
+      </Layout>
+    )
   }
-
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
