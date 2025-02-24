@@ -102,7 +102,7 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                 <div className="footer-content">
                     <p> Neura</p>
                     <div className="footer-links">
-                        <Link to="/privacy-policy">Privacy Policy</Link>
+                        <Link to="/privacy">Privacy Policy</Link>
                         <Link to="/contact-us">Contact</Link>
                         <Link to="/email">Email Us</Link>
                     </div>

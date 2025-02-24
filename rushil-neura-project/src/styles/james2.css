@@ -1,29 +1,33 @@
 .contactcontainer {
-    position: absolute;
-    min-width: 100%;
-    min-height: 100vh;
-    padding: 2em;
-    background-color: black;
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    overflow-y: hidden; 
+  position: relative;
+  min-width: 100%;
+  min-height: 100vh;
+  padding: 2em;
+  background-color: black;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  overflow-y: hidden; 
+  padding: 0;
+  box-sizing: border-box; 
+  margin-top: 3vh;
 }
 
+
 .contactform {
-    width: 100%;
-    max-width: 80vw;
-    min-height: 80vh;
-    background-color: #663dff;
-    background-image: linear-gradient(319deg, #663dff 0%, #aa00ff 37%, #cc4499 100%);
-    border-radius: 10px;
-    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    text-align: center;
-    margin-top: 0.1vh;
+  width: 100%;
+  max-width: 80vw;
+  height: 100%; 
+  background-color: #663dff;
+  background-image: linear-gradient(319deg, #663dff 0%, #aa00ff 37%, #cc4499 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  text-align: center;
+  margin-top: 0.1vh;
 }
 
 .contact-form {
@@ -226,3 +230,53 @@ textarea.input {
   .input:hover {
     border-color: #007bff; 
   }
+
+  /** Privacy Policy Start **/
+
+.privacy-container {
+  font-family: 'Arial', sans-serif;
+  background-image: linear-gradient(319deg, #663dff 0%, #aa00ff 37%, #cc4499 100%);
+  padding: 20px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5vw;
+}
+
+.privacy-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.privacy-header h1 {
+  font-size: 2.5rem;
+  color: white;
+  text-transform: uppercase;
+}
+
+.privacy-content {
+  line-height: 1.8;
+  color: white;
+}
+
+.privacy-content h2 {
+  font-size: 1.8rem;
+  margin-top: 20px;
+  color: white;
+}
+
+.privacy-content p {
+  font-size: 1rem;
+  margin-top: 10px;
+  color: white;
+}
+
+.privacy-content a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.privacy-content a:hover {
+  text-decoration: underline;
+}
+
