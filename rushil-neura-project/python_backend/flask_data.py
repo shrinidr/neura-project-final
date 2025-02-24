@@ -22,18 +22,48 @@ CORS(app)
 
 nlp = spacy.load("en_core_web_sm")
 
+
+
 # Redis Session Configuration
+
+redis_host = os.getenv('REDIS_HOST', 'localhost')  # No redis:// prefix here
+redis_port = int(os.getenv('REDIS_PORT', 11691))  # Default is 6379, replace with your actual port
+redis_password = os.getenv('REDIS_PASSWORD', '')
+
 app.config['SESSION_TYPE'] = 'redis'
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_KEY_PREFIX'] = 'session:'
-app.config['SESSION_REDIS'] = redis.StrictRedis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
+app.config['SESSION_REDIS'] = redis.StrictRedis(
+    host=redis_host,
+    port=redis_port,
+    password=redis_password,
+    decode_responses=False
+)
+#app.config['SESSION_REDIS'] = redis.StrictRedis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
 
 # Initialize Flask-Session
 Session(app)
 
 # Redis Client
-redis_client = redis.StrictRedis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
+# Connect to Redis
+redis_client = redis.StrictRedis(
+    host=redis_host,
+    port=redis_port,
+    password=redis_password,
+    decode_responses=False
+)
+#redis_client = redis.StrictRedis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
+
+
+# Test Connection
+try:
+    print("Redis connection test:", redis_client.ping())  # Should return True
+except redis.AuthenticationError:
+    print("Redis authentication failed. Check credentials.")
+except redis.ConnectionError:
+    print("Failed to connect to Redis. Check host and port.")
+
 
 # MongoDB Connection
 mongo_uri = os.getenv('MONGO_URI')
