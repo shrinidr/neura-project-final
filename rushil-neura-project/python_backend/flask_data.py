@@ -37,8 +37,7 @@ app.config['SESSION_KEY_PREFIX'] = 'session:'
 app.config['SESSION_REDIS'] = redis.StrictRedis(
     host=redis_host,
     port=redis_port,
-    password=redis_password,
-    decode_responses=False
+    password=redis_password
 )
 #app.config['SESSION_REDIS'] = redis.StrictRedis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
 
@@ -50,8 +49,7 @@ Session(app)
 redis_client = redis.StrictRedis(
     host=redis_host,
     port=redis_port,
-    password=redis_password,
-    decode_responses=False
+    password=redis_password
 )
 #redis_client = redis.StrictRedis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
 

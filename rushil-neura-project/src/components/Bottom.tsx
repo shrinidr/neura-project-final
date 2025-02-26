@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 
 interface Props {
     text1: string;
@@ -7,7 +8,19 @@ interface Props {
     text4: string;
 }
 
+
 const Bottom = ({ text1, text2, text3, text4 }: Props) => {
+    const navigate = useNavigate();
+    const {isSignedIn } = useUser();
+    const buttonHandle = () => {
+        
+        if (!isSignedIn) {
+            navigate("/sign-in");
+        }
+        else{
+            navigate("/home");
+        }
+    }
     return (
         <div className="bottom-section">
             <img className="BackgroundImage" src="/backg.jpg" alt="Background" />
@@ -20,8 +33,8 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                             <p style={{ lineHeight: '19px' }}>
                                 {text1} <br /> {text2} <br /> {text3} <br /> {text4}
                             </p>
-                            <Link to="/home">
-                                <button className="btn" type="button">
+
+                                <button className="btn" type="button" onClick={buttonHandle}>
                                     <strong> Start Now</strong>
                                     <div id="container-stars">
                                         <div id="stars"></div>
@@ -31,7 +44,6 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                         <div className="circle"></div>
                                     </div>
                                 </button>
-                            </Link>
                         </div>
                     </div>
                     <div className="image-gap left-gap">
@@ -48,8 +60,8 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                 Have a problem? Talk to yourself from the past and figure it out! <br/>
                                 Fitness data too complex? We gotchu. Read your data like a story and make actual sense of it to take actionable steps to fix your problems. <br />
                             </p>
-                            <Link to="/home">
-                                <button className="btn" type="button">
+
+                                <button className="btn" type="button" onClick={buttonHandle}>
                                     <strong> Talk to yourself. </strong>
                                     <div id="container-stars">
                                         <div id="stars"></div>
@@ -59,7 +71,6 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                         <div className="circle"></div>
                                     </div>
                                 </button>
-                            </Link>
                         </div>
                     </div>
                     <div className="image-gap right-gap">
@@ -78,8 +89,8 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                 To help you understand yourself in powerful ways.<br />
                                 That totally did not rhyme.
                             </p>
-                            <Link to="/home">
-                                <button className="btn" type="button">
+
+                                <button className="btn" type="button" onClick={buttonHandle}>
                                     <strong> About Us </strong>
                                     <div id="container-stars">
                                         <div id="stars"></div>
@@ -89,7 +100,6 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                         <div className="circle"></div>
                                     </div>
                                 </button>
-                            </Link>
                         </div>
                     </div>
                     <div className="image-gap left-gap">
