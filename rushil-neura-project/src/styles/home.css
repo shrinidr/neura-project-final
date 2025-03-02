@@ -22,7 +22,7 @@ a {
     margin-top: 30px;
     font-size: xx-large;
     color: white;
-    font-family: Helvetica,Arial, sans-serif;
+    font-family: "DM Sans";
     font-weight: bold;
 }
 
@@ -250,7 +250,7 @@ i {
 }
 .arbitrarystuff{
     text-align: right;
-    font-family: sans-serif;
+    font-family: "DM Sans";
     background: linear-gradient(to right, #057ef0 22%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -260,7 +260,7 @@ i {
 
 
 .arbitrary{
-    font-family: sans-serif;
+    font-family: "DM Sans";
         background: linear-gradient(to right, #057ef0 22%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -298,9 +298,7 @@ i {
         margin-top: 0px;
         margin-bottom: 2.9%;
         /* Vertical spacing between messages */
-        font-family: Helvetica,
-            Arial,
-            sans-serif;
+        font-family: "DM Sans";
         position: relative;
             /* Positioning relative to the parent */
         right: 133px;
@@ -312,9 +310,7 @@ i {
 
 .response_bubble {
     align-self: flex-start;
-    font-family: Helvetica,
-        Arial,
-        sans-serif;
+    font-family: "DM Sans";
     background-color: #1e2125;
     color: white;
     padding: 20px 1px 50px 20px;

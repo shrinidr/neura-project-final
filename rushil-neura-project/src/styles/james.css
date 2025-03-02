@@ -55,7 +55,7 @@ html {
 .HomeBG {
   color: #ffffff;
   text-align: left;
-  font-family: "Gill Sans MT";
+  font-family: "DM Sans";
   font-size: 55px;
   line-height: 100px;
   font-weight: 700;
@@ -63,7 +63,7 @@ html {
   width: 950px;
   overflow-y: auto;
   margin-top: 5vh;
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "DM Sans";
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -95,7 +95,7 @@ html {
 .Marker {
   color: #ffffff;
   text-align: left;
-  font-family: "OpenSans-Bold", sans-serif;
+  font-family: "DM Sans";
   font-size: 15px;
   font-weight: 700;
   position: absolute;
@@ -120,11 +120,10 @@ html {
 
 .SecondHeader {
   text-align: left;
-  font-family: 'Gill Sans MT';
+  font-family: "DM Sans";
   font-size: 65px;
   margin-left: 125px;
   margin-bottom: 25px;
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -145,7 +144,7 @@ html {
   align-items: flex-start;
   justify-content: flex-start;
   position: relative;
-  font-family: "Gill Sans MT";
+  font-family: "DM Sans";
   font-size: 19px;
   margin-bottom: 12px;
   margin-top: 0px
@@ -269,18 +268,18 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   position: relative;
-  font-family: "Gill Sans MT";
+  font-family: "DM Sans";
   font-size: 19px;
   margin-bottom: 12px
 }
 
 .SecondHeader {
   text-align: left;
-  font-family: 'Gill Sans MT';
+  font-family: 'DM Sans';
   font-size: 65px;
   margin-top: 25vh;
   margin-left: 100px;
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -405,7 +404,7 @@ footer .footer p {
 }
 
 .BoxOne {
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 65px;
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
@@ -418,7 +417,7 @@ footer .footer p {
 }
 
 .BoxTwo {
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 65px;
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
@@ -432,7 +431,7 @@ footer .footer p {
 }
 
 .package {
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 19px;
   margin-top: 0px
 }
