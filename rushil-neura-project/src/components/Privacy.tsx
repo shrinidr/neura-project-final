@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Privacy = () => {
   return (
     <div className="privacy-container">
@@ -11,6 +9,8 @@ const Privacy = () => {
 
         <h2>Introduction</h2>
         <p>
+          <b>[This is filler text, we are working on a real one.]</b>
+          <br/>
         [17a] How you have felt, O men of Athens, at hearing the speeches of my accusers, I cannot tell; 
         but I know that their persuasive words almost made me forget who I was—such was the effect of them; 
         and yet they have hardly spoken a word of truth [alēthēs]. But many as their falsehoods were, there 
