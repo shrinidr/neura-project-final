@@ -7,6 +7,7 @@ import plotly.io as pio
 from jose import jwt
 from dotenv import load_dotenv
 import os
+from io import StringIO
 import json
 import requests
 import pandas as pd
@@ -37,7 +38,8 @@ app.config['SESSION_KEY_PREFIX'] = 'session:'
 app.config['SESSION_REDIS'] = redis.StrictRedis(
     host=redis_host,
     port=redis_port,
-    password=redis_password
+    password=redis_password,
+    decode_responses= True
 )
 #app.config['SESSION_REDIS'] = redis.StrictRedis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
 
@@ -49,7 +51,8 @@ Session(app)
 redis_client = redis.StrictRedis(
     host=redis_host,
     port=redis_port,
-    password=redis_password
+    password=redis_password, 
+    decode_responses= True 
 )
 #redis_client = redis.StrictRedis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
 
@@ -92,18 +95,19 @@ def get_user_id():
 @app.route('/storeCache', methods=['POST'])
 def store_data():
     userId = get_user_id()
+    print("This is the user id", userId)
     if not userId:
         return jsonify({"error": "Unauthorized"}), 401
 
     if redis_client.exists(f"{userId}_StartDataFrame"):
-        json_data = redis_client.get(f"{userId}_date_array")
-        json_string = json_data.decode('utf-8')
-        data_list = json.loads(json_string)
-        print(data_list)
+        json_data = redis_client.get(f"{userId}_StartDataFrame")
+        """
+        data_list = json.loads(json_data)
+        print("This is something idk what", data_list)"""
         return jsonify({"message": "Cache already initialized"}), 200
 
     data_stack = pd.DataFrame(list(collection.find({"userId": userId})))
-
+    print("This is the bitchy data stack:", data_stack)
     if data_stack.empty:
         return jsonify({"error": "User data not found"}), 404
 
@@ -135,9 +139,13 @@ def store_data():
     CleanedDataFrame = pd.DataFrame(cleaned_data_array)
 
     # Store data in Redis
-    redis_client.set(f"{userId}_StartDataFrame", StartDataFrame.to_json())
-    redis_client.set(f"{userId}_CleanedDataFrame", CleanedDataFrame.to_json())
-    redis_client.set(f"{userId}_date_array", json.dumps(date_array.tolist()))
+    redis_client.set(f"{userId}_StartDataFrame", StartDataFrame.to_json(orient="records"))
+    redis_client.set(f"{userId}_CleanedDataFrame", CleanedDataFrame.to_json(orient="records"))
+    redis_client.set(f"{userId}_date_array", json.dumps(date_array))
+
+    stored_date_array = redis_client.get(f"{userId}_date_array")
+    print(f"Stored Date Array in Redis: {stored_date_array}")
+
     redis_client.set(f"{userId}_data_array", json.dumps(data_array))
     redis_client.set(f"{userId}_cleaned_data_array", json.dumps(cleaned_data_array))
 
@@ -153,16 +161,19 @@ def get_cum_happy_plot():
 
     cache_key = f"{user_id}_cum_happy"
     if not redis_client.exists(cache_key):
-        StartDataFrame = pd.read_json(redis_client.get(f"{user_id}_StartDataFrame").decode("utf-8"))
-        data_array = pd.read_json(redis_client.get(f"{user_id}_data_array").decode("utf-8"))
-        json_data = redis_client.get(f"{user_id}_date_array")
-        json_string = json_data.decode('utf-8')
+        StartDataFrame = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
+        data_array = pd.read_json(StringIO(redis_client.get(f"{user_id}_data_array")))
+        print("This the data array", data_array)
+        json_string = redis_client.get(f"{user_id}_date_array")
+        print("json string", json_string)
+        #json_string = json_data.decode('utf-8')
         date_array = json.loads(json_string)
+        print("final date array", date_array)
         answer = jsonify(cum_happy_graph(StartDataFrame, data_array, date_array))
         redis_client.set(cache_key, answer.get_data(as_text=True))
         return answer
     else:
-        return jsonify(json.loads(redis_client.get(cache_key).decode("utf-8")))
+        return jsonify(json.loads(redis_client.get(cache_key)))
 
 @app.route('/words')
 def get_words():
@@ -172,13 +183,13 @@ def get_words():
 
     cache_key = f"{user_id}_daily_word_bc"
     if not redis_client.exists(cache_key):
-        CleanedDataFrame = pd.read_json(redis_client.get(f"{user_id}_CleanedDataFrame").decode("utf-8"))
-        data_array = pd.read_json(redis_client.get(f"{user_id}_data_array").decode("utf-8"))
+        CleanedDataFrame = pd.read_json(StringIO(redis_client.get(f"{user_id}_CleanedDataFrame")))
+        data_array = pd.read_json(StringIO(redis_client.get(f"{user_id}_data_array")))
         answer = jsonify(most_words_plot(CleanedDataFrame, data_array))
         redis_client.set(cache_key, answer.get_data(as_text=True))
         return answer
     else:
-        return jsonify(json.loads(redis_client.get(cache_key).decode("utf-8")))
+        return jsonify(json.loads(redis_client.get(cache_key)))
 
 
 @app.route('/dailyhappyplot')
@@ -189,16 +200,16 @@ def daily_happy_plot():
 
     cache_key = f"{user_id}_daily_happy_plot"
     if not redis_client.exists(cache_key):
-        StartDataFrame = pd.read_json(redis_client.get(f"{user_id}_StartDataFrame").decode("utf-8"))
-        data_array = pd.read_json(redis_client.get(f"{user_id}_data_array").decode("utf-8"))
-        json_data = redis_client.get(f"{user_id}_date_array")
-        json_string = json_data.decode('utf-8')
+        StartDataFrame = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
+        data_array = pd.read_json(StringIO(redis_client.get(f"{user_id}_data_array")))
+        json_string = redis_client.get(f"{user_id}_date_array")
+        #json_string = json_data.decode('utf-8')
         date_array = json.loads(json_string)
         answer = jsonify(happiness_card_graph(StartDataFrame, data_array, date_array))
         redis_client.set(cache_key, answer.get_data(as_text=True))
         return answer
     else:
-        return jsonify(json.loads(redis_client.get(cache_key).decode("utf-8")))
+        return jsonify(json.loads(redis_client.get(cache_key)))
     
 @app.route('/stress')
 def stress_plot_graph():
@@ -208,22 +219,22 @@ def stress_plot_graph():
 
     cache_key = f"{user_id}_stress_plot"
     if not redis_client.exists(cache_key):
-        StartDataFrame = pd.read_json(redis_client.get(f"{user_id}_StartDataFrame").decode("utf-8"))
-        json_data = redis_client.get(f"{user_id}_date_array")
-        json_string = json_data.decode('utf-8')
+        StartDataFrame = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
+        json_string = redis_client.get(f"{user_id}_date_array")
+        #json_string = json_data.decode('utf-8')
         date_array = json.loads(json_string)
         answer = jsonify(stress_plot(StartDataFrame, date_array))
         redis_client.set(cache_key, answer.get_data(as_text=True))
         return answer
     else:
-        return jsonify(json.loads(redis_client.get(cache_key).decode("utf-8")))
+        return jsonify(json.loads(redis_client.get(cache_key)))
     
 
-
-"""if __name__ == "__main__":
-    
-    serve(app, port=5001)"""
 
 if __name__ == "__main__":
+    
+    serve(app, port=5001)
+
+"""if __name__ == "__main__":
     port = int(os.getenv("PORT", 5001))  # Use PORT from environment, default to 5001
-    serve(app, host="0.0.0.0", port=port)
+    serve(app, host="0.0.0.0", port=port)"""

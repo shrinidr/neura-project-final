@@ -23,8 +23,6 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
     if (error){
     }
   }
-
-
    const makeBackendCall = async () => {
 
         try{
