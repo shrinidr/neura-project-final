@@ -95,7 +95,7 @@ def get_user_id():
 @app.route('/storeCache', methods=['POST'])
 def store_data():
     userId = get_user_id()
-    print("This is the user id", userId)
+    #print("This is the user id", userId)
     if not userId:
         return jsonify({"error": "Unauthorized"}), 401
 
@@ -107,7 +107,7 @@ def store_data():
         return jsonify({"message": "Cache already initialized"}), 200
 
     data_stack = pd.DataFrame(list(collection.find({"userId": userId})))
-    print("This is the bitchy data stack:", data_stack)
+    #print("This is the bitchy data stack:", data_stack)
     if data_stack.empty:
         return jsonify({"error": "User data not found"}), 404
 
@@ -128,7 +128,7 @@ def store_data():
             data_array[req_obj[j]['id']].append(req_obj[j]['content'])
             document = nlp(req_obj[j]['content'])
             cleaned_data_array[req_obj[j]['id']].append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
-    print("this is the motherfukcing date array", date_array)
+    #print("this is the motherfukcing date array", date_array)
     min_len = min(len(lst) for lst in data_array.values())
     data_array = {k: v[:min_len] for k, v in data_array.items()}
 
@@ -146,7 +146,7 @@ def store_data():
     stored_date_array = redis_client.get(f"{userId}_date_array")
     print(f"Stored Date Array in Redis: {stored_date_array}")
 
-    redis_client.set(f"{userId}_data_array", json.dumps(data_array))
+    redis_client.set(f"{userId}_data_array", json.dumps(data_array, default=str))
     redis_client.set(f"{userId}_cleaned_data_array", json.dumps(cleaned_data_array))
 
     print(pd.read_json(redis_client.get(f"{userId}_date_array")))
@@ -163,7 +163,7 @@ def get_cum_happy_plot():
     if not redis_client.exists(cache_key):
         StartDataFrame = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
         data_array = pd.read_json(StringIO(redis_client.get(f"{user_id}_data_array")))
-        print("This the data array", data_array)
+        #print("This the data array", data_array)
         json_string = redis_client.get(f"{user_id}_date_array")
         print("json string", json_string)
         #json_string = json_data.decode('utf-8')
