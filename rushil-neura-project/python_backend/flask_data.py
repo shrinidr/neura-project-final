@@ -9,11 +9,13 @@ from dotenv import load_dotenv
 import os
 from io import StringIO
 import json
+import chromadb
 import requests
 import pandas as pd
 import spacy
 import pymongo
 from dataTesting import cum_happy_graph, most_words_plot, happiness_card_graph
+from ainaCalc import return_reference_docs, get_predef_versions, return_date_matrix, return_query_collection, when_docs_avail
 from stressData import stress_plot
 from waitress import serve
 load_dotenv()
@@ -100,11 +102,22 @@ def store_data():
         return jsonify({"error": "Unauthorized"}), 401
 
     if redis_client.exists(f"{userId}_StartDataFrame"):
-        json_data = redis_client.get(f"{userId}_StartDataFrame")
+        redis_client.delete(f"{userId}_StartDataFrame")
+        redis_client.delete(f"{userId}_CleanedDataFrame")
+        redis_client.delete(f"{userId}_date_array")
+        redis_client.delete(f"{userId}_data_array")
+        redis_client.delete(f"{userId}_cleaned_data_array")
+        redis_client.delete(f"{userId}_version_input_data")
+        redis_client.delete(f"{userId}_repCollection")
+        redis_client.delete(f"{userId}_chatHistory")
+        redis_client.delete(f"{userId}_cum_happy")
+        redis_client.delete(f"{userId}_daily_word_bc")
+        redis_client.delete(f"{userId}_daily_happy_plot")
+        redis_client.delete(f"{userId}_stress_plot")
         """
         data_list = json.loads(json_data)
         print("This is something idk what", data_list)"""
-        return jsonify({"message": "Cache already initialized"}), 200
+        return jsonify({"message": "Initialized cache deleted."}), 200
 
     data_stack = pd.DataFrame(list(collection.find({"userId": userId})))
     #print("This is the bitchy data stack:", data_stack)
@@ -148,9 +161,110 @@ def store_data():
 
     redis_client.set(f"{userId}_data_array", json.dumps(data_array, default=str))
     redis_client.set(f"{userId}_cleaned_data_array", json.dumps(cleaned_data_array))
+    redis_client.set(f"{userId}_version_input_data", json.dumps(cleaned_data_array))
+
+    #aiNA variables.
+    redis_client.set(f"{userId}_version_input_data", json.dumps({}))
+    redis_client.set(f"{userId}_repCollection", json.dumps({}))
+    redis_client.set(f"{userId}_chatHistory", json.dumps([]))
 
     print(pd.read_json(redis_client.get(f"{userId}_date_array")))
     return "Data initialized successfully", 200
+
+def serialize_chroma_collection(collection):
+    """Convert ChromaDB collection into a JSON-serializable format."""
+    results = collection.get()  # Retrieve all stored documents and their IDs
+
+    serialized_collection = {
+        "documents": results["documents"],
+        "ids": results["ids"]
+    }
+    return serialized_collection
+
+def deserialize_chroma_collection(serialized_data):
+    """Reconstruct the ChromaDB collection from stored JSON data."""
+    client = chromadb.PersistentClient(path='./aina-backend')  
+    collection = client.get_collection(name="my_collection")  
+
+    # Re-add the documents to the collection
+    collection.add(
+        documents=serialized_data["documents"],
+        ids=serialized_data["ids"]
+    )
+    return collection
+@app.route('/version_input', methods = ['POST'])
+def handle_version_input():
+    user_id = get_user_id()
+    print(user_id)
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    version_input_data = request.json
+    curr_version = version_input_data.get('input')
+    if not curr_version:
+        return jsonify({"error": "No version input provided"}), 400
+
+    redis_client.set(f"{user_id}_version_input_data", json.dumps(version_input_data))
+    sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
+    json_string = redis_client.get(f"{user_id}_date_array")
+    udate_array = json.loads(json_string)
+    repCol = return_reference_docs(curr_version, sdf, udate_array)
+    serialized_repCol = serialize_chroma_collection(repCol)
+    redis_client.set(f"{user_id}_repCollection", json.dumps(serialized_repCol))
+    return jsonify({"message": "Version received successfully"}), 200
+
+"""
+Things that you should take care of:
+1) If the flask script is running, its possible to change the versions. Solve this later on.
+"""
+
+@app.route('/datesFind', methods = ['GET'])
+def datesFind():
+    user_id = get_user_id()
+    print(user_id)
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
+    json_string = redis_client.get(f"{user_id}_date_array")
+    udate_array = json.loads(json_string)
+    answer1 = get_predef_versions(sdf, udate_array)
+    date_answer = return_date_matrix(answer1)
+    print("date answer", date_answer)
+    return jsonify({"response": date_answer}), 200
+
+@app.route('/process-chat-input', methods=['POST'])
+def handle_chat_input():
+    user_id = get_user_id()
+    print(user_id)
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    data = request.json
+    user_input = data.get('input')
+    if not user_input:
+        return jsonify({"error": "Chat input not provided"}), 400
+    
+    chat_history = json.loads(redis_client.get(f"{user_id}_chatHistory"))
+
+    #Append the new user message
+    chat_history.append({"role": "user", "content": user_input})
+
+    # Store the updated chat history back in Redis
+    redis_client.set(f"{user_id}_chatHistory", json.dumps(chat_history))
+    repCol2  = json.loads(redis_client.get(f"{user_id}_repCollection"))
+    repCol = deserialize_chroma_collection(repCol2)
+    matched_docs = return_query_collection(repCol, user_input)
+    if not matched_docs:
+        response_content = "You're talking about stuff that I don't really recall. Let's talk about something else."
+    else:
+        version_input = json.loads(redis_client.get(f"{user_id}_version_input_data"))
+        version_input = version_input["input"]
+        response_content = when_docs_avail(matched_docs, user_input, version_input, chat_history)
+
+    chat_history.append({"role": "assistant", "content": response_content})
+    redis_client.set(f"{user_id}_chatHistory", json.dumps(chat_history))
+    return jsonify({"response": response_content}), 200
+
+
 
 @app.route('/chp')
 def get_cum_happy_plot():

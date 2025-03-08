@@ -57,7 +57,7 @@ const TTys = () => {
             inputState('')
             ihatemylifemore(inputVal)
 
-            const response = await axios.post('http://127.0.0.1:5002/process-chat-input',
+            const response = await axios.post(`${import.meta.env.VITE_PYTHON_BACKEND_URL}/process-chat-input`,
                 { input: inputVal },
                 {
                     headers: { Authorization: `Bearer ${token}` },
@@ -117,8 +117,8 @@ const TTys = () => {
 
         try{
         const token = await getToken();
-        console.log(token)
-        const response2 = await axios.post("http://127.0.0.1:5002/store", {}, {
+        console.log("Making the call to the backend right now.")
+        const response2 = await axios.post(`${import.meta.env.VITE_PYTHON_BACKEND_URL}/storeCache`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         });
         console.log(response2)
@@ -158,7 +158,6 @@ const TTys = () => {
                     <i className="fa-solid fa-arrow-down" id="ttysArrow"></i> </div>)
                 }
                     </div>
-
                     ))}
                 </div>:<div/>}
                 <div id = "coverUp">

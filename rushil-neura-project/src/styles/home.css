@@ -189,7 +189,7 @@ i {
 
 #infoButton{
 
-    left: 215px;
+    left: 5%;
     top: 43px;
     color:#696464;
 }
@@ -295,8 +295,7 @@ i {
         /* Break long words onto the next line */
         font-size: 15px;
         /* Adjust font size */
-        margin-top: 0px;
-        margin-bottom: 2.9%;
+        
         /* Vertical spacing between messages */
         font-family: "DM Sans";
         position: relative;
@@ -316,10 +315,9 @@ i {
     padding: 20px 1px 50px 20px;
     margin-left: 12%;
     display: block;
-    margin-top: 60px;
+    margin-top: 86px;
     max-width: 450px;
     line-height: 1.3;
-    margin-bottom: 0px;
 
 }
 
@@ -380,7 +378,7 @@ i {
 
 .version-selector-button {
 
-    margin-left: 250px;
+    margin-left: 9%;
     display: flex;
         background-color: #1e2125;
         outline: none;
