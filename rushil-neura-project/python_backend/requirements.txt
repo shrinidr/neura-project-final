@@ -17,5 +17,11 @@ seaborn
 spacy
 tensorflow
 vaderSentiment
-vaderSentiment
 waitress
+langchain-text-splitters
+openai
+numpy
+chromadb
+tabulate
+
+
