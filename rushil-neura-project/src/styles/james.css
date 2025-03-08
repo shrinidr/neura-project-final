@@ -125,6 +125,7 @@ html {
   margin-left: 125px;
   margin-bottom: 25px;
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
+  width: 59.5vh;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

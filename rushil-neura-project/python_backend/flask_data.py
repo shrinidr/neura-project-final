@@ -102,21 +102,18 @@ def store_data():
         return jsonify({"error": "Unauthorized"}), 401
 
     if redis_client.exists(f"{userId}_StartDataFrame"):
-        redis_client.delete(f"{userId}_StartDataFrame")
-        redis_client.delete(f"{userId}_CleanedDataFrame")
-        redis_client.delete(f"{userId}_date_array")
-        redis_client.delete(f"{userId}_data_array")
-        redis_client.delete(f"{userId}_cleaned_data_array")
-        redis_client.delete(f"{userId}_version_input_data")
-        redis_client.delete(f"{userId}_repCollection")
-        redis_client.delete(f"{userId}_chatHistory")
-        redis_client.delete(f"{userId}_cum_happy")
-        redis_client.delete(f"{userId}_daily_word_bc")
-        redis_client.delete(f"{userId}_daily_happy_plot")
-        redis_client.delete(f"{userId}_stress_plot")
-        """
-        data_list = json.loads(json_data)
-        print("This is something idk what", data_list)"""
+        redis_client.expire(f"{userId}_StartDataFrame", 3600)
+        redis_client.expire(f"{userId}_CleanedDataFrame", 3600)
+        redis_client.expire(f"{userId}_date_array", 3600)
+        redis_client.expire(f"{userId}_data_array", 3600)
+        redis_client.expire(f"{userId}_cleaned_data_array", 3600)
+        redis_client.expire(f"{userId}_version_input_data", 3600)
+        redis_client.expire(f"{userId}_repCollection", 3600)
+        redis_client.expire(f"{userId}_chatHistory", 3600)
+        redis_client.expire(f"{userId}_cum_happy", 3600)
+        redis_client.expire(f"{userId}_daily_word_bc", 3600)
+        redis_client.expire(f"{userId}_daily_happy_plot", 3600)
+        redis_client.expire(f"{userId}_stress_plot", 3600)
         return jsonify({"message": "Initialized cache deleted."}), 200
 
     data_stack = pd.DataFrame(list(collection.find({"userId": userId})))
@@ -152,21 +149,21 @@ def store_data():
     CleanedDataFrame = pd.DataFrame(cleaned_data_array)
 
     # Store data in Redis
-    redis_client.set(f"{userId}_StartDataFrame", StartDataFrame.to_json(orient="records"))
-    redis_client.set(f"{userId}_CleanedDataFrame", CleanedDataFrame.to_json(orient="records"))
-    redis_client.set(f"{userId}_date_array", json.dumps(date_array))
+    redis_client.setex(f"{userId}_StartDataFrame", 3600, StartDataFrame.to_json(orient="records"))
+    redis_client.setex(f"{userId}_CleanedDataFrame", 3600,  CleanedDataFrame.to_json(orient="records"))
+    redis_client.setex(f"{userId}_date_array", 3600, json.dumps(date_array))
 
     stored_date_array = redis_client.get(f"{userId}_date_array")
     print(f"Stored Date Array in Redis: {stored_date_array}")
 
-    redis_client.set(f"{userId}_data_array", json.dumps(data_array, default=str))
-    redis_client.set(f"{userId}_cleaned_data_array", json.dumps(cleaned_data_array))
-    redis_client.set(f"{userId}_version_input_data", json.dumps(cleaned_data_array))
+    redis_client.setex(f"{userId}_data_array", 3600, json.dumps(data_array, default=str))
+    redis_client.setex(f"{userId}_cleaned_data_array", 3600, json.dumps(cleaned_data_array))
+    redis_client.setex(f"{userId}_version_input_data", 3600,  json.dumps(cleaned_data_array))
 
     #aiNA variables.
-    redis_client.set(f"{userId}_version_input_data", json.dumps({}))
-    redis_client.set(f"{userId}_repCollection", json.dumps({}))
-    redis_client.set(f"{userId}_chatHistory", json.dumps([]))
+    redis_client.setex(f"{userId}_version_input_data", 3600, json.dumps({}))
+    redis_client.setex(f"{userId}_repCollection", 3600, json.dumps({}))
+    redis_client.setex(f"{userId}_chatHistory", 3600, json.dumps([]))
 
     print(pd.read_json(redis_client.get(f"{userId}_date_array")))
     return "Data initialized successfully", 200
@@ -203,13 +200,13 @@ def handle_version_input():
     if not curr_version:
         return jsonify({"error": "No version input provided"}), 400
 
-    redis_client.set(f"{user_id}_version_input_data", json.dumps(version_input_data))
+    redis_client.setex(f"{user_id}_version_input_data", 3600, json.dumps(version_input_data))
     sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
     json_string = redis_client.get(f"{user_id}_date_array")
     udate_array = json.loads(json_string)
     repCol = return_reference_docs(curr_version, sdf, udate_array)
     serialized_repCol = serialize_chroma_collection(repCol)
-    redis_client.set(f"{user_id}_repCollection", json.dumps(serialized_repCol))
+    redis_client.setex(f"{user_id}_repCollection", 3600, json.dumps(serialized_repCol))
     return jsonify({"message": "Version received successfully"}), 200
 
 """
@@ -249,7 +246,7 @@ def handle_chat_input():
     chat_history.append({"role": "user", "content": user_input})
 
     # Store the updated chat history back in Redis
-    redis_client.set(f"{user_id}_chatHistory", json.dumps(chat_history))
+    redis_client.setex(f"{user_id}_chatHistory", 3600,  json.dumps(chat_history))
     repCol2  = json.loads(redis_client.get(f"{user_id}_repCollection"))
     repCol = deserialize_chroma_collection(repCol2)
     matched_docs = return_query_collection(repCol, user_input)
@@ -261,7 +258,7 @@ def handle_chat_input():
         response_content = when_docs_avail(matched_docs, user_input, version_input, chat_history)
 
     chat_history.append({"role": "assistant", "content": response_content})
-    redis_client.set(f"{user_id}_chatHistory", json.dumps(chat_history))
+    redis_client.setex(f"{user_id}_chatHistory", 3600, json.dumps(chat_history))
     return jsonify({"response": response_content}), 200
 
 
@@ -284,7 +281,7 @@ def get_cum_happy_plot():
         date_array = json.loads(json_string)
         print("final date array", date_array)
         answer = jsonify(cum_happy_graph(StartDataFrame, data_array, date_array))
-        redis_client.set(cache_key, answer.get_data(as_text=True))
+        redis_client.setex(cache_key, 3600,  answer.get_data(as_text=True))
         return answer
     else:
         return jsonify(json.loads(redis_client.get(cache_key)))
@@ -300,7 +297,7 @@ def get_words():
         CleanedDataFrame = pd.read_json(StringIO(redis_client.get(f"{user_id}_CleanedDataFrame")))
         data_array = pd.read_json(StringIO(redis_client.get(f"{user_id}_data_array")))
         answer = jsonify(most_words_plot(CleanedDataFrame, data_array))
-        redis_client.set(cache_key, answer.get_data(as_text=True))
+        redis_client.setex(cache_key, 3600,  answer.get_data(as_text=True))
         return answer
     else:
         return jsonify(json.loads(redis_client.get(cache_key)))
@@ -320,7 +317,7 @@ def daily_happy_plot():
         #json_string = json_data.decode('utf-8')
         date_array = json.loads(json_string)
         answer = jsonify(happiness_card_graph(StartDataFrame, data_array, date_array))
-        redis_client.set(cache_key, answer.get_data(as_text=True))
+        redis_client.setex(cache_key, 3600,  answer.get_data(as_text=True))
         return answer
     else:
         return jsonify(json.loads(redis_client.get(cache_key)))
@@ -338,7 +335,7 @@ def stress_plot_graph():
         #json_string = json_data.decode('utf-8')
         date_array = json.loads(json_string)
         answer = jsonify(stress_plot(StartDataFrame, date_array))
-        redis_client.set(cache_key, answer.get_data(as_text=True))
+        redis_client.setex(cache_key, 3600,  answer.get_data(as_text=True))
         return answer
     else:
         return jsonify(json.loads(redis_client.get(cache_key)))
