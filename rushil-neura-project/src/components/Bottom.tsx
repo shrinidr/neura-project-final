@@ -128,7 +128,7 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                 </div>
             </div>
 
-            {/*<footer className="footer">
+            <footer className="footer">
                 <div className="footer-content">
                     <p> Neura</p>
                     <div className="footer-links">
@@ -137,65 +137,7 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                         <Link to="/email">Email Us</Link>
                     </div>
                 </div>
-            </footer>*/}
-
-<div style={{width: 1440, height: 479, position: 'relative'}}>
-  <img style={{width: 1440, height: 479, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(0deg, black 0%, black 100%)'}} src="https://placehold.co/1440x479" />
-  <div style={{width: 1280.50, height: 244, left: 80, top: 169, position: 'absolute'}}>
-    <div style={{left: NaN, top: NaN, position: 'absolute'}}>
-      <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-      <div style={{left: NaN, top: NaN, position: 'absolute'}}>
-        <div style={{left: NaN, top: NaN, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-          <div style={{left: 'undefined', top: 'undefined', position: 'absolute', background: 'white'}} />
-          <div style={{left: 'undefined', top: 'undefined', position: 'absolute', background: 'white'}} />
-        </div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-      </div>
-      <div style={{left: NaN, top: NaN, position: 'absolute'}}>
-        <div style={{left: NaN, top: NaN, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-          <div style={{left: 'undefined', top: 'undefined', position: 'absolute', background: 'white'}} />
-        </div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-      </div>
-      <div style={{left: NaN, top: NaN, position: 'absolute'}}>
-        <div style={{left: NaN, top: NaN, position: 'absolute', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-          <div style={{left: 'undefined', top: 'undefined', position: 'absolute', background: 'white'}} />
-          <div style={{left: 'undefined', top: 'undefined', position: 'absolute'}} />
-        </div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-      </div>
-    </div>
-    <div style={{left: NaN, top: NaN, position: 'absolute'}}>
-      <div style={{left: NaN, top: NaN, position: 'absolute'}}>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-      </div>
-      <div style={{left: NaN, top: NaN, position: 'absolute'}}>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-      </div>
-      <div style={{left: NaN, top: NaN, position: 'absolute'}}>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-        <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-      </div>
-    </div>
-    <div style={{left: NaN, top: NaN, position: 'absolute', border: '1px white solid'}} />
-    <div style={{left: NaN, top: NaN, position: 'absolute', background: '#131313', borderRadius: 10}} />
-    <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-    <div style={{left: NaN, top: NaN, position: 'absolute', opacity: 0.50}}></div>
-    <div style={{left: NaN, top: NaN, position: 'absolute', background: '#1E1E1E', borderRadius: 4}} />
-    <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-    <div style={{left: NaN, top: NaN, position: 'absolute', background: 'black'}} />
-    <div style={{left: NaN, top: NaN, position: 'absolute'}}></div>
-  </div>
-</div>
+            </footer>
 
         </div>
     );
