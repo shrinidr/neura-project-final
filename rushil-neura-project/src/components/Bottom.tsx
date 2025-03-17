@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
-
 interface Props {
     text1: string;
     text2: string;
@@ -127,7 +126,6 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                     </div>
                 </div>
             </div>
-
             <footer className="footer">
                 <div className="footer-content">
                     <p> Neura</p>
@@ -138,6 +136,7 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                     </div>
                 </div>
             </footer>
+
 
         </div>
     );

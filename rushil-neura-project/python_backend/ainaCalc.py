@@ -22,23 +22,34 @@ openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 
 def get_predef_versions(StartDataFrame, dateArray):
+    if not dateArray:  # Ensure dateArray is not empty
+        raise ValueError("dateArray cannot be empty")
+    
     StartDataFrame["date"] = dateArray
 
     versionsName = ["Genesis", "Origins", "Echo", "Whisper", "Now"]
-    predefined_versions =  {"Genesis":{"startDate": "", "endDate": ""},
-                        "Origins": {"startDate": "", "endDate": ""},
-                        "Echo": {"startDate": "", "endDate": ""},
-                        "Whisper": {"startDate": "", "endDate": ""},
-                        "Now": {"startDate": "", "endDate": ""}}
+    predefined_versions = {name: {"startDate": "", "endDate": ""} for name in versionsName}
 
-    num_divs = int(len(dateArray)/len(predefined_versions))
+    num_dates = len(dateArray)
+    num_versions = len(versionsName)
+    
+    num_divs = num_dates // num_versions  
 
-    for i in range(len(versionsName)):
-        omega  = i*num_divs
-        alpha = dateArray[omega: omega+num_divs]
-        predefined_versions[versionsName[i]]["startDate"] = alpha[0]
-        predefined_versions[versionsName[i]]["endDate"] = alpha[-1]
+    for i, version in enumerate(versionsName):
+        if i * num_divs < num_dates:  
+            start_idx = i * num_divs
+            end_idx = min((i + 1) * num_divs - 1, num_dates - 1)
+
+            predefined_versions[version]["startDate"] = dateArray[start_idx]
+            predefined_versions[version]["endDate"] = dateArray[end_idx]
+        else:
+            predefined_versions[version]["startDate"] = dateArray[-1]
+            predefined_versions[version]["endDate"] = dateArray[-1]
+
+    print("these are the predef versions", predefined_versions)
     return predefined_versions
+
+
 
 def return_date_matrix(predefined_versions_changed):
         return predefined_versions_changed

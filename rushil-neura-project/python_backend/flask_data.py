@@ -342,10 +342,10 @@ def stress_plot_graph():
     
 
 
-"""if __name__ == "__main__":
-    
-    serve(app, port=5001)"""
-
 if __name__ == "__main__":
+    
+    serve(app, port=5001)
+
+"""if __name__ == "__main__":
     port = int(os.getenv("PORT", 5001))  # Use PORT from environment, default to 5001
-    serve(app, host="0.0.0.0", port=port)
+    serve(app, host="0.0.0.0", port=port)"""

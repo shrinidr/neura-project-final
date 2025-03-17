@@ -1,18 +1,10 @@
-import pymongo
 import pandas as pd
-import nltk
 import numpy as np
-import matplotlib.pyplot as plt
 import plotly.express as px
-import seaborn as sns
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import plotly.graph_objects as go
 import itertools
 import plotly.io as pio
-from dotenv import load_dotenv
-import os
-import datetime
-
 
 
 def most_used_words(cleaned_df, cols):
