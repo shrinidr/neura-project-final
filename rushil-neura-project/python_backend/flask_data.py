@@ -21,8 +21,7 @@ from waitress import serve
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
-
+CORS(app, resources={r"/*": {"origins": ["https://www.neura-inc.com", "http://localhost:5173"]}})
 nlp = spacy.load("en_core_web_sm")
 
 
@@ -180,10 +179,12 @@ def serialize_chroma_collection(collection):
 
 def deserialize_chroma_collection(serialized_data):
     """Reconstruct the ChromaDB collection from stored JSON data."""
-    client = chromadb.PersistentClient(path='./aina-backend')  
+      
     try:
+        client = chromadb.PersistentClient(path='./rushil-neura-project/python_backend/aina-backend')
         collection = client.get_collection(name="my_collection")
-    except Exception:
+    except Exception as e:
+        print(f"Error finding ChromaDB client, so creating a new one: {str(e)}")
         collection = client.create_collection(name="my_collection")
 
 
