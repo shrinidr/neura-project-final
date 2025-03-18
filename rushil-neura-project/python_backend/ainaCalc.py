@@ -54,7 +54,7 @@ def get_predef_versions(StartDataFrame, dateArray):
 def return_date_matrix(predefined_versions_changed):
         return predefined_versions_changed
 
-def return_reference_docs(version, StartDataFrame, date_array):
+def return_reference_docs(version, StartDataFrame, date_array, client):
     predefined_versions = get_predef_versions(StartDataFrame, date_array)
     userVersionStartDate = predefined_versions[version]['startDate']
     userVersionEndDate = predefined_versions[version]['endDate']
@@ -86,24 +86,21 @@ def return_reference_docs(version, StartDataFrame, date_array):
     del docs[0]
     del docs[0]
 
-    path = './aina-backend'
-    if os.path.exists(path):
-        shutil.rmtree(path)
+    try:
+        collection = client.get_collection(name="my_collection")
+    except Exception:
+        collection = client.create_collection(name="my_collection")
 
-    client = chromadb.PersistentClient(path = './aina-backend')
-
-    collection = client.create_collection(name="my_collection")
 
     def add_documents_to_collection(collection, documents):
         texts = [doc.page_content for doc in documents]
         ids = [str(i) for i in range(len(documents))]
 
-        collection.add(
-            documents=texts,
-            ids=ids,
-        )
+        if texts and ids:  # ✅ Avoid empty list errors
+            collection.add(documents=texts, ids=ids)
 
-    docs_text = add_documents_to_collection(collection, docs)
+
+    add_documents_to_collection(collection, docs)
 
     return collection
 

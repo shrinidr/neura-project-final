@@ -81,6 +81,20 @@ response = requests.get(jwk_url)
 jwk_keys = response.json().get("keys")
 clerk_jwk = jwk_keys[0] if jwk_keys else None
 
+
+CHROMA_CLIENT = chromadb.PersistentClient(path = './rushil-neura-project/python_backend/aina-backend')
+#CHROMA_COLLECTION = CHROMA_CLIENT.get_or_create_collection(name="my_collection")
+
+
+def get_or_create_collection(name="my_collection"):
+    """Get an existing collection or create a new one if it doesn't exist."""
+    try:
+        return CHROMA_CLIENT.get_collection(name=name)
+    except Exception as e:
+        print(f"⚠️ Collection  not found, creating a new one")
+        return CHROMA_CLIENT.create_collection(name=name)
+
+
 # Function to get User ID from JWT
 def get_user_id():
     token = request.headers.get('Authorization')
@@ -153,7 +167,7 @@ def store_data():
     redis_client.setex(f"{userId}_date_array", 3600, json.dumps(date_array))
 
     stored_date_array = redis_client.get(f"{userId}_date_array")
-    print(f"Stored Date Array in Redis: {stored_date_array}")
+    #print(f"Stored Date Array in Redis: {stored_date_array}")
 
     redis_client.setex(f"{userId}_data_array", 3600, json.dumps(data_array, default=str))
     redis_client.setex(f"{userId}_cleaned_data_array", 3600, json.dumps(cleaned_data_array))
@@ -171,28 +185,40 @@ def serialize_chroma_collection(collection):
     """Convert ChromaDB collection into a JSON-serializable format."""
     results = collection.get()  # Retrieve all stored documents and their IDs
 
+    # Debugging output
+    #print("Serialized Collection Results:", results)
+
     serialized_collection = {
-        "documents": results["documents"],
-        "ids": results["ids"]
+        "documents": results.get("documents", []),
+        "ids": results.get("ids", [])
     }
+
     return serialized_collection
 
 def deserialize_chroma_collection(serialized_data):
     """Reconstruct the ChromaDB collection from stored JSON data."""
-      
-    try:
-        client = chromadb.PersistentClient(path='./rushil-neura-project/python_backend/aina-backend')
-        collection = client.get_collection(name="my_collection")
-    except Exception as e:
-        print(f"Error finding ChromaDB client, so creating a new one: {str(e)}")
-        collection = client.create_collection(name="my_collection")
 
+    collection = get_or_create_collection()  # Get the global collection
 
-    # Re-add the documents to the collection
-    collection.add(
-        documents=serialized_data["documents"],
-        ids=serialized_data["ids"]
-    )
+    if not serialized_data["documents"]:
+        print("⚠️ Deserialized data is empty. No documents to add.")
+        return collection
+
+    # Check if the documents already exist to prevent duplicates
+    existing_ids = set(collection.get()["ids"])
+    new_docs, new_ids = [], []
+
+    for doc, doc_id in zip(serialized_data["documents"], serialized_data["ids"]):
+        if doc_id not in existing_ids:
+            new_docs.append(doc)
+            new_ids.append(doc_id)
+
+    if new_docs:
+        collection.add(documents=new_docs, ids=new_ids)
+        print(f"✅ Added {len(new_docs)} new documents to ChromaDB.")
+    else:
+        print("⚡ No new documents to add.")
+
     return collection
 @app.route('/version_input', methods = ['POST'])
 def handle_version_input():
@@ -209,7 +235,7 @@ def handle_version_input():
     sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
     json_string = redis_client.get(f"{user_id}_date_array")
     udate_array = json.loads(json_string)
-    repCol = return_reference_docs(curr_version, sdf, udate_array)
+    repCol = return_reference_docs(curr_version, sdf, udate_array, client = CHROMA_CLIENT)
     serialized_repCol = serialize_chroma_collection(repCol)
     redis_client.setex(f"{user_id}_repCollection", 3600, json.dumps(serialized_repCol))
     return jsonify({"message": "Version received successfully"}), 200
@@ -245,7 +271,9 @@ def handle_chat_input():
     if not user_input:
         return jsonify({"error": "Chat input not provided"}), 400
     
-    chat_history = json.loads(redis_client.get(f"{user_id}_chatHistory"))
+    chat_history_raw = redis_client.get(f"{user_id}_chatHistory")
+    chat_history = json.loads(chat_history_raw) if chat_history_raw else []
+
 
     #Append the new user message
     chat_history.append({"role": "user", "content": user_input})
@@ -281,10 +309,10 @@ def get_cum_happy_plot():
         data_array = pd.read_json(StringIO(redis_client.get(f"{user_id}_data_array")))
         #print("This the data array", data_array)
         json_string = redis_client.get(f"{user_id}_date_array")
-        print("json string", json_string)
+        #print("json string", json_string)
         #json_string = json_data.decode('utf-8')
         date_array = json.loads(json_string)
-        print("final date array", date_array)
+        #print("final date array", date_array)
         answer = jsonify(cum_happy_graph(StartDataFrame, data_array, date_array))
         redis_client.setex(cache_key, 3600,  answer.get_data(as_text=True))
         return answer
