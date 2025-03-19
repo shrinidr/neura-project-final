@@ -82,7 +82,7 @@ jwk_keys = response.json().get("keys")
 clerk_jwk = jwk_keys[0] if jwk_keys else None
 
 
-CHROMA_CLIENT = chromadb.PersistentClient(path = './rushil-neura-project/python_backend/aina-backend')
+CHROMA_CLIENT = chromadb.HttpClient(host="https://chromadb-persistent-service.onrender.com", port=8000)
 #CHROMA_COLLECTION = CHROMA_CLIENT.get_or_create_collection(name="my_collection")
 
 
