@@ -95,7 +95,8 @@ def return_reference_docs(version, StartDataFrame, date_array, client):
     def add_documents_to_collection(collection, documents):
         texts = [doc.page_content for doc in documents]
         ids = [str(i) for i in range(len(documents))]
-
+        print("these are the texts", texts)
+        print("these are the ids", ids)
         if texts and ids:  # ✅ Avoid empty list errors
             collection.add(documents=texts, ids=ids)
 

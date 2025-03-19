@@ -230,12 +230,15 @@ def handle_version_input():
     curr_version = version_input_data.get('input')
     if not curr_version:
         return jsonify({"error": "No version input provided"}), 400
-
+    
+    collection = get_or_create_collection("my_collection")
     redis_client.setex(f"{user_id}_version_input_data", 3600, json.dumps(version_input_data))
     sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
     json_string = redis_client.get(f"{user_id}_date_array")
     udate_array = json.loads(json_string)
     repCol = return_reference_docs(curr_version, sdf, udate_array, client = CHROMA_CLIENT)
+    print("Collection:", repCol)    
+    print("Collection Contents:", repCol.get())
     serialized_repCol = serialize_chroma_collection(repCol)
     redis_client.setex(f"{user_id}_repCollection", 3600, json.dumps(serialized_repCol))
     return jsonify({"message": "Version received successfully"}), 200
