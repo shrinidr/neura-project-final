@@ -21,7 +21,8 @@ waitress
 langchain-text-splitters
 openai
 numpy
-chromadb
 tabulate
+pinecone
+sentence-transformers
 
 

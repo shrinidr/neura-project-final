@@ -12,14 +12,18 @@ import glob
 import shutil
 from openai import OpenAI
 import numpy as np
-import chromadb
 import openai
 from dotenv import load_dotenv
-
+from sentence_transformers import SentenceTransformer
 
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 
+# Load a pre-trained embedding model
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+def generate_embeddings(texts):
+    return embedding_model.encode(texts)
 
 def get_predef_versions(StartDataFrame, dateArray):
     if not dateArray:  # Ensure dateArray is not empty
@@ -54,7 +58,7 @@ def get_predef_versions(StartDataFrame, dateArray):
 def return_date_matrix(predefined_versions_changed):
         return predefined_versions_changed
 
-def return_reference_docs(version, StartDataFrame, date_array, client):
+def return_reference_docs(version, StartDataFrame, date_array, index):
     predefined_versions = get_predef_versions(StartDataFrame, date_array)
     userVersionStartDate = predefined_versions[version]['startDate']
     userVersionEndDate = predefined_versions[version]['endDate']
@@ -86,24 +90,20 @@ def return_reference_docs(version, StartDataFrame, date_array, client):
     del docs[0]
     del docs[0]
 
-    try:
-        collection = client.get_collection(name="my_collection")
-    except Exception:
-        collection = client.create_collection(name="my_collection")
 
+    texts = [doc.page_content for doc in docs]
+    embeddings = generate_embeddings(texts)
 
-    def add_documents_to_collection(collection, documents):
-        texts = [doc.page_content for doc in documents]
-        ids = [str(i) for i in range(len(documents))]
-        print("these are the texts", texts)
-        print("these are the ids", ids)
-        if texts and ids:  # ✅ Avoid empty list errors
-            collection.add(documents=texts, ids=ids)
+    vectors = []
+    for i, (text, embedding) in enumerate(zip(texts, embeddings)):
+        vectors.append((f"doc_{i}", embedding, {"text": text}))
 
-
-    add_documents_to_collection(collection, docs)
-
-    return collection
+    index.upsert(vectors)
+    
+    return {
+        "ids": [v[0] for v in vectors],
+        "metadata": [v[2] for v in vectors]
+    }
 
 """
 A little summary of how transformers work.
@@ -128,7 +128,7 @@ which should store the contextual information for that token.
 If this is not beyond my human comprehension then what is?
 """
 
-def return_query_collection(collection, query_text):
+def return_query_collection(collection, query_text, index):
     """
     Searches the ChromaDB collection for documents matching the query text.
 
@@ -141,15 +141,19 @@ def return_query_collection(collection, query_text):
         List of tuples containing document ids and corresponding contents.
     """
     # Perform the query
-    results = collection.query(
-        query_texts=[query_text],
-        n_results=2,
+    query_embedding = generate_embeddings([query_text])[0]
+    query_embedding = query_embedding.tolist()
+
+    # Query Pinecone
+    query_result = index.query(
+        vector=query_embedding,
+        top_k=2,
+        include_metadata=True
     )
 
-    # Extracting the results
-    rang = len(results['documents'][0])
-    matched_docs = [results['documents'][0] for result in range(rang)]
 
+    # Extract matched documents
+    matched_docs = [match.metadata["text"] for match in query_result.matches]
     return matched_docs
 
 def when_docs_avail(matched_documents, query_text, versionInput, chatHistory):
@@ -163,13 +167,18 @@ def when_docs_avail(matched_documents, query_text, versionInput, chatHistory):
 
     max_len = max(len(sub_array) for sub_array in all_searchRes)
 
-    all_searchRes = np.array([
-        np.pad(sub_array, (0, max_len - len(sub_array)), mode='constant', constant_values='')
-        for sub_array in all_searchRes])
-    all_searchRes = np.reshape(all_searchRes, (all_searchRes.shape[0]*all_searchRes.shape[1], ))
+    # Pad the arrays with empty strings
+    all_searchRes = [
+        sub_array + [''] * (max_len - len(sub_array))
+        for sub_array in all_searchRes
+    ]
+
+    # Flatten the array
+    all_searchRes = np.reshape(all_searchRes, (len(all_searchRes) * max_len,))
 
     context = ''.join(all_searchRes)
-    client = OpenAI(api_key= os.environ.get('OPENAI_API_KEY'))
+    client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
+
 
     prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. Mimic their language as well, dont make it too formal. When asked who you are, reply say that you are the user's version of choice which is {versionInput}. \n Answer and converse based off of this current user prompt: {query_text}"
     chatHistory.append({"role": "user", "content": prompt})

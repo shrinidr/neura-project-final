@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 import os
 from io import StringIO
 import json
-import chromadb
 import requests
 import pandas as pd
 import spacy
@@ -18,6 +17,8 @@ from dataTesting import cum_happy_graph, most_words_plot, happiness_card_graph
 from ainaCalc import return_reference_docs, get_predef_versions, return_date_matrix, return_query_collection, when_docs_avail
 from stressData import stress_plot
 from waitress import serve
+from pinecone import Pinecone
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -82,17 +83,31 @@ jwk_keys = response.json().get("keys")
 clerk_jwk = jwk_keys[0] if jwk_keys else None
 
 
-CHROMA_CLIENT = chromadb.HttpClient(host="https://chromadb-persistent-service.onrender.com", port=8000)
+
+# Initialize Pinecone
+pinecone_api_key = os.getenv('PINECONE_API_KEY')
+pc = Pinecone(api_key=pinecone_api_key)
+
+#CHROMA_CLIENT = chromadb.HttpClient(host="https://chromadb-persistent-service.onrender.com", port=8000)
 #CHROMA_COLLECTION = CHROMA_CLIENT.get_or_create_collection(name="my_collection")
 
+# Connect to the index
+index_name = "neura-backend-rushil"
+"""if index_name not in pc.list_indexes():
+    pc.create_index(index_name, dimension=384,
+                     spec=ServerlessSpec(
+                    cloud='aws',
+                    region='us-east-1'
+                    ))  # Adjust dimension as needed"""
+index = pc.Index(index_name)
 
-def get_or_create_collection(name="my_collection"):
-    """Get an existing collection or create a new one if it doesn't exist."""
+"""def get_or_create_collection(name="my_collection"):
+    Get an existing collection or create a new one if it doesn't exist
     try:
         return CHROMA_CLIENT.get_collection(name=name)
     except Exception as e:
         print(f"⚠️ Collection  not found, creating a new one")
-        return CHROMA_CLIENT.create_collection(name=name)
+        return CHROMA_CLIENT.create_collection(name=name)"""
 
 
 # Function to get User ID from JWT
@@ -181,45 +196,6 @@ def store_data():
     print(pd.read_json(redis_client.get(f"{userId}_date_array")))
     return "Data initialized successfully", 200
 
-def serialize_chroma_collection(collection):
-    """Convert ChromaDB collection into a JSON-serializable format."""
-    results = collection.get()  # Retrieve all stored documents and their IDs
-
-    # Debugging output
-    #print("Serialized Collection Results:", results)
-
-    serialized_collection = {
-        "documents": results.get("documents", []),
-        "ids": results.get("ids", [])
-    }
-
-    return serialized_collection
-
-def deserialize_chroma_collection(serialized_data):
-    """Reconstruct the ChromaDB collection from stored JSON data."""
-
-    collection = get_or_create_collection()  # Get the global collection
-
-    if not serialized_data["documents"]:
-        print("⚠️ Deserialized data is empty. No documents to add.")
-        return collection
-
-    # Check if the documents already exist to prevent duplicates
-    existing_ids = set(collection.get()["ids"])
-    new_docs, new_ids = [], []
-
-    for doc, doc_id in zip(serialized_data["documents"], serialized_data["ids"]):
-        if doc_id not in existing_ids:
-            new_docs.append(doc)
-            new_ids.append(doc_id)
-
-    if new_docs:
-        collection.add(documents=new_docs, ids=new_ids)
-        print(f"✅ Added {len(new_docs)} new documents to ChromaDB.")
-    else:
-        print("⚡ No new documents to add.")
-
-    return collection
 @app.route('/version_input', methods = ['POST'])
 def handle_version_input():
     user_id = get_user_id()
@@ -231,16 +207,12 @@ def handle_version_input():
     if not curr_version:
         return jsonify({"error": "No version input provided"}), 400
     
-    collection = get_or_create_collection("my_collection")
     redis_client.setex(f"{user_id}_version_input_data", 3600, json.dumps(version_input_data))
     sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
     json_string = redis_client.get(f"{user_id}_date_array")
     udate_array = json.loads(json_string)
-    repCol = return_reference_docs(curr_version, sdf, udate_array, client = CHROMA_CLIENT)
-    print("Collection:", repCol)    
-    print("Collection Contents:", repCol.get())
-    serialized_repCol = serialize_chroma_collection(repCol)
-    redis_client.setex(f"{user_id}_repCollection", 3600, json.dumps(serialized_repCol))
+    repCol = return_reference_docs(curr_version, sdf, udate_array, index)
+    redis_client.setex(f"{user_id}_repCollection", 3600, json.dumps(repCol))
     return jsonify({"message": "Version received successfully"}), 200
 
 """
@@ -283,9 +255,8 @@ def handle_chat_input():
 
     # Store the updated chat history back in Redis
     redis_client.setex(f"{user_id}_chatHistory", 3600,  json.dumps(chat_history))
-    repCol2  = json.loads(redis_client.get(f"{user_id}_repCollection"))
-    repCol = deserialize_chroma_collection(repCol2)
-    matched_docs = return_query_collection(repCol, user_input)
+    repCol2 = json.loads(redis_client.get(f"{user_id}_repCollection"))
+    matched_docs = return_query_collection(repCol2, user_input, index)
     if not matched_docs:
         response_content = "You're talking about stuff that I don't really recall. Let's talk about something else."
     else:
@@ -380,7 +351,8 @@ def stress_plot_graph():
 
 """if __name__ == "__main__":
     
-    serve(app, port=5001)"""
+    serve(app, port=5001)
+"""
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5001))  # Use PORT from environment, default to 5001
