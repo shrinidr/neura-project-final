@@ -15,7 +15,6 @@ Requests
 scikit_learn
 seaborn
 spacy
-tensorflow
 vaderSentiment
 waitress
 langchain-text-splitters
