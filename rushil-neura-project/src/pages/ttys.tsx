@@ -57,6 +57,7 @@ const TTys = () => {
             inputState('')
             ihatemylifemore(inputVal)
 
+            console.log("calling the vite backend url", import.meta.env.VITE_PYTHON_BACKEND_URL);
             const response = await axios.post(`${import.meta.env.VITE_PYTHON_BACKEND_URL}/process-chat-input`,
                 { input: inputVal },
                 {

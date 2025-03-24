@@ -7,6 +7,7 @@ import plotly.io as pio
 from jose import jwt
 from dotenv import load_dotenv
 import os
+import logging
 from io import StringIO
 import json
 import requests
@@ -25,6 +26,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["https://www.neura-inc.com", "http://localhost:5173"]}})
 nlp = spacy.load("en_core_web_sm")
 
+logging.basicConfig(level=logging.INFO)
 
 # Redis Session Configuration
 
