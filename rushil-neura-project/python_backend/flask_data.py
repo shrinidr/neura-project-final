@@ -26,6 +26,9 @@ CORS(app, resources={r"/*": {"origins": ["https://www.neura-inc.com", "http://lo
 nlp = spacy.load("en_core_web_sm")
 
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
+
 
 # Redis Session Configuration
 

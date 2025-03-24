@@ -19,11 +19,12 @@ from sentence_transformers import SentenceTransformer
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 
-# Load a pre-trained embedding model
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 
 def generate_embeddings(texts):
-    return embedding_model.encode(texts)
+    model = SentenceTransformer('paraphrase-MiniLM-L3-v2')  # Load model
+    embedding = model.encode(texts)
+    del model  # Unload model
+    return embedding
 
 def get_predef_versions(StartDataFrame, dateArray):
     if not dateArray:  # Ensure dateArray is not empty
