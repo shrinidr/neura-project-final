@@ -26,10 +26,6 @@ CORS(app, resources={r"/*": {"origins": ["https://www.neura-inc.com", "http://lo
 nlp = spacy.load("en_core_web_sm")
 
 
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
-
-
 # Redis Session Configuration
 
 redis_host = os.getenv('REDIS_HOST', 'localhost')  # No redis:// prefix here
@@ -95,7 +91,7 @@ pc = Pinecone(api_key=pinecone_api_key)
 #CHROMA_COLLECTION = CHROMA_CLIENT.get_or_create_collection(name="my_collection")
 
 # Connect to the index
-index_name = "neura-backend-rushil"
+index_name = "neura-pinecone"
 """if index_name not in pc.list_indexes():
     pc.create_index(index_name, dimension=384,
                      spec=ServerlessSpec(

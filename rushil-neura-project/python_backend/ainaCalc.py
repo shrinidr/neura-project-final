@@ -4,27 +4,34 @@ the userInput which we will get from the file ./userinput.py through a flask API
 Lets see how this one goes.
 
 """
-import pymongo
 import pandas as pd
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
-import glob
-import shutil
 from openai import OpenAI
 import numpy as np
 import openai
 from dotenv import load_dotenv
-from sentence_transformers import SentenceTransformer
+from openai import OpenAI
+from sklearn.decomposition import PCA
+
 
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
+client = OpenAI(api_key= os.environ.get('OPENAI_API_KEY')) 
 
 
 def generate_embeddings(texts):
-    model = SentenceTransformer('paraphrase-MiniLM-L3-v2')  # Load model
-    embedding = model.encode(texts)
-    del model  # Unload model
-    return embedding
+    startArray = []
+    for i in texts:
+        response = client.embeddings.create(
+        input= texts,
+        model="text-embedding-3-small"
+        )
+        embedding = response.data[0].embedding
+        truncated_embedding = embedding[:1024] 
+        startArray.append(truncated_embedding)
+    return startArray
+
 
 def get_predef_versions(StartDataFrame, dateArray):
     if not dateArray:  # Ensure dateArray is not empty
@@ -143,8 +150,6 @@ def return_query_collection(collection, query_text, index):
     """
     # Perform the query
     query_embedding = generate_embeddings([query_text])[0]
-    query_embedding = query_embedding.tolist()
-
     # Query Pinecone
     query_result = index.query(
         vector=query_embedding,
