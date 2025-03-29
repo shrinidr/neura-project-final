@@ -225,7 +225,7 @@ def handle_version_input():
     json_string = redis_client.get(f"{user_id}_date_array")
     udate_array = json.loads(json_string)
     print("this is the literal start data fraem", sdf)
-    repCol = return_reference_docs(curr_version, sdf, udate_array, index)
+    repCol = return_reference_docs(curr_version, sdf, udate_array, index, user_id)
     print("returned ref docs", repCol)
     redis_client.setex(f"{user_id}_repCollection", 3600, json.dumps(repCol))
     return jsonify({"message": "Version received successfully"}), 200
@@ -272,7 +272,9 @@ def handle_chat_input():
     # Store the updated chat history back in Redis
     redis_client.setex(f"{user_id}_chatHistory", 3600,  json.dumps(chat_history))
     repCol2 = json.loads(redis_client.get(f"{user_id}_repCollection"))
-    matched_docs = return_query_collection(repCol2, user_input, index)
+
+    print("this is repCol2", repCol2)
+    matched_docs = return_query_collection(repCol2, user_input, index, user_id)
     if not matched_docs:
         response_content = "You're talking about stuff that I don't really recall. Let's talk about something else."
     else:

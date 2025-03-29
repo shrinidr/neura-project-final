@@ -89,7 +89,7 @@ def get_predef_versions(StartDataFrame, dateArray):
 def return_date_matrix(predefined_versions_changed):
         return predefined_versions_changed
 
-def return_reference_docs(version, StartDataFrame, date_array, index):
+def return_reference_docs(version, StartDataFrame, date_array, index, userId):
     predefined_versions = get_predef_versions(StartDataFrame, date_array)
     userVersionStartDate = predefined_versions[version]['startDate']
     userVersionEndDate = predefined_versions[version]['endDate']
@@ -106,7 +106,8 @@ def return_reference_docs(version, StartDataFrame, date_array, index):
 
     print("final changed frame", FinalChangedFrame)
     if FinalChangedFrame.empty:
-        return {"ids": [], "metadata": []}
+        return {"namespace": userId}
+        #return {"ids": [], "metadata": []}
     
     fcf_md = FinalChangedFrame.to_markdown()
 
@@ -151,10 +152,11 @@ def return_reference_docs(version, StartDataFrame, date_array, index):
     print(texts)
     print("docs", docs)
     if not texts:
-        return {"ids": [], "metadata": []}
+        return {"namespace": userId}
+        #return {"ids": [], "metadata": []}
     del docs
     try:
-        embeddings = generate_embeddings(texts)
+        """embeddings = generate_embeddings(texts)
         
         # Validate embeddings
         valid_vectors = []
@@ -169,10 +171,24 @@ def return_reference_docs(version, StartDataFrame, date_array, index):
         return {
             "ids": [v[0] for v in valid_vectors],
             "metadata": [v[2] for v in valid_vectors]
-        }
+        }"""
+        embeddings = generate_embeddings(texts)
+        vectors = [
+            (f"{userId}_doc_{i}", embedding, {"text": text, "user_id": userId})
+            for i, (text, embedding) in enumerate(zip(texts, embeddings))
+        ]
+        
+        # Upsert with namespace isolation
+        index.upsert(
+            vectors=vectors,
+            namespace=userId
+        )
+        
+        return {"namespace": userId}
     except Exception as e:
         print(f"Error generating embeddings: {e}")
-        return {"ids": [], "metadata": []}
+        #return {"ids": [], "metadata": []}
+        return {"namespace": userId}
 
 
 """
@@ -198,7 +214,7 @@ which should store the contextual information for that token.
 If this is not beyond my human comprehension then what is?
 """
 
-def return_query_collection(collection, query_text, index):
+def return_query_collection(collection, query_text, index, user_id):
     """
     Searches the ChromaDB collection for documents matching the query text.
 
@@ -213,17 +229,19 @@ def return_query_collection(collection, query_text, index):
     # Perform the query
     query_embedding = generate_embeddings([query_text])[0]
     # Query Pinecone
-    query_result = index.query(
+    """query_result = index.query(
         vector=query_embedding,
         top_k=2,
         include_metadata=True
+    )"""
+    query_result = index.query(
+        vector=query_embedding,
+        top_k=2,
+        namespace=user_id,  # Critical isolation
+        filter={"user_id": {"$eq": user_id}},  # Double protection
+        include_metadata=True
     )
-
-    #print("these are the query results", query_result)
-    # Extract matched documents
-    matched_docs = [match.metadata["text"] for match in query_result.matches]
-    #print('these are the matched docs', matched_docs)
-    return matched_docs
+    return [match.metadata["text"] for match in query_result.matches]
 
 def clean_query_results(query_results, reqLeng):
     cleaned = []
