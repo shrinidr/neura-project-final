@@ -23,3 +23,4 @@ numpy
 tabulate
 pinecone
 logging
+psutil

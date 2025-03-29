@@ -19,15 +19,26 @@ from ainaCalc import return_reference_docs, get_predef_versions, return_date_mat
 from stressData import stress_plot
 from waitress import serve
 from pinecone import Pinecone
+import psutil
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["https://www.neura-inc.com", "http://localhost:5173"]}})
-nlp = spacy.load("en_core_web_sm")
+
+# With this:
+#nlp = spacy.load("en_core_web_sm", disable=["parser", "ner"])
+
+nlp = spacy.load("en_core_web_md", disable=["parser", "ner", "tagger"])
+
 
 logging.basicConfig(level=logging.INFO)
 
+def log_memory():
+    mem = psutil.virtual_memory()
+    logging.info(f"Memory usage: {mem.used/1024/1024:.2f}MB/{mem.total/1024/1024:.2f}MB")
+
+    
 # Redis Session Configuration
 
 redis_host = os.getenv('REDIS_HOST', 'localhost')  # No redis:// prefix here
@@ -177,6 +188,7 @@ def store_data():
     StartDataFrame = pd.DataFrame(data_array)
     CleanedDataFrame = pd.DataFrame(cleaned_data_array)
 
+    print("this is the start data frame iguess", StartDataFrame)
     # Store data in Redis
     redis_client.setex(f"{userId}_StartDataFrame", 3600, StartDataFrame.to_json(orient="records"))
     redis_client.setex(f"{userId}_CleanedDataFrame", 3600,  CleanedDataFrame.to_json(orient="records"))
@@ -212,7 +224,9 @@ def handle_version_input():
     sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
     json_string = redis_client.get(f"{user_id}_date_array")
     udate_array = json.loads(json_string)
+    print("this is the literal start data fraem", sdf)
     repCol = return_reference_docs(curr_version, sdf, udate_array, index)
+    print("returned ref docs", repCol)
     redis_client.setex(f"{user_id}_repCollection", 3600, json.dumps(repCol))
     return jsonify({"message": "Version received successfully"}), 200
 
@@ -229,6 +243,7 @@ def datesFind():
         return jsonify({"error": "Unauthorized"}), 401
 
     sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
+    print('dates find sdf', sdf)
     json_string = redis_client.get(f"{user_id}_date_array")
     udate_array = json.loads(json_string)
     answer1 = get_predef_versions(sdf, udate_array)
@@ -248,7 +263,7 @@ def handle_chat_input():
         return jsonify({"error": "Chat input not provided"}), 400
     
     chat_history_raw = redis_client.get(f"{user_id}_chatHistory")
-    chat_history = json.loads(chat_history_raw) if chat_history_raw else []
+    chat_history = json.loads(chat_history_raw)[-10:] if chat_history_raw else []
 
 
     #Append the new user message
@@ -263,6 +278,7 @@ def handle_chat_input():
     else:
         version_input = json.loads(redis_client.get(f"{user_id}_version_input_data"))
         version_input = version_input["input"]
+        print("sending these to when_docs_avail", matched_docs)
         response_content = when_docs_avail(matched_docs, user_input, version_input, chat_history)
 
     chat_history.append({"role": "assistant", "content": response_content})
@@ -358,3 +374,21 @@ def stress_plot_graph():
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5001))  # Use PORT from environment, default to 5001
     serve(app, host="0.0.0.0", port=port)
+
+
+
+
+""":
+1) Optimize collecting data from redis by:
+ # Instead of loading full DataFrames:
+sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
+
+# Use chunked loading:
+chunk_size = 100  # Adjust based on your data
+for chunk in pd.read_json(StringIO(redis_data), chunksize=chunk_size):
+    process(chunk)
+
+    
+2) 
+
+"""

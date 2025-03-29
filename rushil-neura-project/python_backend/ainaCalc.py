@@ -20,7 +20,7 @@ openai.api_key = os.environ.get('OPENAI_API_KEY')
 client = OpenAI(api_key= os.environ.get('OPENAI_API_KEY')) 
 
 
-def generate_embeddings(texts):
+"""def generate_embeddings(texts):
     startArray = []
     for i in texts:
         response = client.embeddings.create(
@@ -30,7 +30,30 @@ def generate_embeddings(texts):
         embedding = response.data[0].embedding
         truncated_embedding = embedding[:1024] 
         startArray.append(truncated_embedding)
-    return startArray
+    return startArray"""
+
+def generate_embeddings(texts, batch_size=50):
+    embeddings = []
+    for i in range(0, len(texts), batch_size):
+        batch = texts[i:i+batch_size]
+        response = client.embeddings.create(
+            input=batch,
+            model="text-embedding-3-small"
+        )
+        embeddings.extend([e.embedding[:1024] for e in response.data])  # Match Pinecone dimension
+    return embeddings
+
+"""def generate_embeddings(texts):
+    startArray = []
+    for i in texts:
+        response = client.embeddings.create(
+        input= texts,
+        model="text-embedding-3-small"
+        )
+        embedding = response.data[0].embedding
+        truncated_embedding = embedding[:1024] 
+        startArray.append(truncated_embedding)
+    return startArray"""
 
 
 def get_predef_versions(StartDataFrame, dateArray):
@@ -73,6 +96,7 @@ def return_reference_docs(version, StartDataFrame, date_array, index):
 
     FinalChangedFrame = pd.DataFrame()
 
+    print("startdata frame", StartDataFrame)
     for i in range(len(StartDataFrame)):
         if(StartDataFrame['date'][i]==userVersionStartDate):
             j=i
@@ -80,8 +104,14 @@ def return_reference_docs(version, StartDataFrame, date_array, index):
                 j+=1
             FinalChangedFrame = StartDataFrame.loc[i:j+1]
 
+    print("final changed frame", FinalChangedFrame)
+    if FinalChangedFrame.empty:
+        return {"ids": [], "metadata": []}
+    
     fcf_md = FinalChangedFrame.to_markdown()
-    text_splitter = RecursiveCharacterTextSplitter(
+
+    
+    """text_splitter = RecursiveCharacterTextSplitter(
         separators=[
         "\n\n",
         "\n",
@@ -92,26 +122,58 @@ def return_reference_docs(version, StartDataFrame, date_array, index):
         "\u3002",  # Ideographic full stop
         "|"
         ]
+    )"""
+
+    text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,  # Larger chunks reduce total count
+    chunk_overlap=200,
+    separators=["\n\n", "\n", "|"]  # Simplified separators
     )
+
     docs = text_splitter.create_documents([fcf_md])
 
-    del docs[0]
-    del docs[0]
+    print("ye wala docs", docs)
 
+    if (len(docs)>2):
+        del docs[0]
+        del docs[0]
 
-    texts = [doc.page_content for doc in docs]
-    embeddings = generate_embeddings(texts)
+    #texts = [doc.page_content for doc in docs]
 
-    vectors = []
-    for i, (text, embedding) in enumerate(zip(texts, embeddings)):
-        vectors.append((f"doc_{i}", embedding, {"text": text}))
+    # Clean up documents
+    texts = []
+    for doc in docs:
+        content = doc.page_content.strip()
+        if content:  # Only keep non-empty documents
+            texts.append(content)
 
-    index.upsert(vectors)
-    
-    return {
-        "ids": [v[0] for v in vectors],
-        "metadata": [v[2] for v in vectors]
-    }
+    # If no valid texts after cleaning, return empty
+    print(texts)
+    print("docs", docs)
+    if not texts:
+        return {"ids": [], "metadata": []}
+    del docs
+    try:
+        embeddings = generate_embeddings(texts)
+        
+        # Validate embeddings
+        valid_vectors = []
+        for i, (text, embedding) in enumerate(zip(texts, embeddings)):
+            valid_vectors.append((f"doc_{i}", embedding, {"text": text}))
+        
+        # Only upsert if we have valid vectors
+        if valid_vectors:
+            index.upsert(vectors=valid_vectors)
+            print(" The vectors seem to be valid ngl")
+        
+        return {
+            "ids": [v[0] for v in valid_vectors],
+            "metadata": [v[2] for v in valid_vectors]
+        }
+    except Exception as e:
+        print(f"Error generating embeddings: {e}")
+        return {"ids": [], "metadata": []}
+
 
 """
 A little summary of how transformers work.
@@ -157,19 +219,37 @@ def return_query_collection(collection, query_text, index):
         include_metadata=True
     )
 
-
+    #print("these are the query results", query_result)
     # Extract matched documents
     matched_docs = [match.metadata["text"] for match in query_result.matches]
+    #print('these are the matched docs', matched_docs)
     return matched_docs
 
+def clean_query_results(query_results, reqLeng):
+    cleaned = []
+    for doc in query_results[:reqLeng]:  # Take first two elements
+        # Split by pipe character and strip whitespace
+        parts = [part.strip() for part in doc.split('|') if part.strip()]
+        # Filter out empty strings and join with newlines
+        clean_doc = '\n'.join([p for p in parts if p])
+        cleaned.append(clean_doc)
+    
+    # Combine the first two cleaned documents
+    context = '\n\n'.join(cleaned)
+    return context
+
+
 def when_docs_avail(matched_documents, query_text, versionInput, chatHistory):
-    all_searchRes = []
+    """all_searchRes = []
     for i in matched_documents[0]:
         for j in range(len(matched_documents[0])):
             match = matched_documents[0][j].split('|')
             match = match[2:]
             all_searchRes.append(match)
+    
 
+
+    #print("this is the allsearch rs", all_searchRes)
 
     max_len = max(len(sub_array) for sub_array in all_searchRes)
 
@@ -182,10 +262,17 @@ def when_docs_avail(matched_documents, query_text, versionInput, chatHistory):
     # Flatten the array
     all_searchRes = np.reshape(all_searchRes, (len(all_searchRes) * max_len,))
 
-    context = ''.join(all_searchRes)
+    context = ''.join(all_searchRes)"""
+    if len(matched_documents)>=2:
+        context = clean_query_results(matched_documents, 2)
+    elif (len(matched_documents)==1):
+        context = clean_query_results(matched_documents, 1)
+    else:
+        context = ''
     client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
 
 
+    print("this is the context", context)
     prompt = f"Respond based only on this context: {context}. \n Behave as much as possible as if you were the agent writing all of  these things, exhibiting the same traits as the hypothetical individual writing this. Mimic their language as well, dont make it too formal. When asked who you are, reply say that you are the user's version of choice which is {versionInput}. \n Answer and converse based off of this current user prompt: {query_text}"
     chatHistory.append({"role": "user", "content": prompt})
     response = client.chat.completions.create(
