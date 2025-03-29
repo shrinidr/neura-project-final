@@ -1,18 +1,14 @@
-import pymongo
 import pandas as pd
 import numpy as np
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-import joblib
 import spacy
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
 from dotenv import load_dotenv
-import os
 
 
-
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_md")
 def get_stress_data(StartDataFrame):
 
     stress_data = []
