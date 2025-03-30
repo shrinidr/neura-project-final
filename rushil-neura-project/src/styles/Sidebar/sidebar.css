@@ -1,7 +1,7 @@
 .sidebar {
     position: fixed;
     border-radius: 15px;
-    width: 30.6vh;
+    width: 15%;
     left: -1%;
     height: calc(80.6vh); /* Full height minus margin */
     background-color: #1e2125;
