@@ -20,6 +20,8 @@ interface IconProps{
 const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange, inputChange}) => {
 
 
+    const [versionStatus, changeVersionStatus] = useState<boolean>(false);
+
     const {getToken} = useAuth();
     if(babyState){}
     const Names: NameArray[] = [{font: "fa-solid fa-mountain", name: "Genesis"},
@@ -71,7 +73,9 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
                 {
             headers: { Authorization: `Bearer ${token}` },
         });
-            console.log(response)
+            if (response.status==200)
+                changeVersionStatus(true);
+            console.log(response.status==200)
         } catch (error) {
             console.error(`i hate my life ${error}`);
         }
@@ -176,7 +180,7 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
                                 <div className="control maximize"></div>
                             </div>
                         </div>
-                        <div className="text"> Say something...</div>
+                        {versionStatus==true?<div className="text2">  Model built 🚀 </div>:<div className="text">  Building model 🔧</div>}
                     </div>:<div/>}
 
                 </div>

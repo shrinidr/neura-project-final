@@ -698,7 +698,7 @@ strong {
 
     45%,
     55% {
-        width: 9.5em;
+        width: 11em;
     }
 
     /* adjust width based on content */
@@ -723,7 +723,7 @@ strong {
     position: relative;
     overflow: hidden;
     box-sizing: border-box;
-    margin-left: -590px;
+    margin-left: -600px;
         margin-top: 180px;
 }
 
@@ -775,14 +775,31 @@ strong {
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
+    position: absolute;
     border-right: 0.2em solid green;
     /* Cursor */
-    animation: typeAndDelete 4s steps(11) infinite,
+    animation: typeAndDelete 4s steps(20) infinite,
         blinkCursor 0.5s step-end infinite alternate;
     margin-top: 1.5em;
+    top: 30%;
+    left: 26%;
 }
 
 
+.text2{
+
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-top: 1.5em;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+
+}
 
 /* Overlay and Blurred Background */
 .overlay {
