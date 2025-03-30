@@ -185,8 +185,6 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
 
                 </div>
                 }
-
-
         </>
 
     )

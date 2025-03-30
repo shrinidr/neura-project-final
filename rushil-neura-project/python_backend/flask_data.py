@@ -6,10 +6,12 @@ import plotly.graph_objs as go
 import plotly.io as pio
 from jose import jwt
 from dotenv import load_dotenv
+import time
 import os
 import logging
 from io import StringIO
 import json
+import redis.client
 import requests
 import pandas as pd
 import spacy
@@ -29,7 +31,7 @@ CORS(app, resources={r"/*": {"origins": ["https://www.neura-inc.com", "http://lo
 # With this:
 #nlp = spacy.load("en_core_web_sm", disable=["parser", "ner"])
 
-nlp = spacy.load("en_core_web_md", disable=["parser", "ner", "tagger"])
+nlp = spacy.load("en_core_web_md", disable=['ner', 'parser'])
 
 
 logging.basicConfig(level=logging.INFO)
@@ -94,7 +96,8 @@ response = requests.get(jwk_url)
 jwk_keys = response.json().get("keys")
 clerk_jwk = jwk_keys[0] if jwk_keys else None
 
-
+#Array for input padding. 
+EXPECTED_INPUTS = [f"input{i}" for i in range(1, 8)]
 
 # Initialize Pinecone
 pinecone_api_key = os.getenv('PINECONE_API_KEY')
@@ -140,23 +143,31 @@ def store_data():
     #print("This is the user id", userId)
     if not userId:
         return jsonify({"error": "Unauthorized"}), 401
-
+    
+    print(redis_client)
     if redis_client.exists(f"{userId}_StartDataFrame"):
-        redis_client.expire(f"{userId}_StartDataFrame", 3600)
-        redis_client.expire(f"{userId}_CleanedDataFrame", 3600)
-        redis_client.expire(f"{userId}_date_array", 3600)
-        redis_client.expire(f"{userId}_data_array", 3600)
-        redis_client.expire(f"{userId}_cleaned_data_array", 3600)
-        redis_client.expire(f"{userId}_version_input_data", 3600)
-        redis_client.expire(f"{userId}_repCollection", 3600)
-        redis_client.expire(f"{userId}_chatHistory", 3600)
-        redis_client.expire(f"{userId}_cum_happy", 3600)
-        redis_client.expire(f"{userId}_daily_word_bc", 3600)
-        redis_client.expire(f"{userId}_daily_happy_plot", 3600)
-        redis_client.expire(f"{userId}_stress_plot", 3600)
-        return jsonify({"message": "Initialized cache deleted."}), 200
+            print("Existing cache found, extending TTL")
+            redis_client.expire(f"{userId}_StartDataFrame", 3600)
+            redis_client.expire(f"{userId}_CleanedDataFrame", 3600)
+            redis_client.expire(f"{userId}_date_array", 3600)
+            redis_client.expire(f"{userId}_data_array", 3600)
+            redis_client.expire(f"{userId}_cleaned_data_array", 3600)
+            redis_client.expire(f"{userId}_version_input_data", 3600)
+            redis_client.expire(f"{userId}_repCollection", 3600)
+            redis_client.expire(f"{userId}_chatHistory", 3600)
+            redis_client.expire(f"{userId}_cum_happy", 3600)
+            redis_client.expire(f"{userId}_daily_word_bc", 3600)
+            redis_client.expire(f"{userId}_daily_happy_plot", 3600)
+            redis_client.expire(f"{userId}_stress_plot", 3600)
+            keys = redis_client.keys(f"{userId}_*")
+            """if keys:
+                redis_client.delete(*keys)
+                print(f"Deleted {len(keys)} cache keys for user {userId}")
+            return jsonify({"message": "Initialized cache deleted."}), 200"""
+
 
     data_stack = pd.DataFrame(list(collection.find({"userId": userId})))
+    
     #print("This is the bitchy data stack:", data_stack)
     if data_stack.empty:
         return jsonify({"error": "User data not found"}), 404
@@ -173,22 +184,49 @@ def store_data():
         dt = req_vals[i]['date']
         date_str = f"{dt.year}-{dt.month}-{dt.day}"
         date_array.append(date_str)
+
+        current_entries = {input_id: "" for input_id in EXPECTED_INPUTS}
+        current_cleaned = {input_id: [] for input_id in EXPECTED_INPUTS}
+        
         req_obj= req_vals[i]['entries']
+        """
         for j in range(len(req_obj)):
             data_array[req_obj[j]['id']].append(req_obj[j]['content'])
             document = nlp(req_obj[j]['content'])
-            cleaned_data_array[req_obj[j]['id']].append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
+            cleaned_data_array[req_obj[j]['id']].append([tok.lemma_ for tok in document if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])"""
+        
+        for field in req_obj:
+            input_id = field['id']
+            if input_id in EXPECTED_INPUTS and field.get('content'):
+                content = field['content']
+                current_entries[input_id] = content
+                
+                # Process NLP if content exists
+                if content and isinstance(content, str):
+                    doc = nlp(content)
+                    current_cleaned[input_id] = [
+                        tok.lemma_ for tok in doc 
+                        if not (tok.is_stop or tok.is_punct or tok.is_digit)
+                    ]
+        
+        # Append to main arrays
+        for input_id in EXPECTED_INPUTS:
+            data_array[input_id].append(current_entries[input_id])
+            cleaned_data_array[input_id].append(current_cleaned[input_id])
+
     #print("this is the motherfukcing date array", date_array)
     min_len = min(len(lst) for lst in data_array.values())
     data_array = {k: v[:min_len] for k, v in data_array.items()}
 
+    
     min_len2 = min(len(lst) for lst in cleaned_data_array.values())
     cleaned_data_array = {k: v[:min_len2] for k, v in cleaned_data_array.items()}
+
 
     StartDataFrame = pd.DataFrame(data_array)
     CleanedDataFrame = pd.DataFrame(cleaned_data_array)
 
-    print("this is the start data frame iguess", StartDataFrame)
+    print("sdf length in store data", len(StartDataFrame))
     # Store data in Redis
     redis_client.setex(f"{userId}_StartDataFrame", 3600, StartDataFrame.to_json(orient="records"))
     redis_client.setex(f"{userId}_CleanedDataFrame", 3600,  CleanedDataFrame.to_json(orient="records"))
@@ -206,8 +244,23 @@ def store_data():
     redis_client.setex(f"{userId}_repCollection", 3600, json.dumps({}))
     redis_client.setex(f"{userId}_chatHistory", 3600, json.dumps([]))
 
-    print(pd.read_json(redis_client.get(f"{userId}_date_array")))
+    #print(pd.read_json(redis_client.get(f"{userId}_date_array")))
     return "Data initialized successfully", 200
+
+@app.route('/refreshCache', methods=['POST'])
+def refresh_cache():
+    user_id = get_user_id()
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    # Delete all existing keys to force fresh load
+    keys = redis_client.keys(f"{user_id}_*")
+    if keys:
+        redis_client.delete(*keys)
+    
+    # Call store_data to repopulate
+    return store_data()
+
 
 @app.route('/version_input', methods = ['POST'])
 def handle_version_input():
@@ -234,7 +287,6 @@ def handle_version_input():
 Things that you should take care of:
 1) If the flask script is running, its possible to change the versions. Solve this later on.
 """
-
 @app.route('/datesFind', methods = ['GET'])
 def datesFind():
     user_id = get_user_id()
@@ -246,10 +298,12 @@ def datesFind():
     print('dates find sdf', sdf)
     json_string = redis_client.get(f"{user_id}_date_array")
     udate_array = json.loads(json_string)
+    print(len(udate_array))
     answer1 = get_predef_versions(sdf, udate_array)
     date_answer = return_date_matrix(answer1)
     print("date answer", date_answer)
     return jsonify({"response": date_answer}), 200
+    
 
 @app.route('/process-chat-input', methods=['POST'])
 def handle_chat_input():

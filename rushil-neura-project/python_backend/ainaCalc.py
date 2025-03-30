@@ -60,8 +60,11 @@ def get_predef_versions(StartDataFrame, dateArray):
     if not dateArray:  # Ensure dateArray is not empty
         raise ValueError("dateArray cannot be empty")
     
+    print("datearray length", len(dateArray))
+    
     StartDataFrame["date"] = dateArray
 
+    
     versionsName = ["Genesis", "Origins", "Echo", "Whisper", "Now"]
     predefined_versions = {name: {"startDate": "", "endDate": ""} for name in versionsName}
 
@@ -236,7 +239,7 @@ def return_query_collection(collection, query_text, index, user_id):
     )"""
     query_result = index.query(
         vector=query_embedding,
-        top_k=2,
+        top_k=3,
         namespace=user_id,  # Critical isolation
         filter={"user_id": {"$eq": user_id}},  # Double protection
         include_metadata=True

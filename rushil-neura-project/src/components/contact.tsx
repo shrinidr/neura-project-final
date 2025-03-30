@@ -12,7 +12,7 @@ const Contact = () => {
               </div>
               <div className="information">
                 <i className="fas fa-envelope"></i> &nbsp;&nbsp;
-                <p> neura@gmail.com</p>
+                <p> All Comm to : neurajournal@gmail.com </p>
               </div>
               <div className="information">
                 <i className="fas fa-phone"></i>&nbsp;&nbsp;
@@ -42,17 +42,17 @@ const Contact = () => {
           <div className="contact-form">
             <h3 className="letsgetintouch">Contact us</h3>
             <div className="input-container">
-              <input type="text" className="input69" placeholder="First Name" />
-              <input type="text" className="input69" placeholder="Last Name" />
+              <input type="text" className="input69" placeholder="First Name" disabled/>
+              <input type="text" className="input69" placeholder="Last Name" disabled/>
             </div>
             <div className="input-container">
-              <input type="email" className="input69" placeholder="Email" />
+              <input type="email" className="input69" placeholder="Email" disabled/>
             </div>
             <div className="input-container">
-              <input type="tel" className="input69" placeholder="Phone" />
+              <input type="tel" className="input69" placeholder="Phone" disabled />
             </div>
             <div className="input-container textarea">
-              <textarea className="input69" placeholder="Tell us what we can help you with"></textarea>
+              <textarea className="input69" placeholder="Tell us what we can help you with" disabled></textarea>
             </div>
             <button className="contactbtn" type="button">Send</button>
           </div>
