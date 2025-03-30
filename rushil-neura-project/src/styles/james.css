@@ -428,7 +428,8 @@ footer .footer p {
   display: inline-block;
   margin-left: 100px;
   margin-bottom: 20px;
-  margin-top: 50px
+  top: 10px;
+  width: 1000px;
 }
 
 .package {
@@ -465,13 +466,29 @@ footer .footer p {
   width: 70%;
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
+  margin-top: 15vh;
+  margin-left: 2vh;
 }
 
 .left-gap {
   order: 1
 }
 
+
+.ma-la{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15vh;
+  margin-left: 2vh;
+
+}
+
+.la-ma{
+  order : 1;
+}
 .right-gap {
   order: 2
 }

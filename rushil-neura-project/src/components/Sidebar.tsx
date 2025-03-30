@@ -1,22 +1,71 @@
 
 
-import { Link } from 'react-router-dom';
+
+{/*import { Link } from "react-router-dom";
+import "../styles/Sidebar/sidebar.css" // Create this CSS file
 
 const SideBar = () => {
-    return (
-        <>
-        <div className="sidebar"> <br />
+  return (
+    <div className="sidebar">
+      <div className="sidebar-content">
+        <Link to="/home" className="sidebar-item">
+          <i className="fa-solid fa-meteor sidebar-icon"></i>
+          <span className="sidebar-text">Home</span>
+        </Link>
+        
+        <Link to="/insights" className="sidebar-item">
+          <i className="fa-brands fa-uncharted sidebar-icon"></i>
+          <span className="sidebar-text">Insights</span>
+        </Link>
+        
+        <Link to="/chat" className="sidebar-item">
+          <i className="fa-solid fa-ethernet sidebar-icon"></i>
+          <span className="sidebar-text">aiNA</span>
+        </Link>
+        
+        <Link to="/more_insights" className="sidebar-item">
+          <i className="fa-solid fa-head-side-virus sidebar-icon"></i>
+          <span className="sidebar-text">Health</span>
+        </Link>
+      </div>
+    </div>
+  );
+};
 
-            <Link to = '/home'><i className="fa-solid fa-meteor" id = "HomeIcon"></i>  </Link>
-            <Link to = '/home'> <p> Home </p>  </Link> 
-            <Link to = '/insights'> <i className="fa-brands fa-uncharted" id="gear"></i> <p>Insights</p> </Link> 
-            <Link to = '/chat'> <i className="fa-solid fa-ethernet" id = "ChatIcon"></i> <p>aiNA</p> </Link> 
-            <Link to = '/more_insights'> <i className = "fa-solid fa-head-side-virus" id = "moreInsightsIcon"></i> <p className = "moreInsightsText"> Health</p> </Link>
-            
+export default SideBar;*/}
 
-        </div>
-        </>
-    )
-}
+import { Link, useLocation } from "react-router-dom";
+import "../styles/Sidebar/sidebar.css" // Create this CSS file
 
-export default SideBar
+const SideBar = () => {
+  const location = useLocation();
+
+  // Map of paths to sidebar items
+  const navItems = [
+    { path: "/home", icon: "fa-solid fa-meteor", text: "Home" },
+    { path: "/insights", icon: "fa-brands fa-uncharted", text: "Insights" },
+    { path: "/chat", icon: "fa-solid fa-ethernet", text: "aiNA" },
+    { path: "/more_insights", icon: "fa-solid fa-head-side-virus", text: "Health" },
+  ];
+
+  return (
+    <div className="sidebar">
+      <div className="sidebar-content">
+        {navItems.map((item) => (
+          <Link
+            to={item.path}
+            className={`sidebar-item ${
+              location.pathname === item.path ? "active" : ""
+            }`}
+            key={item.path}
+          >
+            <i className={`${item.icon} sidebar-icon`}></i>
+            <span className="sidebar-text">{item.text}</span>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default SideBar;

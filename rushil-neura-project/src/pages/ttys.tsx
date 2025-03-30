@@ -11,18 +11,10 @@ import { useAuth } from "@clerk/clerk-react"
 const TTys = () => {
 
     const [userInput, inputState] = useState<string>('')
-    //const [isVisible, setIsVisible] = useState(false);
-
-    {/*const toggleRectangle = () => {
-    setIsVisible(!isVisible);
-    };*/}
-
     const {getToken} = useAuth();
-    const [chatHistory, setChatHistory] = useState<Array<{ user: string, response: string }>>([])
-
+    const [chatHistory, setChatHistory] = useState<Array<{ user: string, response: string, isLoading: boolean }>>([])
     const [babyState, babyStateChange] = useState<boolean>(false)
-    const [ihatemylife, ihatemylifemore] = useState<string>('')
-
+    const [ihatemylife, ihatemylifemore] = useState<string>('');
 
     {/*const keyDownVal = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
@@ -47,6 +39,13 @@ const TTys = () => {
     if (event.key === 'Enter') {
         const inputVal = event.currentTarget.value;
 
+        if (!inputVal.trim()) return; // Don't send empty messages
+        setChatHistory(prev => [...prev, { 
+            user: inputVal, 
+            response: '', 
+            isLoading: true 
+        }]);
+
         try {
             const token = await getToken(); // Await the token
             if (!token || token.split('.').length !== 3) {
@@ -65,10 +64,32 @@ const TTys = () => {
                 }
             );
 
-            setChatHistory(prev => [...prev, { user: inputVal, response: response.data.response }]);
+            //setChatHistory(prev => [...prev, { user: inputVal, response: response.data.response }]);
+
+            setChatHistory(prev => {
+                const newHistory = [...prev];
+                const lastMessage = newHistory[newHistory.length - 1];
+                if (lastMessage) {
+                    lastMessage.response = response.data.response;
+                    lastMessage.isLoading = false;
+                }
+                return newHistory;
+            });
+
         } catch (error) {
             console.error("Error in process-chat-input request:");
-        }
+            console.error("Error in process-chat-input request:", error);
+                // Update with error message if request fails
+                setChatHistory(prev => {
+                    const newHistory = [...prev];
+                    const lastMessage = newHistory[newHistory.length - 1];
+                    if (lastMessage) {
+                        lastMessage.response = "Sorry, something went wrong. Please try again.";
+                        lastMessage.isLoading = false;
+                    }
+                    return newHistory;
+                });
+            }
     }
     }
 
@@ -143,24 +164,32 @@ const TTys = () => {
             <div className="main_content" ref = {mainContentRef}>
                 <ChatCompo iconDataProps={handleIconChange}  babyState = {babyState} verValChange= {handleVerValChange}
                 inputChange = {ihatemylife}/>
-                {verVal==true?
-                <div className="chat_container">
-                    {chatHistory.map((chat, index) => (
-                        <div key={index}>
-                            <div className="user_input_bubble">
-                                <p>{chat.user}</p>
+                {verVal && (
+                    <div className="chat_container">
+                        {chatHistory.map((chat, index) => (
+                            <div key={index}>
+                                {chat.user && (
+                                    <div className="user_input_bubble">
+                                        <p>{chat.user}</p>
+                                    </div>
+                                )}
+                                <div className="response_bubble">
+                                    <i className={iconState} id="newIconState"></i>
+                                    {chat.isLoading ? (
+                                        <p className="spinner">⚙️</p>
+                                    ) : (
+                                        <p>{chat.response}</p>
+                                    )}
+                                </div>
+                                {!isAtBottom && (
+                                    <div className="scroll-to-bottomm" onClick={scrollToBottom}>
+                                        <i className="fa-solid fa-arrow-down" id="ttysArrow"></i>
+                                    </div>
+                                )}
                             </div>
-                            <div className="response_bubble">
-                                <i className={iconState} id = "newIconState"> </i>
-                                <p>{chat.response}</p>
-                            </div>
-                        {!isAtBottom &&
-                (<div className="scroll-to-bottomm" onClick = {scrollToBottom}>
-                    <i className="fa-solid fa-arrow-down" id="ttysArrow"></i> </div>)
-                }
+                        ))}
                     </div>
-                    ))}
-                </div>:<div/>}
+                )}
                 <div id = "coverUp">
                 <input
                         type="text"

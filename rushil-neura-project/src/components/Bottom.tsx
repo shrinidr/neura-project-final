@@ -66,7 +66,7 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                         </div>
                     </div>
                     <div className="image-gap left-gap">
-                        <img src="/testdisplay.png" alt="Image 1" />
+                        <img src="/Screenshot 2025-03-29 211616.png" alt="Image 1" />
                     </div>
                 </div>
 
@@ -93,7 +93,7 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                         </div>
                     </div>
                     <div className="image-gap right-gap">
-                        <img src="/testdisplay.png" alt="Image 2" />
+                        <img src="/Happinesscard.png" alt="Image 2" />
                     </div>
                 </div>
 
@@ -121,8 +121,14 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                 </button>
                         </div>
                     </div>
-                    <div className="image-gap left-gap">
-                        <img src="/testdisplay.png" alt="Image 3" />
+                    <div className="ma-la la-ma" >
+                        <img src="/WhatsApp Image 2025-03-29 at 21.39.30_bc5fb2cf.jpg" alt="Image 3"
+                        style={{
+                            width: 'auto',
+                            maxHeight: '70vh',  // Adjust this value as needed
+                            maxWidth: '100%',
+                            height: 'auto'
+                          }}/>
                     </div>
                 </div>
             </div>

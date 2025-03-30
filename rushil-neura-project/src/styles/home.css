@@ -520,7 +520,7 @@ background-color: rgb(17, 16, 16);
     color: rgb(183, 79, 111);
 }
 
-.sidebar {
+/*.sidebar {
     position: fixed;
     border-radius: 15px 15px 15px 15px;
     width: 200px;
@@ -528,7 +528,7 @@ background-color: rgb(17, 16, 16);
     background-color: #1e2125;
     margin-top: 20px;
     padding-left: 0px;
-}
+}*/
 
 
 textarea {
