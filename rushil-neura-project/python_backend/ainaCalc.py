@@ -60,8 +60,6 @@ def get_predef_versions(StartDataFrame, dateArray):
     if not dateArray:  # Ensure dateArray is not empty
         raise ValueError("dateArray cannot be empty")
     
-    print("datearray length", len(dateArray))
-    
     StartDataFrame["date"] = dateArray
 
     

@@ -108,22 +108,8 @@ pc = Pinecone(api_key=pinecone_api_key)
 
 # Connect to the index
 index_name = "neura-pinecone"
-"""if index_name not in pc.list_indexes():
-    pc.create_index(index_name, dimension=384,
-                     spec=ServerlessSpec(
-                    cloud='aws',
-                    region='us-east-1'
-                    ))  # Adjust dimension as needed"""
+
 index = pc.Index(index_name)
-
-"""def get_or_create_collection(name="my_collection"):
-    Get an existing collection or create a new one if it doesn't exist
-    try:
-        return CHROMA_CLIENT.get_collection(name=name)
-    except Exception as e:
-        print(f"⚠️ Collection  not found, creating a new one")
-        return CHROMA_CLIENT.create_collection(name=name)"""
-
 
 # Function to get User ID from JWT
 def get_user_id():
@@ -159,11 +145,6 @@ def store_data():
             redis_client.expire(f"{userId}_daily_word_bc", 3600)
             redis_client.expire(f"{userId}_daily_happy_plot", 3600)
             redis_client.expire(f"{userId}_stress_plot", 3600)
-            keys = redis_client.keys(f"{userId}_*")
-            """if keys:
-                redis_client.delete(*keys)
-                print(f"Deleted {len(keys)} cache keys for user {userId}")
-            return jsonify({"message": "Initialized cache deleted."}), 200"""
 
 
     data_stack = pd.DataFrame(list(collection.find({"userId": userId})))
@@ -283,10 +264,7 @@ def handle_version_input():
     redis_client.setex(f"{user_id}_repCollection", 3600, json.dumps(repCol))
     return jsonify({"message": "Version received successfully"}), 200
 
-"""
-Things that you should take care of:
-1) If the flask script is running, its possible to change the versions. Solve this later on.
-"""
+
 @app.route('/datesFind', methods = ['GET'])
 def datesFind():
     user_id = get_user_id()
@@ -430,21 +408,3 @@ def stress_plot_graph():
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5001))  # Use PORT from environment, default to 5001
     serve(app, host="0.0.0.0", port=port)
-
-
-
-
-""":
-1) Optimize collecting data from redis by:
- # Instead of loading full DataFrames:
-sdf = pd.read_json(StringIO(redis_client.get(f"{user_id}_StartDataFrame")))
-
-# Use chunked loading:
-chunk_size = 100  # Adjust based on your data
-for chunk in pd.read_json(StringIO(redis_data), chunksize=chunk_size):
-    process(chunk)
-
-    
-2) 
-
-"""
