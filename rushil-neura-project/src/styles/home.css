@@ -103,7 +103,7 @@ i {
 
 }
 #gear {
-    top: 13.5%;
+    top: 10.5%;
     left: 24%;
     color: white;
 }
@@ -111,31 +111,26 @@ i {
 #ChatIcon{
 
     left: 24%;
-    top: 19.9%;
+    top: 15.5%;
 
 }
 
 #HomeIcon{
-    top: 6.8%;
+    top: 5%;
     left: 24%;
 }
 
-
-
 #homeArrow{
-
     margin-top: 30%;
     margin-left: 70%;
 }
 
 #moreInsightsIcon{
+    top: 20.5%;
     left: 24%;
 }
 
-.moreInsightsText{
-    margin-left: 4%;
-    margin-top: 0.1%;
-}
+
 
 .data_head{
     margin-left: 20px;
@@ -538,8 +533,8 @@ background-color: rgb(17, 16, 16);
 
 
 textarea {
-    width: 900px;
-    height: 100px;
+    width: 95%;
+    height: 50px;
     background-color: #1e2125;
     border-radius: 15px 15px 15px 15px;
     color: white;
@@ -565,6 +560,8 @@ textarea {
     font-weight: 600;
     gap: 8px;
     cursor: pointer;
+    display: block;
+    margin: 20px auto; 
     box-shadow:
             0 4px 6px rgba(110, 104, 104, 0.3),
             0 -4px 6px rgba(110, 104, 104, 0.3),
