@@ -1,43 +1,12 @@
 
 
 
-{/*import { Link } from "react-router-dom";
-import "../styles/Sidebar/sidebar.css" // Create this CSS file
-
-const SideBar = () => {
-  return (
-    <div className="sidebar">
-      <div className="sidebar-content">
-        <Link to="/home" className="sidebar-item">
-          <i className="fa-solid fa-meteor sidebar-icon"></i>
-          <span className="sidebar-text">Home</span>
-        </Link>
-        
-        <Link to="/insights" className="sidebar-item">
-          <i className="fa-brands fa-uncharted sidebar-icon"></i>
-          <span className="sidebar-text">Insights</span>
-        </Link>
-        
-        <Link to="/chat" className="sidebar-item">
-          <i className="fa-solid fa-ethernet sidebar-icon"></i>
-          <span className="sidebar-text">aiNA</span>
-        </Link>
-        
-        <Link to="/more_insights" className="sidebar-item">
-          <i className="fa-solid fa-head-side-virus sidebar-icon"></i>
-          <span className="sidebar-text">Health</span>
-        </Link>
-      </div>
-    </div>
-  );
-};
-
-export default SideBar;*/}
 
 import { Link, useLocation } from "react-router-dom";
 import "../styles/Sidebar/sidebar.css" // Create this CSS file
 
 const SideBar = () => {
+
   const location = useLocation();
 
   // Map of paths to sidebar items
