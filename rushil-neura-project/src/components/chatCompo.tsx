@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useAuth } from "@clerk/clerk-react";
 interface NameArray{
     font: string;
-    name: String
+    name: String;
 }
 
 interface IconProps{
@@ -19,6 +19,8 @@ interface IconProps{
     that user data has been entered for simplicity purposes*/}
 const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange, inputChange}) => {
 
+
+    const [versionStatus, changeVersionStatus] = useState<boolean>(false);
 
     const {getToken} = useAuth();
     if(babyState){}
@@ -67,11 +69,13 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
         const sendData = async () => {
         try {
             const token = await getToken();
-            const response = await axios.post('http://127.0.0.1:5002/version_input', { input: vData },
+            const response = await axios.post(`${import.meta.env.VITE_PYTHON_BACKEND_URL}/version_input`, { input: vData },
                 {
             headers: { Authorization: `Bearer ${token}` },
         });
-            console.log(response)
+            if (response.status==200)
+                changeVersionStatus(true);
+            console.log(response.status==200)
         } catch (error) {
             console.error(`i hate my life ${error}`);
         }
@@ -106,10 +110,11 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
     const findVersionData = async () => {
         try{
             const token = await getToken();
-            const response = await axios.get('http://127.0.0.1:5002/datesFind', {
+            //http://127.0.0.1:5002/datesFind
+            const response = await axios.get(`${import.meta.env.VITE_PYTHON_BACKEND_URL}/datesFind`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            console.log(response)
+            //console.log(response)
             genesisObjChange(response.data.response["Genesis"])
             originsObjChange(response.data.response["Origins"])
         }
@@ -147,8 +152,8 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
                 {isOpen &&
                 <div className={`dropdown-container ${isOpen ? 'open' : ''}`}>
                     <div className="dropdown">
-                    {Names.map((item) => (
-                        <button className="dropdown-item" onClick= {() => changedForm(item.name, item.font)}>
+                    {Names.map((item, index) => (
+                        <button key={index} className="dropdown-item" onClick= {() => changedForm(item.name, item.font)}>
                             <span className="name">{item.name}</span>
                             <i className={item.font} id = "versionIconS"></i>
                         </button>
@@ -163,7 +168,7 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
                         setVersionData(false)
                         verValChange(false)
                         }}></i>
-                    <i className="fa-regular fa-circle fa-xs" style={{right: '13%', top: '6.2%'}}></i>
+                    <i className="fa-regular fa-circle fa-xs" style={{right: '13%', top: '4.8vh'}}></i>
                     <span className = "arbit"><b> {vData} </b></span>
                     {inputChange==''?
                     <div className="terminal-loader">
@@ -175,13 +180,11 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
                                 <div className="control maximize"></div>
                             </div>
                         </div>
-                        <div className="text"> Say something...</div>
+                        {versionStatus==true?<div className="text2">  Model built 🚀 </div>:<div className="text">  Building model 🔧</div>}
                     </div>:<div/>}
 
                 </div>
                 }
-
-
         </>
 
     )

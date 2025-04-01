@@ -2,8 +2,6 @@ Flask
 Flask_Cors
 flask_session
 joblib
-matplotlib
-nltk
 numpy
 pandas
 plotly
@@ -13,9 +11,13 @@ python_jose
 redis
 Requests
 scikit_learn
-seaborn
 spacy
-tensorflow
-vaderSentiment
 vaderSentiment
 waitress
+langchain-text-splitters
+openai
+numpy
+tabulate
+pinecone
+logging
+psutil

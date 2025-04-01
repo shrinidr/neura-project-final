@@ -55,7 +55,7 @@ html {
 .HomeBG {
   color: #ffffff;
   text-align: left;
-  font-family: "Gill Sans MT";
+  font-family: "DM Sans";
   font-size: 55px;
   line-height: 100px;
   font-weight: 700;
@@ -63,7 +63,7 @@ html {
   width: 950px;
   overflow-y: auto;
   margin-top: 5vh;
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "DM Sans";
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -95,7 +95,7 @@ html {
 .Marker {
   color: #ffffff;
   text-align: left;
-  font-family: "OpenSans-Bold", sans-serif;
+  font-family: "DM Sans";
   font-size: 15px;
   font-weight: 700;
   position: absolute;
@@ -120,12 +120,12 @@ html {
 
 .SecondHeader {
   text-align: left;
-  font-family: 'Gill Sans MT';
+  font-family: "DM Sans";
   font-size: 65px;
   margin-left: 125px;
   margin-bottom: 25px;
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
+  width: 59.5vh;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -145,7 +145,7 @@ html {
   align-items: flex-start;
   justify-content: flex-start;
   position: relative;
-  font-family: "Gill Sans MT";
+  font-family: "DM Sans";
   font-size: 19px;
   margin-bottom: 12px;
   margin-top: 0px
@@ -269,18 +269,18 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   position: relative;
-  font-family: "Gill Sans MT";
+  font-family: "DM Sans";
   font-size: 19px;
   margin-bottom: 12px
 }
 
 .SecondHeader {
   text-align: left;
-  font-family: 'Gill Sans MT';
+  font-family: 'DM Sans';
   font-size: 65px;
   margin-top: 25vh;
   margin-left: 100px;
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -405,7 +405,7 @@ footer .footer p {
 }
 
 .BoxOne {
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 65px;
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
@@ -418,7 +418,7 @@ footer .footer p {
 }
 
 .BoxTwo {
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 65px;
   background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
@@ -428,11 +428,12 @@ footer .footer p {
   display: inline-block;
   margin-left: 100px;
   margin-bottom: 20px;
-  margin-top: 50px
+  top: 10px;
+  width: 1000px;
 }
 
 .package {
-  font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 19px;
   margin-top: 0px
 }
@@ -469,13 +470,29 @@ footer .footer p {
   width: 70%;
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
+  margin-top: 15vh;
+  margin-left: 2vh;
 }
 
 .left-gap {
   order: 1
 }
 
+
+.ma-la{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15vh;
+  margin-left: 2vh;
+
+}
+
+.la-ma{
+  order : 1;
+}
 .right-gap {
   order: 2
 }

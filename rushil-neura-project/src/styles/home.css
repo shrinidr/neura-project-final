@@ -22,7 +22,7 @@ a {
     margin-top: 30px;
     font-size: xx-large;
     color: white;
-    font-family: Helvetica,Arial, sans-serif;
+    font-family: "DM Sans";
     font-weight: bold;
 }
 
@@ -184,7 +184,7 @@ i {
 
 #infoButton{
 
-    left: 215px;
+    left: 5%;
     top: 43px;
     color:#696464;
 }
@@ -245,7 +245,7 @@ i {
 }
 .arbitrarystuff{
     text-align: right;
-    font-family: sans-serif;
+    font-family: "DM Sans";
     background: linear-gradient(to right, #057ef0 22%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -255,7 +255,7 @@ i {
 
 
 .arbitrary{
-    font-family: sans-serif;
+    font-family: "DM Sans";
         background: linear-gradient(to right, #057ef0 22%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -290,12 +290,9 @@ i {
         /* Break long words onto the next line */
         font-size: 15px;
         /* Adjust font size */
-        margin-top: 0px;
-        margin-bottom: 2.9%;
+        
         /* Vertical spacing between messages */
-        font-family: Helvetica,
-            Arial,
-            sans-serif;
+        font-family: "DM Sans";
         position: relative;
             /* Positioning relative to the parent */
         right: 133px;
@@ -307,18 +304,15 @@ i {
 
 .response_bubble {
     align-self: flex-start;
-    font-family: Helvetica,
-        Arial,
-        sans-serif;
+    font-family: "DM Sans";
     background-color: #1e2125;
     color: white;
     padding: 20px 1px 50px 20px;
     margin-left: 12%;
     display: block;
-    margin-top: 60px;
+    margin-top: 86px;
     max-width: 450px;
     line-height: 1.3;
-    margin-bottom: 0px;
 
 }
 
@@ -379,7 +373,7 @@ i {
 
 .version-selector-button {
 
-    margin-left: 250px;
+    margin-left: 9%;
     display: flex;
         background-color: #1e2125;
         outline: none;
@@ -521,7 +515,7 @@ background-color: rgb(17, 16, 16);
     color: rgb(183, 79, 111);
 }
 
-.sidebar {
+/*.sidebar {
     position: fixed;
     border-radius: 15px 15px 15px 15px;
     width: 200px;
@@ -529,7 +523,7 @@ background-color: rgb(17, 16, 16);
     background-color: #1e2125;
     margin-top: 20px;
     padding-left: 0px;
-}
+}*/
 
 
 textarea {

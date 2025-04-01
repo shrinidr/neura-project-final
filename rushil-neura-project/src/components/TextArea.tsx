@@ -73,7 +73,15 @@ const [isSubmitted, setIsSubmitted] = useState(false);
         },
       }
     );
+
     console.log("Data submitted successfully.")
+    // In your React component after saving a new entry 
+    await axios.post( `${import.meta.env.VITE_PYTHON_BACKEND_URL}/refreshCache`, {}, {
+    headers: { Authorization: `Bearer ${token}` }
+    });
+
+    console.log("Cache Changes Made in redis");
+
     
   }catch(error){
     console.log(`Error: ${error}`)

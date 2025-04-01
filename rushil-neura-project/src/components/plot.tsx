@@ -23,8 +23,6 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
     if (error){
     }
   }
-
-
    const makeBackendCall = async () => {
 
         try{
@@ -78,7 +76,7 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
       {plotData ? (
         <Plot data={plotData.data} layout={plotData.layout} />
       ) : (
-        <p>No data available.</p>
+        <p style = {{paddingLeft : '10px'}}>Wait for 25-30s, return to Home if you still see this message. </p>
       )}
     </div>
   );

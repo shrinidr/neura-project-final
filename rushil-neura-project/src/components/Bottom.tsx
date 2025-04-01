@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 interface Props {
     text1: string;
     text2: string;
@@ -7,7 +7,39 @@ interface Props {
     text4: string;
 }
 
+
 const Bottom = ({ text1, text2, text3, text4 }: Props) => {
+    const navigate = useNavigate();
+    const {isSignedIn } = useUser();
+    const buttonHandle = () => {
+        
+        if (!isSignedIn) {
+            navigate("/sign-in");
+        }
+        else{
+            navigate("/home");
+        }
+    }
+    const buttonHandle2 = () => {
+        
+        if (!isSignedIn) {
+            navigate("/sign-in");
+        }
+        else{
+            navigate("/chat");
+        }
+    }
+     
+    const buttonHandle3 = () => {
+        
+        if (!isSignedIn) {
+            navigate("/sign-in");
+        }
+        else{
+            navigate("/contact-us");
+        }
+    }
+    
     return (
         <div className="bottom-section">
             <img className="BackgroundImage" src="/backg.jpg" alt="Background" />
@@ -17,11 +49,12 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                     <div className="section left">
                         <h2 className="SecondHeader">What we do</h2>
                         <div className="package">
-                            <p style={{ lineHeight: '20px' }}>
-                                {text1} <br /> {text2} <br /> {text3} <br /> {text4}
+
+                            <p style={{ lineHeight: '19px' }}>
+                                {text1}  {text2}  {text3}  {text4}
                             </p>
-                            <Link to="/home">
-                                <button className="btn" type="button">
+
+                                <button className="btn" type="button" onClick={buttonHandle}>
                                     <strong> Start Now</strong>
                                     <div id="container-stars">
                                         <div id="stars"></div>
@@ -31,11 +64,10 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                         <div className="circle"></div>
                                     </div>
                                 </button>
-                            </Link>
                         </div>
                     </div>
                     <div className="image-gap left-gap">
-                        <img src="/testdisplay.png" alt="Image 1" />
+                        <img src="/Screenshot 2025-03-29 211616.png" alt="Image 1" />
                     </div>
                 </div>
 
@@ -44,13 +76,15 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                         <h2 className="BoxOne">But what exactly?</h2>
                         <div className="package">
                             <p style={{ lineHeight: '19px' }}>
-                                Track your mental health using our insights section. <br/>
-                                Have a problem? Talk to yourself from the past and figure it out! <br/>
-                                Fitness data too complex? We gotchu. Read your data like a story <br/> Make sense of it to take actionable steps to fix your problems. <br />
+
+                                Track your mental health using our insights section. 
+                                Have a problem? Talk to yourself from the past and figure it out! 
+                                Fitness data too complex? We gotchu. Read your data like a story and make actual sense of it to take actionable steps to fix your problems.
+
                             </p>
-                            <Link to="/home">
-                                <button className="btn" type="button">
-                                    <strong> Talk to yourself. </strong>
+
+                                <button className="btn" type="button" onClick={buttonHandle2}>
+                                    <strong >Talk to yourself</strong>
                                     <div id="container-stars">
                                         <div id="stars"></div>
                                     </div>
@@ -59,11 +93,10 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                         <div className="circle"></div>
                                     </div>
                                 </button>
-                            </Link>
                         </div>
                     </div>
                     <div className="image-gap right-gap">
-                        <img src="/testdisplay.png" alt="Image 2" />
+                        <img src="/Happinesscard.png" alt="Image 2" />
                     </div>
                 </div>
 
@@ -72,14 +105,14 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                         <h2 className="BoxTwo">Our Mission</h2>
                         <div className="package">
                             <p style={{ lineHeight: '19px' }}>
-                                We help you bring together <br />
-                                your mental and physical health <br />
-                                all in one place. <br />
-                                To help you understand yourself in powerful ways.<br />
+                                We help you bring together 
+                                your mental and physical health 
+                                all in one place. 
+                                To help you understand yourself in powerful ways.
                                 That totally did not rhyme.
                             </p>
-                            <Link to="/home">
-                                <button className="btn" type="button">
+
+                                <button className="btn" type="button" onClick={buttonHandle3}>
                                     <strong> About Us </strong>
                                     <div id="container-stars">
                                         <div id="stars"></div>
@@ -89,18 +122,25 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                                         <div className="circle"></div>
                                     </div>
                                 </button>
-                            </Link>
                         </div>
                     </div>
-                    <div className="image-gap left-gap">
-                        <img src="/testdisplay.png" alt="Image 3" />
+                    <div className="ma-la la-ma" >
+                        <img src="/WhatsApp Image 2025-03-29 at 21.39.30_bc5fb2cf.jpg" alt="Image 3"
+                        style={{
+                            width: 'auto',
+                            maxHeight: '70vh',  // Adjust this value as needed
+                            maxWidth: '100%',
+                            height: 'auto'
+                          }}/>
                     </div>
                 </div>
             </div>
-
             <footer className="footer">
                 <div className="footer-content">
-                    <p> Neura</p>
+                <div>
+                    <img src="/neura-removebg-preview.png" />
+                    <Link to ='/'>  <p id="title"><b> Neura </b> </p> </Link> 
+                </div>
                     <div className="footer-links">
                         <Link to="/privacy">Privacy Policy</Link>
                         <Link to="/contact-us">Contact</Link>
@@ -108,6 +148,7 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                     </div>
                 </div>
             </footer>
+
 
         </div>
     );
