@@ -19,19 +19,6 @@ load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 client = OpenAI(api_key= os.environ.get('OPENAI_API_KEY')) 
 
-
-"""def generate_embeddings(texts):
-    startArray = []
-    for i in texts:
-        response = client.embeddings.create(
-        input= texts,
-        model="text-embedding-3-small"
-        )
-        embedding = response.data[0].embedding
-        truncated_embedding = embedding[:1024] 
-        startArray.append(truncated_embedding)
-    return startArray"""
-
 def generate_embeddings(texts, batch_size=50):
     embeddings = []
     for i in range(0, len(texts), batch_size):
@@ -42,18 +29,6 @@ def generate_embeddings(texts, batch_size=50):
         )
         embeddings.extend([e.embedding[:1024] for e in response.data])  # Match Pinecone dimension
     return embeddings
-
-"""def generate_embeddings(texts):
-    startArray = []
-    for i in texts:
-        response = client.embeddings.create(
-        input= texts,
-        model="text-embedding-3-small"
-        )
-        embedding = response.data[0].embedding
-        truncated_embedding = embedding[:1024] 
-        startArray.append(truncated_embedding)
-    return startArray"""
 
 
 def get_predef_versions(StartDataFrame, dateArray):
@@ -112,20 +87,6 @@ def return_reference_docs(version, StartDataFrame, date_array, index, userId):
     
     fcf_md = FinalChangedFrame.to_markdown()
 
-    
-    """text_splitter = RecursiveCharacterTextSplitter(
-        separators=[
-        "\n\n",
-        "\n",
-        "\u200b",  # Zero-width space
-        "\uff0c",  # Fullwidth comma
-        "\u3001",  # Ideographic comma
-        "\uff0e",  # Fullwidth full stop
-        "\u3002",  # Ideographic full stop
-        "|"
-        ]
-    )"""
-
     text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,  # Larger chunks reduce total count
     chunk_overlap=200,
@@ -140,8 +101,6 @@ def return_reference_docs(version, StartDataFrame, date_array, index, userId):
         del docs[0]
         del docs[0]
 
-    #texts = [doc.page_content for doc in docs]
-
     # Clean up documents
     texts = []
     for doc in docs:
@@ -154,25 +113,10 @@ def return_reference_docs(version, StartDataFrame, date_array, index, userId):
     print("docs", docs)
     if not texts:
         return {"namespace": userId}
-        #return {"ids": [], "metadata": []}
+        
     del docs
     try:
-        """embeddings = generate_embeddings(texts)
-        
-        # Validate embeddings
-        valid_vectors = []
-        for i, (text, embedding) in enumerate(zip(texts, embeddings)):
-            valid_vectors.append((f"doc_{i}", embedding, {"text": text}))
-        
-        # Only upsert if we have valid vectors
-        if valid_vectors:
-            index.upsert(vectors=valid_vectors)
-            print(" The vectors seem to be valid ngl")
-        
-        return {
-            "ids": [v[0] for v in valid_vectors],
-            "metadata": [v[2] for v in valid_vectors]
-        }"""
+       
         embeddings = generate_embeddings(texts)
         vectors = [
             (f"{userId}_doc_{i}", embedding, {"text": text, "user_id": userId})
@@ -216,25 +160,12 @@ If this is not beyond my human comprehension then what is?
 """
 
 def return_query_collection(collection, query_text, index, user_id):
-    """
-    Searches the ChromaDB collection for documents matching the query text.
-
-    Args:
-        collection: The ChromaDB collection to search in.
-        query_text: The search query text.
-        n_results: Number of top results to return. Defaults to 5.
-
-    Returns:
-        List of tuples containing document ids and corresponding contents.
-    """
+    
     # Perform the query
+
     query_embedding = generate_embeddings([query_text])[0]
+    
     # Query Pinecone
-    """query_result = index.query(
-        vector=query_embedding,
-        top_k=2,
-        include_metadata=True
-    )"""
     query_result = index.query(
         vector=query_embedding,
         top_k=3,
@@ -259,29 +190,7 @@ def clean_query_results(query_results, reqLeng):
 
 
 def when_docs_avail(matched_documents, query_text, versionInput, chatHistory):
-    """all_searchRes = []
-    for i in matched_documents[0]:
-        for j in range(len(matched_documents[0])):
-            match = matched_documents[0][j].split('|')
-            match = match[2:]
-            all_searchRes.append(match)
     
-
-
-    #print("this is the allsearch rs", all_searchRes)
-
-    max_len = max(len(sub_array) for sub_array in all_searchRes)
-
-    # Pad the arrays with empty strings
-    all_searchRes = [
-        sub_array + [''] * (max_len - len(sub_array))
-        for sub_array in all_searchRes
-    ]
-
-    # Flatten the array
-    all_searchRes = np.reshape(all_searchRes, (len(all_searchRes) * max_len,))
-
-    context = ''.join(all_searchRes)"""
     if len(matched_documents)>=2:
         context = clean_query_results(matched_documents, 2)
     elif (len(matched_documents)==1):
