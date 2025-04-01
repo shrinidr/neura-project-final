@@ -49,6 +49,7 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                     <div className="section left">
                         <h2 className="SecondHeader">What we do</h2>
                         <div className="package">
+
                             <p style={{ lineHeight: '19px' }}>
                                 {text1}  {text2}  {text3}  {text4}
                             </p>
@@ -75,9 +76,11 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                         <h2 className="BoxOne">But what exactly?</h2>
                         <div className="package">
                             <p style={{ lineHeight: '19px' }}>
+
                                 Track your mental health using our insights section. 
                                 Have a problem? Talk to yourself from the past and figure it out! 
                                 Fitness data too complex? We gotchu. Read your data like a story and make actual sense of it to take actionable steps to fix your problems.
+
                             </p>
 
                                 <button className="btn" type="button" onClick={buttonHandle2}>

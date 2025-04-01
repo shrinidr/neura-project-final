@@ -39,10 +39,10 @@ clerk_jwk = jwk_keys[0] if jwk_keys else None
 user_data = {}
 
 questions_dict = {"input1": "How was your day (In one sentence)?",
-        "input2": "How many times did you feel like smashing a wall?",
-        "input3": "How many times did you feel like dancing with said wall?",
-        "input4": "How much did you exercise?",
-        "input5": "How is your stress situation?",
+        "input2": "Did anything make you feel like smashing a wall today?",
+        "input3": "What was something that made you want to dance?",
+        "input4": "Did you exercise today? What did you do?",
+        "input5": "How are you dealing with stress in your life?",
         "input6": "Did you do anything that isn't part of your regular day?",
         "input7": "Any other thing that you think is worth remembering?"}
 
