@@ -540,7 +540,7 @@ textarea {
     scroll-padding-block: 0px;
     border: none;
     resize: none;
-    margin-top: 40px;
+    margin-top: 50px;
     overflow-y: auto;
 }
 
@@ -564,7 +564,7 @@ textarea {
     position: relative;
     overflow: hidden;
     transition-duration: 0.3s;
-    left: 15px;
+    left: 400px;
     bottom: 10px;
 }
 

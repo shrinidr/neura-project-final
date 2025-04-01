@@ -75,7 +75,7 @@ html {
 
 .mamachamamla {
   margin: 0;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'DM Sans', Times, serif;
   background: linear-gradient(to right, #b35b36 0%, #FFFFFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -599,7 +599,7 @@ footer {
   .onboarding-content {
     background: white;
     border-radius: 12px;
-    max-width: 500px;
+    max-width: 400px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
@@ -641,7 +641,7 @@ footer {
     font-weight: bold;
   }
   
-  .onboarding-slides-indicators {
+  /*.onboarding-slides-indicators {
     display: flex;
     align-items: center;
     width: auto;
@@ -663,7 +663,39 @@ footer {
   
   .onboarding-slides-indicator--active {
     background-color: black;
+  }*/
+  
+  .onboarding-slides-indicators {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px; /* Reduces spacing */
+    width: auto;
+    margin: 0 auto;
+    transform: translateX(-10px);
+    cursor: pointer;
   }
+  
+  /* Smaller, more compact indicators */
+  .onboarding-slides-indicator {
+    border-radius: 50%;
+    width: 8px; /* Reduced size */
+    height: 8px; /* Reduced size */
+    background-color: #666; /* Sleek grey */
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  }
+  
+  /* Active state */
+  .onboarding-slides-indicator--active {
+    background-color: #a78bfa; /* Modern soft purple */
+    transform: scale(1.4); /* Slight enlargement for emphasis */
+  }
+  
+  /* Optional: subtle hover effect */
+  .onboarding-slides-indicator:hover {
+    background-color: #888;
+  }
+
   
   @keyframes slideOutLeft {
     0% { transform: translateX(0); opacity: 1; }
@@ -680,7 +712,7 @@ footer {
     100% { transform: translateX(100%); opacity: 0; }
   }
   
-  .slide-out-right {
+  /*.slide-out-right {
     animation: slideOutRight 0.25s forwards;
   }
   
@@ -691,7 +723,9 @@ footer {
   .slide-in {
     animation: slideInRight 0.25s forwards;
   }
-  
+  */
+
+
   .onboarding-image {
     width: 100%;
     height: 250px;
@@ -710,26 +744,46 @@ footer {
   margin-right: auto;
 }
 
+
+
 .back-button, .close-button {
-  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  border-radius: 4px; 
-  height: 40px; 
-  width: 120px; 
+  border-radius: 8px; 
+  height: 44px; 
+  color: black;
+  width: 140px; 
   text-align: center;
-  display: inline-block; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
+  font-size: 16px;
+  outline: none;
+  font-family: "DM Sans", sans-serif;
 }
 
+/* Back Button - Sleek Outline Style */
 .back-button {
-  background-color: white;
-  color: #fb923c;
-  border: 4px solid #fb923c;
+  background-color: transparent;
+  color: linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Soft purple */
+  border: 2px solid #a78bfa;
 }
 
+.back-button:hover {
+  background-color: linear-gradient(to right, #6057dd 0%, #343b51 100%);;
+  color: #0f0f0f; /* Dark modern black */
+  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.4);
+}
+
+/* Close Button - Futuristic Solid Style */
 .close-button {
-  background: #fb923c;
+  background:  linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Deep purple gradient */
   color: white;
-  border: 4px solid #fb923c; 
+  border: none;
+}
+
+.close-button:hover {
+  background: linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Slightly brighter on hover */
+  box-shadow: 0 4px 15px rgba(147, 51, 234, 0.5);
 }

@@ -147,7 +147,7 @@ const [isSubmitted, setIsSubmitted] = useState(false);
       className={isSubmitted ? "submitButtonDead" : "submitButtonMain"}
       onClick={handleSubmit}
       disabled={isSubmitted} // Disables the button after submission
-    >
+      >
       {isSubmitted ? "Submitted" : "Submit All"}
     </button>
         </div>
