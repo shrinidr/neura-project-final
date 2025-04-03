@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+//import { useState, useEffect, useRef } from "react";
 import SideBar from "../components/Sidebar";
 import TextArea from "../components/TextArea";
 import Header from "../components/header";
@@ -6,10 +6,10 @@ import { useUser } from "@clerk/clerk-react";
 
 const MainPage = () => {
     const { isSignedIn } = useUser();
-    const [showOnboarding, setShowOnboarding] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    //const [showOnboarding, setShowOnboarding] = useState(false);
+    //const [currentIndex, setCurrentIndex] = useState(0);
     
-    const onboardingSteps = [
+    /*const onboardingSteps = [
         { image: "/testdisplay.png", title: "Home", text: "Hello! The text for this section will be added in the future." },
         { image: "/testdisplay2.jpg", title: "Insights", text: "Insights. The text for this section will be added in the future." },
         { image: "/testdisplay3.jpg", title: "aiNA", text: "aiNA. The text for this section will be added in the future." },
@@ -34,7 +34,6 @@ const MainPage = () => {
             }, 250);
         }
     };
-
     const handleBack = () => {
         if (currentIndex > 0) {
             setTransitionDirection("right");
@@ -57,15 +56,15 @@ const MainPage = () => {
             setCurrentIndex(index);
             setIsSliding(false);
         }, 250);
-    };
+    };*/
 
-    const handleClickOutside = (event: MouseEvent) => {
+    /*const handleClickOutside = (event: MouseEvent) => {
         if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
             setShowOnboarding(false);
         }
-    };
+    };*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (isSignedIn) {
             setShowOnboarding(true);
         }
@@ -73,7 +72,7 @@ const MainPage = () => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [isSignedIn]);
+    }, [isSignedIn]);*/
 
     if (!isSignedIn) {
         return <div>Please sign in to access this page.</div>;
