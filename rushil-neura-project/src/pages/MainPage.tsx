@@ -91,7 +91,7 @@ const MainPage = () => {
 
     return (
         <div className="main-page">
-            {showOnboarding && (
+            {/*{showOnboarding && (
                 <div className="onboarding-overlay">
                     <div
                         className="onboarding-content"
@@ -115,7 +115,6 @@ const MainPage = () => {
                         </ul>
                 
                         <div className="ob-button-container">
-                            {/* Back Button */}
                             <button 
                                 className={`back-button ${currentIndex === 0 ? "disabled" : ""}`} 
                                 onClick={handleBack} 
@@ -123,14 +122,14 @@ const MainPage = () => {
                             >
                                 Back
                             </button>
-                            {/* Next/Done Button */}
+
                             <button className="close-button" onClick={handleNext}>
                                 {currentIndex === onboardingSteps.length - 1 ? "Done" : "Next"}
                             </button>
                         </div>
                     </div>
                 </div>
-            )}
+            )}*/}
             <Header />
             <SideBar />
             <TextArea items={TextStuff} />
