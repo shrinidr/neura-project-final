@@ -742,8 +742,10 @@ footer {
   justify-content: center; 
   align-items: center; 
   gap: 10px; 
-  margin-left: auto;
-  margin-right: auto;
+  /*margin-left: auto;
+  margin-right: auto;*/
+  margin-top: auto;
+  margin-bottom: 24px;
 }
 
 
@@ -763,8 +765,8 @@ footer {
   font-size: 16px;
   outline: none;
   font-family: "DM Sans", sans-serif;
-  position: fixed; /* Changed to fixed positioning */
-  bottom: 50px; /* Distance from bottom */
+  position: relative; /* Changed to fixed positioning */
+  bottom: 5px; /* Distance from bottom */
 }
 
 /* Back Button - Sleek Outline Style */
@@ -772,7 +774,7 @@ footer {
   background-color: transparent;
   color: linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Soft purple */
   border: 2px solid #a78bfa;
-  left: 550px;
+  left: 50%;
 }
 
 /* Close Button - Futuristic Solid Style */
@@ -780,7 +782,7 @@ footer {
   background:  linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Deep purple gradient */
   color: white;
   border: none;
-  left: 650px;
+  left: 53%;
 }
 
 .back-button:hover {
