@@ -93,7 +93,7 @@ const MainPage = () => {
             navigate('/home', { replace: true });
           }
         }
-      }, [isSignedIn, location.search, navigate]);
+      }, [location.search, navigate]);
     
       useEffect(() => {
         // Only add listener when onboarding is visible
@@ -108,6 +108,11 @@ const MainPage = () => {
         };
       }, [showOnboarding]);
     
+      useEffect(() => {
+        console.log('Location search:', location.search);
+        const searchParams = new URLSearchParams(location.search);
+        console.log('newUser param:', searchParams.get('newUser'));
+    }, [location.search]);
     
     return (
         <div className="main-page">
