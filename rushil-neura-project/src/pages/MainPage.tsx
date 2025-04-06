@@ -23,46 +23,6 @@ const MainPage = () => {
 
     return (
         <div className="main-page">
-            {/*{showOnboarding && (
-                <div className="onboarding-overlay">
-                    <div
-                        className="onboarding-content"
-                        ref={modalRef}
-                    >
-                        <img 
-                            src={onboardingSteps[currentIndex].image} 
-                            alt="Onboarding" 
-                            className={`onboarding-image ${isSliding ? (transitionDirection === "left" ? "slide-out-left" : "slide-out-right") : "slide-in"}`}
-                            style = {{width: '280px'}}
-                        />
-                        <h2>{onboardingSteps[currentIndex].title}</h2>
-                        <p>{onboardingSteps[currentIndex].text}</p>
-                        <div className="onboarding-slides-indicators">
-                            {onboardingSteps.map((_, index) => (
-                                <div 
-                                    key={index} 
-                                    className={`onboarding-slides-indicator ${index === currentIndex ? "onboarding-slides-indicator--active" : ""}`}
-                                    onClick={() => handleStepClick(index)}
-                                ></div>
-                            ))}
-                        </div>
-                
-                        <div className="ob-button-container">
-                            <button 
-                                className={`back-button ${currentIndex === 0 ? "disabled" : ""}`} 
-                                onClick={handleBack} 
-                                disabled={currentIndex === 0}
-                            >
-                                Back
-                            </button>
-
-                            <button className="close-button" onClick={handleNext}>
-                                {currentIndex === onboardingSteps.length - 1 ? "Done" : "Next"}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}*/}
             <Header />
             <SideBar />
             <TextArea items={TextStuff} />

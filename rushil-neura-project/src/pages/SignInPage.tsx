@@ -1,7 +1,7 @@
 import { RedirectToSignIn } from "@clerk/clerk-react";
 
 const SignInPage = () => {
-  return <RedirectToSignIn redirectUrl="/home"/>;
+  return <RedirectToSignIn signInForceRedirectUrl= '/home'/>;
 };
 
 export default SignInPage;
