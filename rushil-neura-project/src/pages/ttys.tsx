@@ -157,12 +157,19 @@ const TTys = () => {
         }
     }, [])
 
+    const [unda, undeKaFunda] = useState<boolean>(false);
+
+
+    const handleChildDataChange = (idk : boolean) => {
+        undeKaFunda(idk);
+      };
+
     return (
         <>
             <Header />
             <SideBar />
             <div className="main_content" ref = {mainContentRef}>
-                <ChatCompo iconDataProps={handleIconChange}  babyState = {babyState} verValChange= {handleVerValChange}
+                <ChatCompo iconDataProps={handleIconChange}  onDataChange={handleChildDataChange} babyState = {babyState} verValChange= {handleVerValChange}
                 inputChange = {ihatemylife}/>
                 {verVal && (
                     <div className="chat_container">
@@ -191,7 +198,7 @@ const TTys = () => {
                     </div>
                 )}
                 <div id = "coverUp">
-                <input
+                {unda==true?<input
                         type="text"
                         id="chatinput"
                         placeholder="Let's have a conversation."
@@ -200,7 +207,13 @@ const TTys = () => {
                         value={userInput}
                         onChange={(e) => inputState(e.target.value)}
                         onKeyDown={keyDownVal}
-                    />
+                    />:<input
+                    type="text"
+                    id="chatinput"
+                    placeholder="Select a version, then wait for the model to build ⚙️"
+                    autoFocus
+                    autoComplete="off"
+                    disabled/>}
                 </div>
             </div>
         </>

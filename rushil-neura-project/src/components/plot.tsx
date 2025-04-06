@@ -76,7 +76,7 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
       {plotData ? (
         <Plot data={plotData.data} layout={plotData.layout} />
       ) : (
-        <p style = {{paddingLeft : '10px'}}>Wait for 25-30s, return to Home if you still see this message. </p>
+        <p style = {{paddingLeft : '10px'}}>Wait for 25-30s, refresh the page if you can still see this. </p>
       )}
     </div>
   );

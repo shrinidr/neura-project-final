@@ -11,13 +11,13 @@ interface IconProps{
     iconDataProps: (data: string) => void,
     babyState: boolean,
     verValChange: (data: boolean) => void,
-    inputChange: string
+    inputChange: string,
+    onDataChange:(data: boolean) => void
 }
-
 
 {/* Lets just assume for now that we have exactly 5 models equally distributed between all the time
     that user data has been entered for simplicity purposes*/}
-const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange, inputChange}) => {
+const ChatCompo: React.FC<IconProps> = ({iconDataProps, onDataChange, babyState, verValChange, inputChange}) => {
 
 
     const [versionStatus, changeVersionStatus] = useState<boolean>(false);
@@ -73,8 +73,10 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
                 {
             headers: { Authorization: `Bearer ${token}` },
         });
-            if (response.status==200)
+            if (response.status==200){
                 changeVersionStatus(true);
+                onDataChange(true);
+            }
             console.log(response.status==200)
         } catch (error) {
             console.error(`i hate my life ${error}`);
@@ -93,8 +95,6 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
 
 
 
-
-
     const dateChanger = (dateString: string) =>{
             const date = new Date(dateString);
             const options: Intl.DateTimeFormatOptions = {
@@ -110,11 +110,9 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
     const findVersionData = async () => {
         try{
             const token = await getToken();
-            //http://127.0.0.1:5002/datesFind
             const response = await axios.get(`${import.meta.env.VITE_PYTHON_BACKEND_URL}/datesFind`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            //console.log(response)
             genesisObjChange(response.data.response["Genesis"])
             originsObjChange(response.data.response["Origins"])
         }
@@ -167,6 +165,7 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
                     onClick={() =>{
                         setVersionData(false)
                         verValChange(false)
+                        onDataChange(false);
                         }}></i>
                     <i className="fa-regular fa-circle fa-xs" style={{right: '13%', top: '4.8vh'}}></i>
                     <span className = "arbit"><b> {vData} </b></span>
@@ -182,7 +181,6 @@ const ChatCompo: React.FC<IconProps> = ({iconDataProps, babyState, verValChange,
                         </div>
                         {versionStatus==true?<div className="text2">  Model built 🚀 </div>:<div className="text">  Building model 🔧</div>}
                     </div>:<div/>}
-
                 </div>
                 }
         </>

@@ -4,12 +4,14 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
+import Card from "../components/loadScreen";
+
 const MoreInsights = () => {
 
     const {getToken} = useAuth();
     const [apiCalled, apiCalledChange] = useState<boolean>(false);
     const mainContentRef = useRef<HTMLDivElement>(null);
-    const [isAtBottom, setIsAtBottom] = useState(false);
+    /**const [isAtBottom, setIsAtBottom] = useState(false);
 
     const scrollToBottom = () => {
     if (mainContentRef.current) {
@@ -30,7 +32,7 @@ const MoreInsights = () => {
             mainContent.addEventListener('scroll', handleScroll);
             return () => mainContent.removeEventListener('scroll', handleScroll);
         }
-    }, []);
+    }, []);*/
 
 
     const callStravaBackend = async () => {
@@ -64,13 +66,14 @@ const MoreInsights = () => {
         <div className="head">
             <p className='data_head'> Your fitness insights. </p>
         </div>
-        {!isAtBottom &&
+        {/*{!isAtBottom &&
         (<div className="scroll-bottom" onClick = {scrollToBottom}>
                 <i className="fa-solid fa-arrow-down" ></i> </div>)
-        }
+        }*/}
         </div>
+        <Card/>
         </div>
     )
 
 }
-export default MoreInsights
+export default MoreInsights;

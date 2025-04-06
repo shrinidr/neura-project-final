@@ -1,19 +1,20 @@
-//import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import SideBar from "../components/Sidebar";
 import TextArea from "../components/TextArea";
 import Header from "../components/header";
 import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
     const { isSignedIn } = useUser();
-    //const [showOnboarding, setShowOnboarding] = useState(false);
-    //const [currentIndex, setCurrentIndex] = useState(0);
-    
-    /*const onboardingSteps = [
-        { image: "/testdisplay.png", title: "Home", text: "Hello! The text for this section will be added in the future." },
-        { image: "/testdisplay2.jpg", title: "Insights", text: "Insights. The text for this section will be added in the future." },
-        { image: "/testdisplay3.jpg", title: "aiNA", text: "aiNA. The text for this section will be added in the future." },
-        { image: "/testdisplay4.jpg", title: "Health", text: "Health. The text for this section will be added in the future." }
+    const [showOnboarding, setShowOnboarding] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const navigate = useNavigate();
+    const onboardingSteps = [
+        { image: "/firstOne.png", title: "Welcome to Neura!", text: "We are an AI-powered journaling platform that helps you understand yourself in powerful ways." },
+        { image: "/secondOne.png", title: "Journaling", text: "Record your thoughts, ideas, experiences by following the simple prompts. Skip what you don't like!" },
+        { image: "/thirdOne.png", title: "Insights", text: "Check the insights section to see trends in your happiness, stress, anxiety and a lot more!" },
+        { image: "/firstOne.png", title: "aiNA", text: "Choose a version of yourself from the past, and start talking to them. Get ideas, solve issues and work together. Press done to start..." }
     ];
 
     const [isSliding, setIsSliding] = useState(false);
@@ -56,23 +57,9 @@ const MainPage = () => {
             setCurrentIndex(index);
             setIsSliding(false);
         }, 250);
-    };*/
+    };
 
-    /*const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            setShowOnboarding(false);
-        }
-    };*/
 
-    /*useEffect(() => {
-        if (isSignedIn) {
-            setShowOnboarding(true);
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isSignedIn]);*/
 
     if (!isSignedIn) {
         return <div>Please sign in to access this page.</div>;
@@ -88,9 +75,43 @@ const MainPage = () => {
         { id: "input7", content: "Any other thing that you think is worth remembering?" }
     ];
 
+    const handleClickOutside = (event: MouseEvent) => {
+        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+          setShowOnboarding(false);
+        }
+      };
+
+    useEffect(() => {
+        // Check URL for newUser flag
+        const searchParams = new URLSearchParams(location.search);
+        const isNewUser = searchParams.get('newUser') === 'true';
+        
+        if (isNewUser) {
+          setShowOnboarding(true);
+          // Clean up the URL if it came from signup
+          if (isNewUser) {
+            navigate('/home', { replace: true });
+          }
+        }
+      }, [isSignedIn, location.search, navigate]);
+    
+      useEffect(() => {
+        // Only add listener when onboarding is visible
+        if (showOnboarding) {
+          document.addEventListener("mousedown", handleClickOutside);
+        } else {
+          document.removeEventListener("mousedown", handleClickOutside);
+        }
+    
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, [showOnboarding]);
+    
+    
     return (
         <div className="main-page">
-            {/*{showOnboarding && (
+            {showOnboarding && (
                 <div className="onboarding-overlay">
                     <div
                         className="onboarding-content"
@@ -100,18 +121,19 @@ const MainPage = () => {
                             src={onboardingSteps[currentIndex].image} 
                             alt="Onboarding" 
                             className={`onboarding-image ${isSliding ? (transitionDirection === "left" ? "slide-out-left" : "slide-out-right") : "slide-in"}`}
+                            style = {{width: '280px'}}
                         />
                         <h2>{onboardingSteps[currentIndex].title}</h2>
                         <p>{onboardingSteps[currentIndex].text}</p>
-                        <ul className="onboarding-slides-indicators">
+                        <div className="onboarding-slides-indicators">
                             {onboardingSteps.map((_, index) => (
-                                <li 
+                                <div 
                                     key={index} 
                                     className={`onboarding-slides-indicator ${index === currentIndex ? "onboarding-slides-indicator--active" : ""}`}
                                     onClick={() => handleStepClick(index)}
-                                ></li>
+                                ></div>
                             ))}
-                        </ul>
+                        </div>
                 
                         <div className="ob-button-container">
                             <button 
@@ -128,7 +150,7 @@ const MainPage = () => {
                         </div>
                     </div>
                 </div>
-            )}*/}
+            )}
             <Header />
             <SideBar />
             <TextArea items={TextStuff} />

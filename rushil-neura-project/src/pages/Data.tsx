@@ -39,7 +39,7 @@ const DataPage = () => {
         <SideBar/>
         <div className="main_content" ref={mainContentRef}>
         <div className="head">
-            <p className='data_head'> You,  visualized. </p>
+            <p className='data_head'> You,  visualized </p>
         </div>
         <PlotComponent url =  {`${import.meta.env.VITE_PYTHON_BACKEND_URL}/chp`} />
         <PlotComponent url =  {`${import.meta.env.VITE_PYTHON_BACKEND_URL}/words`} />

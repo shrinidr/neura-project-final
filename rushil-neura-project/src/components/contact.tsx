@@ -14,11 +14,7 @@ const Contact = () => {
                 <i className="fas fa-envelope"></i> &nbsp;&nbsp;
                 <p> All Comm to : neurajournal@gmail.com </p>
               </div>
-              <div className="information">
-                <i className="fas fa-phone"></i>&nbsp;&nbsp;
-                <p> 857-753-8102</p>
               </div>
-            </div>
   
             <div className="social-media">
               <p>Connect with us:</p>

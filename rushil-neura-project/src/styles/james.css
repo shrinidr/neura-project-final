@@ -103,7 +103,6 @@ html {
   top: 230px;
   z-index: -1
 }
-
 .homeDownArrow {
   width: 16px;
   height: 24px;
@@ -597,7 +596,8 @@ footer {
   }
   
   .onboarding-content {
-    background: white;
+    background: linear-gradient(135deg, #09090a 0%, #010123 100%);
+    background-color: white;
     border-radius: 12px;
     max-width: 400px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
@@ -609,10 +609,12 @@ footer {
     box-sizing: border-box;
     width: 100%;
     margin: 0 auto;
+    height: 500px;
+    top:25px;
   }
   
   .onboarding-content h2 {
-    color: black;
+    color: white;
     text-align: left;
     margin: 16px 16px 0px 16px;
     transition: background-color 0.3s ease;
@@ -622,9 +624,9 @@ footer {
   .onboarding-content p {
     margin: 16px;
     text-align: left;
-    color: black;
-    transition: background-color 0.3s ease;
-    font-size: 20px;
+    color: white;
+    transition: background-color 0.1s ease;
+    font-size: 16px;
   }
   
   .onboarding-content button {
@@ -679,16 +681,16 @@ footer {
   /* Smaller, more compact indicators */
   .onboarding-slides-indicator {
     border-radius: 50%;
-    width: 8px; /* Reduced size */
-    height: 8px; /* Reduced size */
-    background-color: #666; /* Sleek grey */
+    width: 8px;
+    height: 8px; 
+    background-color: #666;
     transition: background-color 0.3s ease, transform 0.2s ease-in-out;
   }
   
   /* Active state */
   .onboarding-slides-indicator--active {
-    background-color: #a78bfa; /* Modern soft purple */
-    transform: scale(1.4); /* Slight enlargement for emphasis */
+    background-color: #a78bfa; 
+    transform: scale(0.9); 
   }
   
   /* Optional: subtle hover effect */
@@ -731,7 +733,7 @@ footer {
     height: 250px;
     object-fit: cover;
     border-radius: 12px 12px 0 0;
-    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+    transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
     margin-left: 15px;
   }
   
@@ -748,10 +750,10 @@ footer {
 
 .back-button, .close-button {
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.1s ease-in-out;
   border-radius: 8px; 
   height: 44px; 
-  color: black;
+  color: white;
   width: 140px; 
   text-align: center;
   display: inline-flex;
@@ -761,6 +763,8 @@ footer {
   font-size: 16px;
   outline: none;
   font-family: "DM Sans", sans-serif;
+  position: fixed; /* Changed to fixed positioning */
+  bottom: 50px; /* Distance from bottom */
 }
 
 /* Back Button - Sleek Outline Style */
@@ -768,12 +772,7 @@ footer {
   background-color: transparent;
   color: linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Soft purple */
   border: 2px solid #a78bfa;
-}
-
-.back-button:hover {
-  background-color: linear-gradient(to right, #6057dd 0%, #343b51 100%);;
-  color: #0f0f0f; /* Dark modern black */
-  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.4);
+  left: 550px;
 }
 
 /* Close Button - Futuristic Solid Style */
@@ -781,6 +780,13 @@ footer {
   background:  linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Deep purple gradient */
   color: white;
   border: none;
+  left: 650px;
+}
+
+.back-button:hover {
+  background-color: linear-gradient(to right, #6057dd 0%, #343b51 100%);;
+  color: white;
+  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.4);
 }
 
 .close-button:hover {

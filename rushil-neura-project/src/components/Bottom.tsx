@@ -125,7 +125,7 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                         </div>
                     </div>
                     <div className="ma-la la-ma" >
-                        <img src="/WhatsApp Image 2025-03-29 at 21.39.30_bc5fb2cf.jpg" alt="Image 3"
+                        <img src="/thirdOne.png" alt="Image 3"
                         style={{
                             width: 'auto',
                             maxHeight: '70vh',  // Adjust this value as needed
