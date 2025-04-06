@@ -7,12 +7,8 @@ const Contact = () => {
             <h3 className="letsgetintouch">Let's Get In Touch!</h3>
             <div className="info">
               <div className="information">
-                <i className="fas fa-map-marker-alt"></i> &nbsp;&nbsp;
-                <p> 665 Commonwealth Ave, Boston, MA 02215</p>
-              </div>
-              <div className="information">
                 <i className="fas fa-envelope"></i> &nbsp;&nbsp;
-                <p> All Comm to : neurajournal@gmail.com </p>
+                <p> Please send your questions/suggestions/ideas etc to neurajournal@gmail.com </p>
               </div>
               </div>
   
@@ -28,7 +24,7 @@ const Contact = () => {
                 <a href="#">
                   <i className="fab fa-instagram"></i>
                 </a>
-                <a href="#">
+                <a href="https://www.linkedin.com/company/neurain/">
                   <i className="fab fa-linkedin-in"></i>
                 </a>
               </div>
