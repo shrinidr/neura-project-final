@@ -1,7 +1,7 @@
 import { RedirectToSignUp } from "@clerk/clerk-react";
 
 const SignUpPage = () => {
-  return <RedirectToSignUp redirectUrl="/home?newUser=true" signUpFallbackRedirectUrl="/home?newUser=true" />;
+  return <RedirectToSignUp redirectUrl="/callBackPage" />;
 };
 
 export default SignUpPage;

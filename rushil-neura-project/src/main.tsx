@@ -20,6 +20,8 @@ import { Analytics } from '@vercel/analytics/react';
 import SignInPage from './pages/SignInPage.tsx';
 import Contact from './components/contact.tsx';
 import Privacy from './components/Privacy.tsx';
+import CallBack from './pages/callbackpage.tsx';
+
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 
@@ -109,6 +111,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <Privacy/>
+      </Layout>
+    )
+  }, 
+  {
+    path: "/call-back",
+    element: (
+      <Layout>
+        <CallBack/>
       </Layout>
     )
   }
