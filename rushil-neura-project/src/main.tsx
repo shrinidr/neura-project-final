@@ -21,6 +21,7 @@ import SignInPage from './pages/SignInPage.tsx';
 import Contact from './components/contact.tsx';
 import Privacy from './components/Privacy.tsx';
 import CallBack from './pages/callbackpage.tsx';
+import SignUpPage from './pages/SignUpPage.tsx';
 
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
   {
     path: "/sign-in",
     element: <SignInPage />,
+  },
+  {
+    path: "/sign-up",
+    element: <SignUpPage/>
   },
   {
     path: "/contact-us",
