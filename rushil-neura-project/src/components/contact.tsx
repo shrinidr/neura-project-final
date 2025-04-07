@@ -8,7 +8,7 @@ const Contact = () => {
             <div className="info">
               <div className="information">
                 <i className="fas fa-envelope"></i> &nbsp;&nbsp;
-                <p> Please send your questions/suggestions/ideas etc to neurajournal@gmail.com </p>
+                <p> Please send your questions/suggestions/ideas etc to <a href="mailto:neurajournal@gmail.com" style = {{color: 'black'}}>neurajournal@gmail.com </a> </p>
               </div>
               </div>
   
