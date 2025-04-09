@@ -114,7 +114,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 5vh 5vw;
+    padding: 13vh 5vw 0.2vh;
     position: relative;
     z-index: 100;
     overflow: hidden;
@@ -124,7 +124,7 @@
   .group-17 {
     width: 72px;
     height: 2px;
-    margin-bottom: 0px;
+
   }
   
   .Rectangle {
@@ -142,7 +142,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent;
-    margin-bottom: 0.1vh;
+    margin-bottom: 0;
     line-height: 1.2;
     max-width: 1000px;
   }

@@ -159,7 +159,7 @@
     -webkit-background-clip: initial;
     -webkit-text-fill-color: initial;
     background-clip: initial;
-    color: black;
+    color: rgb(255, 255, 255);
     box-shadow: none;
     position: static;
   }
