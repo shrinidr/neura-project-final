@@ -120,10 +120,7 @@ i {
     left: 24%;
 }
 
-#homeArrow{
-    margin-top: 30%;
-    margin-left: 70%;
-}
+
 
 #moreInsightsIcon{
     top: 20.5%;
@@ -607,58 +604,3 @@ textarea {
     font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
 }
 
-#title {
-    color: white;
-    display: inline;
-    margin: 0;
-    font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
-}
-
-.Btn {
-    width: 130px;
-    height: 40px;
-    justify-content: center;
-    background-color: black;
-    border: none;
-    color: white;
-    font-weight: 600;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
-    position: relative;
-    overflow: hidden;
-    transition-duration: 0.3s;
-}
-
-#btn1 {
-    margin-left: 60%;
-}
-
-.Btn::before {
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    content: "";
-    background-color: white;
-    border-radius: 50%;
-    left: -100%;
-    top: 0;
-    transition-duration: 0.3s;
-    mix-blend-mode: difference;
-}
-
-.Btn:hover::before {
-    transition-duration: 0.3s;
-    transform: translate(100%, -50%);
-    border-radius: 0;
-}
-
-.Btn:active {
-    transform: translate(5px, 5px);
-    transition-duration: 0.3s;
-}
-
-
-::selection {
-    background-color: #e56478;
-}

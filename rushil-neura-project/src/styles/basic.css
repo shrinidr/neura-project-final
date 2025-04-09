@@ -93,12 +93,7 @@ html, body, #root{
 
 }
 
-.group-17 {
-    flex-shrink: 0;
-    width: 72px;
-    height: 2px;
-    position: static;
-}
+
 
 .rectangle-2-1 {
     background: var(--accent, #fbd784);
@@ -222,16 +217,6 @@ html, body, #root{
 
 /*Icons CSS*/
 
-
-.homeDownArrow{
-    width: 16px;
-    height: 24px;
-    left: 15px;
-    position: absolute;
-    top: 195px;
-    color: white;
-
-}
 
 
 h1 {
@@ -388,18 +373,7 @@ input[type="date"]:hover{
         display: inline-block;
 }
 
-#title {
 
-    margin: 0;
-    font-size: 3vh;
-    font-family: 'Helvetica';
-        background: linear-gradient(to right, #d85720 0%, #d758e0 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        display: inline-block;
-}
 
 img {
     width: auto 0;
@@ -441,70 +415,7 @@ img {
 
 }
 
-#plssomethingdifferent{
 
-    top: -2%;
-        font-family: "DM Sans";
-        background: linear-gradient(to right, #5936b3 0%, #FFFFFF 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        display: inline-block;
-
-}
-.Btn {
-    width: 130px;
-    height: 40px;
-    justify-content: center;
-    font-family: "DM Sans";
-    background-color: black;
-    border: none;
-    background: linear-gradient(to right, #e95414 0%, #FFFFFF 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-    font-weight: 600;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
-    position: relative;
-    overflow: hidden;
-    transition-duration: .3s;
-
-}
-
-#btn1 {
-    margin-left: 60%;
-}
-
-
-.Btn::before {
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    content: "";
-    background-color: white;
-    border-radius: 50%;
-    left: -100%;
-    top: 0;
-    transition-duration: .3s;
-    mix-blend-mode: difference;
-    
-}
-
-.Btn:hover::before {
-    transition-duration: .3s;
-    transform: translate(100%, -50%);
-    border-radius: 0;
-}
-
-
-.Btn:active {
-    transform: translate(5px, 5px);
-    transition-duration: .3s;
-}
 
 .btn {
     display: flex;

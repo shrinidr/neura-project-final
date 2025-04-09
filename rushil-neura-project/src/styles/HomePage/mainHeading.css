@@ -1,0 +1,204 @@
+/*.ContentBox {
+    margin-left: 300px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    overflow-y: auto;
+    z-index: 100;
+    padding: 20px;
+  }
+
+  
+  .group-17 {
+    flex-shrink: 0;
+    width: 72px;
+    height: 2px;
+    position: static;
+}
+
+
+.Rectangle {
+    background: var(--accent, #fbd784);
+    width: 72px;
+    height: 2px;
+    position: absolute;
+    left: 45px;
+    top: 73px;
+    transform-origin: 0 0;
+    transform: rotate(0deg) scale(1, 1)
+}
+
+
+.HomeBG {
+    color: #ffffff;
+    text-align: left;
+    font-family: "DM Sans";
+    font-size: 55px;
+    line-height: 100px;
+    font-weight: 700;
+    position: relative;
+    width: 950px;
+    overflow-y: auto;
+    margin-top: 5vh;
+    font-family: "DM Sans";
+    background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    z-index: 0
+  }
+
+
+  #plssomethingdifferent{
+
+    top: -2%;
+        font-family: "DM Sans";
+        background: linear-gradient(to right, #5936b3 0%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+
+}
+
+
+.Pointer {
+    flex-shrink: 0;
+    width: 72px;
+    height: 2px;
+    position: static;
+    z-index: -1
+  }
+  
+  
+
+
+  .Marker {
+    color: #ffffff;
+    text-align: left;
+    font-family: "DM Sans";
+    font-size: 15px;
+    font-weight: 700;
+    position: absolute;
+    left: 85px;
+    top: 230px;
+    z-index: -1
+  }
+
+  .homeDownArrow{
+    width: 16px;
+    height: 24px;
+    left: 15px;
+    position: absolute;
+    top: 195px;
+    color: white;
+
+}
+
+#homeArrow{
+    margin-top: 30%;
+    margin-left: 70%;
+    top: 140%;
+    left: 200%;
+}*/
+
+
+.ContentBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5vh 5vw;
+    position: relative;
+    z-index: 100;
+    overflow: hidden;
+    text-align: center;
+  }
+  
+  .group-17 {
+    width: 72px;
+    height: 2px;
+    margin-bottom: 0px;
+  }
+  
+  .Rectangle {
+    background: var(--accent, #fbd784);
+    width: 73px;
+    height: 2px;
+  }
+  
+  .HomeBG {
+    font-family: "DM Sans", sans-serif;
+    font-size: 5vw;
+    font-weight: 700;
+    background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.1vh;
+    line-height: 1.2;
+    max-width: 1000px;
+  }
+  
+  #plssomethingdifferent {
+    margin-top: 20px;
+    padding: 0;
+  }
+  
+  .Pointer {
+    display: flex;
+  }
+  
+  .Marker {
+    color: #ffffff;
+    font-family: "DM Sans";
+    font-size: 1rem;
+    font-weight: 700;
+    left: 185px;
+    top: 230px;
+    z-index: -1
+  }
+  
+  .homeDownArrow {
+    font-size: 1rem;
+    color: white;
+    left: 5%;
+  }
+  
+  #homeArrow {
+    margin-left: -9%;
+    margin-top: 0.2%;
+  }
+  
+  /* ✅ Mobile tweaks */
+  @media (max-width: 768px) {
+    .HomeBG {
+      font-size: 10vw;
+      line-height: 1.2;
+    }
+  
+    .ContentBox {
+      padding: 3vh 2vw;
+    }
+  
+    .Marker {
+      font-size: 0.9rem;
+    }
+  
+    .homeDownArrow {
+      font-size: 0.9rem;
+    }
+
+    #homeArrow {
+        margin-left: -27%;
+        margin-top: 0.8%;
+      }
+  }
+  

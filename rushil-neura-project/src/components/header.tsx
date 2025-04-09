@@ -5,6 +5,11 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useClerk } from '@clerk/clerk-react';
 import { useNavigate } from "react-router-dom";
+import '../styles/HomePage/header_home.css';
+
+
+
+
 const Header = () => {
     const { isSignedIn } = useAuth();
     const navigate = useNavigate();

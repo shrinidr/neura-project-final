@@ -21,57 +21,10 @@ html {
   box-sizing: border-box
 }
 
-.ContentBox {
-  margin-left: 300px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: relative;
-  overflow-y: auto;
-  z-index: 10000
-}
 
-.Rectangle {
-  background: var(--accent, #fbd784);
-  width: 72px;
-  height: 2px;
-  position: absolute;
-  left: 45px;
-  top: 73px;
-  transform-origin: 0 0;
-  transform: rotate(0deg) scale(1, 1)
-}
 
-.Pointer {
-  flex-shrink: 0;
-  width: 72px;
-  height: 2px;
-  position: static;
-  z-index: -1
-}
 
-.HomeBG {
-  color: #ffffff;
-  text-align: left;
-  font-family: "DM Sans";
-  font-size: 55px;
-  line-height: 100px;
-  font-weight: 700;
-  position: relative;
-  width: 950px;
-  overflow-y: auto;
-  margin-top: 5vh;
-  font-family: "DM Sans";
-  background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-  z-index: 0
-}
+
 
 .mamachamamla {
   margin: 0;
@@ -92,30 +45,7 @@ html {
   position: static
 }
 
-.Marker {
-  color: #ffffff;
-  text-align: left;
-  font-family: "DM Sans";
-  font-size: 15px;
-  font-weight: 700;
-  position: absolute;
-  left: 85px;
-  top: 230px;
-  z-index: -1
-}
-.homeDownArrow {
-  width: 16px;
-  height: 24px;
-  left: 15px;
-  position: absolute;
-  top: 195px;
-  color: white
-}
 
-#homeArrow {
-  top: 140%;
-  left: 200%
-}
 
 .SecondHeader {
   text-align: left;
@@ -234,11 +164,6 @@ body {
   overflow: visible
 }
 
-.ContentBox {
-  position: relative;
-  z-index: 100;
-  padding: 20px
-}
 
 .BackgroundImage,
 .BackgroundImage * {
@@ -325,12 +250,67 @@ body {
   overflow-y: auto
 }
 
-.navbar {
-  align-items: center;
-  margin-left: 12px;
-  margin-top: 25px;
-  display: flex
-}
+
+/**making mobile responsive changes here
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+  .ideknowman{
+    margin: 0;
+  }
+
+  .Btn {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .ContentBox {
+    margin-left: 0;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .HomeBG {
+    font-size: 35px;
+    line-height: 50px;
+    width: 100%;
+  }
+
+  .SecondHeader {
+    font-size: 40px;
+    margin-left: 20px;
+    width: auto;
+  }
+
+  .package {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 16px;
+  }
+
+  .PageTwo {
+    height: auto;
+  }
+
+  .row {
+    flex-direction: column !important;
+    align-items: center;
+  }
+
+  .image-gap img,
+  .ma-la img {
+    max-width: 90vw;
+    height: auto;
+    margin: 10px 0;
+  }
+
+}*/
+
+
 
 .LinkBox {
   display: block;
@@ -582,6 +562,7 @@ footer {
   }
   
 
+/**ending mobile responsive changes here.*/
   .onboarding-overlay {
     position: fixed;
     top: 0;
@@ -642,30 +623,7 @@ footer {
     margin-right: auto;
     font-weight: bold;
   }
-  
-  /*.onboarding-slides-indicators {
-    display: flex;
-    align-items: center;
-    width: auto;
-    margin-left: auto;
-    margin-right: auto;
-    transform: translateX(-20px);
-    cursor: pointer;
-    margin-bottom: 0;
-  }
-  
-  .onboarding-slides-indicator {
-    border-radius: 20px;
-    font-size: 0;
-    padding: 8px;
-    background-color: grey;
-    margin: 0 2px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .onboarding-slides-indicator--active {
-    background-color: black;
-  }*/
+
   
   .onboarding-slides-indicators {
     display: flex;
@@ -713,20 +671,6 @@ footer {
     0% { transform: translateX(0); opacity: 1; }
     100% { transform: translateX(100%); opacity: 0; }
   }
-  
-  /*.slide-out-right {
-    animation: slideOutRight 0.25s forwards;
-  }
-  
-  .slide-out {
-    animation: slideOutLeft 0.25s forwards;
-  }
-  
-  .slide-in {
-    animation: slideInRight 0.25s forwards;
-  }
-  */
-
 
   .onboarding-image {
     width: 100%;
@@ -742,8 +686,6 @@ footer {
   justify-content: center; 
   align-items: center; 
   gap: 10px; 
-  /*margin-left: auto;
-  margin-right: auto;*/
   margin-top: auto;
   margin-bottom: 24px;
 }

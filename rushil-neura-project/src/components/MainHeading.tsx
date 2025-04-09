@@ -1,3 +1,6 @@
+import '../styles/HomePage/mainHeading.css';
+
+
 const MainHeading = () => {
     return (
     <>
