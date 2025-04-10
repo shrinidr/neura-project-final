@@ -47,38 +47,8 @@ html {
 
 
 
-.SecondHeader {
-  text-align: left;
-  font-family: "DM Sans";
-  font-size: 65px;
-  margin-left: 125px;
-  margin-bottom: 25px;
-  background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
-  width: 59.5vh;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  display: inline-block
-}
 
-.package,
-.package * {
-  box-sizing: content-box
-}
 
-.package {
-  margin-left: 100px;
-  flex-direction: row;
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: relative;
-  font-family: "DM Sans";
-  font-size: 19px;
-  margin-bottom: 12px;
-  margin-top: 0px
-}
 
 #container-stars {
   position: absolute;
@@ -165,66 +135,6 @@ body {
 }
 
 
-.BackgroundImage,
-.BackgroundImage * {
-  box-sizing: border-box
-}
-
-.BackgroundImage {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-  margin-left: 12px;
-  transform: translate(-50%, -50%);
-  top: 50vh;
-  left: 50%
-}
-
-.bottom-section {
-  padding: 0;
-  margin-top: 20px;
-  position: relative;
-}
-
-.package {
-  margin-left: 100px;
-  flex-direction: row;
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: relative;
-  font-family: "DM Sans";
-  font-size: 19px;
-  margin-bottom: 12px
-}
-
-.SecondHeader {
-  text-align: left;
-  font-family: 'DM Sans';
-  font-size: 65px;
-  margin-top: 25vh;
-  margin-left: 100px;
-  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
-  background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  display: inline-block
-}
-
-.btn {
-  position: relative;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer
-}
-
-.PageTwo {
-  width: 100vw;
-  height: 110vh
-}
-
 html,
 body {
   margin: 0;
@@ -249,67 +159,6 @@ body {
   height: 100%;
   overflow-y: auto
 }
-
-
-/**making mobile responsive changes here
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-  }
-  .ideknowman{
-    margin: 0;
-  }
-
-  .Btn {
-    margin-top: 10px;
-    width: 100%;
-  }
-
-  .ContentBox {
-    margin-left: 0;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .HomeBG {
-    font-size: 35px;
-    line-height: 50px;
-    width: 100%;
-  }
-
-  .SecondHeader {
-    font-size: 40px;
-    margin-left: 20px;
-    width: auto;
-  }
-
-  .package {
-    margin-left: 20px;
-    margin-right: 20px;
-    font-size: 16px;
-  }
-
-  .PageTwo {
-    height: auto;
-  }
-
-  .row {
-    flex-direction: column !important;
-    align-items: center;
-  }
-
-  .image-gap img,
-  .ma-la img {
-    max-width: 90vw;
-    height: auto;
-    margin: 10px 0;
-  }
-
-}*/
-
 
 
 .LinkBox {
@@ -370,138 +219,12 @@ footer .footer p {
   margin: 0 auto
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.section {
-  width: 48%
-}
 
 .expAI {
   left: 2%
 }
 
-.BoxOne {
-  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 65px;
-  background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-  margin-left: 100px;
-  margin-bottom: 20px;
-}
 
-.BoxTwo {
-  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 65px;
-  background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-  margin-left: 100px;
-  margin-bottom: 20px;
-  top: 10px;
-  width: 1000px;
-}
-
-.package {
-  font-family: 'DM Sans', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 19px;
-  margin-top: 0px
-}
-
-.package p{
-  font-size: 17px;
-}
-
-.PageTwo {
-  width: 100%
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-  padding-right: 8vw;
-}
-
-.section {
-  padding: 20px
-}
-
-.left {
-  text-align: left
-}
-
-.right {
-  text-align: left
-}
-
-.image-gap {
-  width: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15vh;
-  margin-left: 2vh;
-}
-
-.left-gap {
-  order: 1
-}
-
-
-.ma-la{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15vh;
-  margin-left: 2vh;
-
-}
-
-.la-ma{
-  order : 1;
-}
-.right-gap {
-  order: 2
-}
-
-section img {
-  max-width: 100%;
-  max-height: auto;
-  object-fit: cover;
-  border-radius: 8px
-}
-
-.left {
-  order: 1
-}
-
-.right {
-  order: 2
-}
-
-.left-gap {
-  order: 2
-}
-
-.right-gap {
-  order: 1
-}
-
-.PageTwo {
-  padding-bottom: 100px
-}
 
 .footer {
   margin-top: 50px
@@ -513,16 +236,7 @@ html {
   margin: 0
 }
 
-.bottom-section {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%
-}
 
-.PageTwo {
-  flex: 1;
-  padding-bottom: 20px
-}
 
 .footer {
   margin-top: auto;
@@ -546,10 +260,7 @@ footer.footer {
   box-sizing: border-box
 }
 
-.PageTwo {
-  flex: 1;
-  padding-bottom: 20px
-}
+
 
 footer {
   margin-top: auto

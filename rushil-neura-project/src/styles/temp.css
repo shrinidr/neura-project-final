@@ -47,20 +47,6 @@ html {
 
 
 
-.SecondHeader {
-  text-align: left;
-  font-size: 65px;
-  margin-left: 125px;
-  margin-bottom: 25px;
-  font-family: "DM Sans";
-  background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  display: inline-block
-}
-
 .package,
 .package * {
   box-sizing: content-box
@@ -179,10 +165,7 @@ body {
   left: 50%
 }
 
-.bottom-section {
-  padding: 0;
-  margin-top: 20px
-}
+
 
 .package {
   margin-left: 100px;
@@ -196,31 +179,6 @@ body {
   margin-bottom: 12px
 }
 
-.SecondHeader {
-  text-align: left;
-  font-size: 65px;
-  margin-top: 25vh;
-  margin-left: 100px;
-  font-family: "DM Sans";
-  background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  display: inline-block
-}
-
-.btn {
-  position: relative;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer
-}
-
-.PageTwo {
-  width: 100vw;
-  height: 110vh
-}
 
 html,
 body {
@@ -306,11 +264,7 @@ footer .footer p {
   margin: 0 auto
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px
-}
+
 
 .section {
   width: 48%
@@ -320,33 +274,6 @@ footer .footer p {
   left: 2%
 }
 
-.BoxOne {
-  font-family: "DM Sans";
-  font-size: 65px;
-  background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-  margin-left: 100px;
-  margin-bottom: 20px;
-  margin-top: 350px
-}
-
-.BoxTwo {
-  font-family: "DM Sans";
-  font-size: 65px;
-  background: linear-gradient(to right, #8449d1 0%, #FFFFFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-  margin-left: 100px;
-  margin-bottom: 20px;
-  margin-top: 50px
-}
 
 .package {
   font-family: "DM Sans";
@@ -354,21 +281,8 @@ footer .footer p {
   margin-top: 0px
 }
 
-.bottom-section {
-  position: relative;
-  padding: 40px 20px
-}
 
-.PageTwo {
-  width: 100%
-}
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px
-}
 
 .section {
   width: 48%;
@@ -433,9 +347,6 @@ section img {
   }
 }
 
-.PageTwo {
-  padding-bottom: 100px
-}
 
 .footer {
   margin-top: 50px
@@ -447,16 +358,6 @@ html {
   margin: 0
 }
 
-.bottom-section {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%
-}
-
-.PageTwo {
-  flex: 1;
-  padding-bottom: 20px
-}
 
 .footer {
   margin-top: auto;
@@ -480,16 +381,6 @@ footer.footer {
   box-sizing: border-box
 }
 
-.bottom-section {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%
-}
-
-.PageTwo {
-  flex: 1;
-  padding-bottom: 20px
-}
 
 footer {
   margin-top: auto

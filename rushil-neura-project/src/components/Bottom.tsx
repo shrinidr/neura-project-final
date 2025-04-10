@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
+import "../styles/HomePage/bottom.css";
 interface Props {
     text1: string;
     text2: string;
