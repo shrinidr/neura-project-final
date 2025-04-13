@@ -1,6 +1,7 @@
 import HeaderHome from "../components/header_home";
 import MainHeading from "../components/MainHeading"
 import Bottom from "../components/Bottom"
+import Footer from "../components/Footer";
 
 
 function App(){
@@ -16,6 +17,7 @@ function App(){
       <HeaderHome/>
       <MainHeading/>
       <Bottom text1={text1} text2={text2} text3={text3} text4={""}/>
+      <Footer/>
     </div>
   )
 }

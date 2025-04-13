@@ -186,6 +186,7 @@
   
     .ContentBox {
       padding: 3vh 2vw;
+      padding-bottom: 0px;
     }
   
     .Marker {

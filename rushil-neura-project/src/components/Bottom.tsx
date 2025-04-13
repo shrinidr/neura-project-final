@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 import "../styles/HomePage/bottom.css";
 interface Props {
@@ -136,21 +136,6 @@ const Bottom = ({ text1, text2, text3, text4 }: Props) => {
                     </div>
                 </div>
             </div>
-            <footer className="footer">
-                <div className="footer-content">
-                <div>
-                    <img src="/neura-removebg-preview.png" />
-                    <Link to ='/'>  <p id="title"><b> Neura </b> </p> </Link> 
-                </div>
-                    <div className="footer-links">
-                        <Link to="/privacy">Privacy Policy</Link>
-                        <Link to="/contact-us">Contact</Link>
-                        <Link to="/email">Email Us</Link>
-                    </div>
-                </div>
-            </footer>
-
-
         </div>
     );
 }

@@ -373,6 +373,18 @@ strong {
 
 @media (max-width: 768px) {
     .BackgroundImage {
-      height: 45vh; 
+      top: 190px;
+      padding-top: 0px;
+    }
+
+
+    .bottom-section {
+      margin-top: 0px;
+      height: 0px;
+    } 
+
+
+    .footer{
+      top: 2800px;
     }
   }
