@@ -50,6 +50,12 @@ const SignInPage = () => {
       <SignIn
         signUpUrl="/sign-up"
         forceRedirectUrl="/home"
+        appearance={{
+          elements: {
+            socialButtons: "hidden", // hides social buttons
+            dividerRow: "hidden",    // hides the "-or-" divider
+          },
+        }}
       />
     </div>
   );
