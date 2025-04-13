@@ -373,7 +373,7 @@ strong {
 
 @media (max-width: 768px) {
     .BackgroundImage {
-      top: 190px;
+      top: 200px;
       padding-top: 0px;
     }
 
@@ -385,6 +385,55 @@ strong {
 
 
     .footer{
-      top: 2800px;
+      top: 2000px;
+    }
+
+
+    .row {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .image-gap, .ma-la {
+      margin-top: 2rem;
+    }
+  
+    .btn {
+      width: 80%;
+      margin: 2rem auto 0;
+    }
+  
+    .SecondHeader, .BoxOne, .BoxTwo {
+      font-size: 2.6rem;
+    }
+    .SecondHeader{
+      margin-top: 160px;
+    }
+  
+    .section p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .section{
+      width: 400px;
+      padding-left: 1px;
+    }
+
+    .btn{
+      width: 150px;
+      margin-left: 0px;
+    }
+
+    .ma-la{
+      width: 0%;
+    }
+
+    .right-gap{
+      order: 2;
+    }
+
+    .image-gap{
+      width: 90%;
     }
   }

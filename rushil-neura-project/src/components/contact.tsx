@@ -1,4 +1,4 @@
-
+import "../styles/ContactPage/contactus.css";
 const Contact = () => {
     return (
       <div className="contactcontainer">
@@ -7,7 +7,7 @@ const Contact = () => {
             <h3 className="letsgetintouch">Let's Get In Touch!</h3>
             <div className="info">
               <div className="information">
-                <i className="fas fa-envelope"></i> &nbsp;&nbsp;
+                <i className="fas fa-envelope" id = "gmailid"></i> &nbsp;&nbsp;
                 <p> Please send your questions/suggestions/ideas/feedback etc to <a href="mailto:neurajournal@gmail.com" style = {{color: 'black'}}>neurajournal@gmail.com </a> </p>
               </div>
               </div>

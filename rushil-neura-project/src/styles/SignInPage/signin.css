@@ -1,0 +1,32 @@
+.signin-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000; /* Light gray bg, optional */
+    left: 1000px;
+  }
+  
+
+  .mobile-message {
+    min-height: 100vh;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .mobile-message h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .mobile-message p {
+    font-size: 1rem;
+    max-width: 300px;
+  }
+  
