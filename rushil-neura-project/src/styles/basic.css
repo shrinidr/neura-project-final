@@ -545,8 +545,8 @@ img {
 .chotu {
     height: 40px;
     margin: 5px;
-    margin-left: 80%;
-    margin-top: 12%;
+    margin-left: 10.5%;
+    margin-top: 5%;
     width: 90px;
     background: #333;
     -webkit-box-pack: center;
@@ -557,25 +557,18 @@ img {
     -ms-flex-align: center;
     align-items: center;
     font-family: Consolas, Courier New, monospace;
-    border: solid #404c5d 1px;
     font-size: 16px;
     color: rgb(161, 161, 161);
     -webkit-transition: 500ms;
     transition: 500ms;
     border-radius: 5px;
     background: linear-gradient(145deg, #2e2d2d, #212121);
-    -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
-        inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
-    box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
-        inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
 }
 
 .chotu:hover {
-    -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 13px #545b78;
-    box-shadow: 1px 1px 13px #20232e, -1px -1px 13px #545b78;
     color: #d6d6d6;
     -webkit-transition: 500ms;
-    transition: 500ms;
+    transition: 5ms;
 }
 
 .chotu:active {
@@ -591,8 +584,8 @@ img {
     color: black;
     margin-top: 0.2%;
     font-size: 3.2vw;
-    margin-left: -20%;
-    font-family: 'Helvetica'
+    margin-left: -30%;
+    font-family: 'DM Sans'
 }
 
 
@@ -647,7 +640,7 @@ img {
     cursor: pointer;
     border-radius:  8px;
     overflow: hidden;
-    width: 8.3%;
+    width: 9%;
     height: 18%;
     /* To ensure the image keeps its shape */
     transition: transform 0.2s, box-shadow 0.2s;

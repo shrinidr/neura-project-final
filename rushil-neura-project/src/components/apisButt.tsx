@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import '../styles/HomePage/stravaComp.css';
+
 const APISButton = () => {
 
   const [isVisible, setIsVisible] = useState(false);
@@ -9,14 +11,21 @@ const APISButton = () => {
   };
 
 
-  const handleConnect = () => {
-    {/*const clientId = import.meta.env.VITE_CLIENT_ID;
-    const redirectURI = import.meta.env.VITE_REDIRECT_URI;*/}
+  {/*const handleConnect = () => {
+    const clientId = import.meta.env.VITE_CLIENT_ID;
+    const redirectURI = import.meta.env.VITE_REDIRECT_URI;
     //'http://localhost:5000/auth/strava'
     window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/strava`;
     //window.location.href = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectURI)}&response_type=code&scope=read`;
 
-  };
+  };*/}
+
+  /** This is the correct handleConnect 
+   * const handleConnect = () => {
+
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/strava`;
+  };*
+  */
     return (
     <StyledWrapper>
     <button type="button" className="btn" onClick={toggleRectangle}>
@@ -32,11 +41,17 @@ const APISButton = () => {
     {isVisible && (
         <div className="overlay">
           <div className="rectangle">
-            <h1 className = "somebodyiusedtoknow"> Add Third Party APIs</h1>
-            <button onClick={handleConnect} className = "stravaButton">
-            <img className = "buttonIcon stravaPic" src= "/strava.256x256.png"></img>
+            <h1 className = "somebodyiusedtoknow"> Add Fitness Data</h1>
+            {/*<button onClick={handleConnect} className = "stravaButton">*/}
+            <button className = "stravaButton" style = {{border: 'black'}}>
+            <img className = "buttonIcon stravaPic" src= "/strava.256x256.png" ></img>
             </button>
             <img className = "buttonIcon whoopIcon" src = "/Fitbit-Symbol.jpg"></img>
+
+            <p className="api-info-text">
+        Connect your Strava and FitBit accounts to seamlessly import health and activity data. 
+        (Currently non-functional due to API debugging.)
+      </p>
             <button className = "chotu" onClick ={toggleRectangle}> Close </button>
 
           </div>
