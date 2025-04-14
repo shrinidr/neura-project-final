@@ -62,8 +62,8 @@ const [isSubmitted, setIsSubmitted] = useState(false);
     if (!isSignedIn || !user) return;
     const formattedDate = bitch(0);
     setIsSubmitted(true);
-    console.log(user)
-    console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
+    //console.log(user)
+    //console.log("Submitting data:", { formData, date: formattedDate }); // Debug log
     const token = await getToken();
     await axios.post( `${import.meta.env.VITE_BACKEND_URL}/api/data`,
       { formData, formattedDate },  // The data payload
@@ -84,7 +84,7 @@ const [isSubmitted, setIsSubmitted] = useState(false);
 
     
   }catch(error){
-    console.log(`Error: ${error}`)
+    //console.log(`Error: ${error}`)
   }
 
   };

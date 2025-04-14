@@ -49,14 +49,14 @@ const TTys = () => {
         try {
             const token = await getToken(); // Await the token
             if (!token || token.split('.').length !== 3) {
-                console.error("Invalid token format:", token);
+                //console.error("Invalid token format:", token);
                 return;
             }
 
             inputState('')
             ihatemylifemore(inputVal)
 
-            console.log("calling the vite backend url", import.meta.env.VITE_PYTHON_BACKEND_URL);
+            //console.log("calling the vite backend url", import.meta.env.VITE_PYTHON_BACKEND_URL);
             const response = await axios.post(`${import.meta.env.VITE_PYTHON_BACKEND_URL}/process-chat-input`,
                 { input: inputVal },
                 {
@@ -78,7 +78,7 @@ const TTys = () => {
 
         } catch (error) {
             console.error("Error in process-chat-input request:");
-            console.error("Error in process-chat-input request:", error);
+            //console.error("Error in process-chat-input request:", error);
                 // Update with error message if request fails
                 setChatHistory(prev => {
                     const newHistory = [...prev];
@@ -146,7 +146,7 @@ const TTys = () => {
         console.log(response2)
         }
         catch (error) {
-        console.error("Error sending token data", error);
+        //console.error("Error sending token data", error);
         }
     }
 

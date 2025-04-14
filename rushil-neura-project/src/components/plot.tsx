@@ -34,7 +34,7 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
         console.log(response2)
         }
         catch (error) {
-        console.error("Error sending token data", error);
+        console.error("Error sending token data");
         }
     }
 
@@ -60,7 +60,7 @@ const PlotComponent: React.FC<PlotProps> = ({ url }) => {
     
           setPlotData(JSON.parse(response.data));
         } catch (error) {
-          console.error("Error fetching the plot data:", error);
+          console.error("Error fetching the plot data:");
           setError("Failed to load graph data. Please try again later.");
         } finally {
           setLoading(false);
