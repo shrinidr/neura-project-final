@@ -22,6 +22,7 @@ import Contact from './components/contact.tsx';
 import Privacy from './components/Privacy.tsx';
 import CallBack from './pages/callbackpage.tsx';
 import SignUpPage from './pages/SignUpPage.tsx';
+import JournalUI from './pages/journalui.tsx';
 
 const clerkFrontendApi = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -119,6 +120,14 @@ const router = createBrowserRouter([
       </Layout>
     )
   }, 
+  {
+    path: '/journal_ui',
+    element: (<ProtectedRoute>
+              <Layout>
+                <JournalUI/>
+              </Layout>
+            </ProtectedRoute>)
+  },
   {
     path: "/call-back",
     element: (

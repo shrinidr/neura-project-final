@@ -169,9 +169,9 @@ i {
 
 .main_content {
     position: fixed;
-    height: 86.3%;
+    height: 85vh;
     margin-left: 207px;
-    width: 81.5%;
+    width: 84vw;
     border-radius: 15px 15px 15px 15px;
     background-color: #1e2125;
     margin-top: 20px;
