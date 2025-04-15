@@ -401,8 +401,6 @@ footer {
   margin-bottom: 24px;
 }
 
-
-
 .back-button, .close-button {
   cursor: pointer;
   transition: all 0.1s ease-in-out;
@@ -418,21 +416,19 @@ footer {
   font-size: 16px;
   outline: none;
   font-family: "DM Sans", sans-serif;
-  position: relative; /* Changed to fixed positioning */
-  bottom: 5px; /* Distance from bottom */
+  position: relative; 
+  bottom: 5px; 
 }
 
-/* Back Button - Sleek Outline Style */
 .back-button {
   background-color: transparent;
-  color: linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Soft purple */
+  color: linear-gradient(to right, #6057dd 0%, #343b51 100%); 
   border: 2px solid #a78bfa;
   left: 50%;
 }
 
-/* Close Button - Futuristic Solid Style */
 .close-button {
-  background:  linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Deep purple gradient */
+  background:  linear-gradient(to right, #6057dd 0%, #343b51 100%);
   color: white;
   border: none;
   left: 53%;
@@ -445,10 +441,9 @@ footer {
 }
 
 .close-button:hover {
-  background: linear-gradient(to right, #6057dd 0%, #343b51 100%); /* Slightly brighter on hover */
+  background: linear-gradient(to right, #6057dd 0%, #343b51 100%);
   box-shadow: 0 4px 15px rgba(147, 51, 234, 0.5);
 }
-
 
 .journal-overlay {
   position: fixed;
@@ -456,8 +451,8 @@ footer {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(20, 20, 30, 0.6); /* soft dark with transparency */
-  backdrop-filter: blur(6px); /* adds a nice blur effect */
+  background: rgba(20, 20, 30, 0.6); 
+  backdrop-filter: blur(6px); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -465,7 +460,7 @@ footer {
 }
 
 .journal-container {
-  background: linear-gradient(145deg, #1f1f2b, #2b2b38); /* soft gradient dark */
+  background: linear-gradient(145deg, #1f1f2b, #2b2b38);
   color: white;
   padding: 2rem;
   border-radius: 16px;
@@ -605,5 +600,4 @@ footer {
 .emoji {
   font-size: 1.5rem;
 }
-
 
