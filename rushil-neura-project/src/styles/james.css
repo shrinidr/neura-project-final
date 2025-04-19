@@ -445,19 +445,15 @@ footer {
   box-shadow: 0 4px 15px rgba(147, 51, 234, 0.5);
 }
 
-.journal-overlay {
+/*.journal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(20, 20, 30, 0.6); 
-  backdrop-filter: blur(6px); 
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
+  align-items: center;*/
 
 .journal-container {
   background: linear-gradient(145deg, #1f1f2b, #2b2b38);
@@ -469,6 +465,11 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  width: 100vh;
+  margin-left: 17%;
+  margin-top: 6.4%;
+  position: fixed;
+  
 }
 
 .journal-header {
@@ -537,6 +538,7 @@ footer {
   min-height: 100px;
   resize: vertical;
   font-size: 1rem;
+  max-height: 32vh;
 }
 
 .save-button {

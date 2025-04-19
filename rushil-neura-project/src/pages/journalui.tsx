@@ -1,13 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import Header from "../components/header";
 import SideBar from "../components/Sidebar";
-import { useAuth } from "@clerk/clerk-react";
-import axios from "axios";
-import Card from "../components/loadScreen";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { MiddlewareReturn } from "@floating-ui/core";
-import { MiddlewareState } from "@floating-ui/dom";
+import { useAuth } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
+import axios from "axios";
+
 
 const questions = [
   "How was your day? (In one sentence)",
@@ -19,8 +18,10 @@ const questions = [
   "Any other thing that you think is worth remembering?"
 ];
 
+
+
 const CustomDateButton = React.forwardRef<HTMLButtonElement, any>(
-  ({ value, onClick }, ref) => (
+  ({ onClick }, ref) => (
     <button className="calendar-icon" onClick={onClick} ref={ref}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +45,6 @@ CustomDateButton.displayName = "CustomDateButton";
 const JournalUI = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<string[]>(Array(questions.length).fill(""));
-  const [showJournal, setShowJournal] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
 
@@ -52,9 +52,66 @@ const JournalUI = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
 
+
+  const {getToken} = useAuth();
+  
+  const { user, isSignedIn } = useUser();
+
+  //destructuring an array []
+  const [formData, setFormData] = useState<{[key: string]: string}>({});
+
+
+  const bitch  = (currleft: number) => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() - currleft);
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const answer = `${year}-${month}-${day}`;
+    return answer;
+}
+
+
+  const handlesave = async () =>{
+
+  try{
+    if (!isSignedIn || !user) return;
+    changeSaveVal('Saved!');
+    const token = await getToken();
+    console.log('this is the form fdata', formData);
+    const formattedDate = bitch(0);
+
+    await axios.post( `${import.meta.env.VITE_BACKEND_URL}/api/data`,
+      { formData, formattedDate },  // The data payload
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
+        },
+      }
+    );
+
+    console.log("Data submitted successfully.")
+    // In your React component after saving a new entry 
+    await axios.post( `${import.meta.env.VITE_PYTHON_BACKEND_URL}/refreshCache`, {}, {
+    headers: { Authorization: `Bearer ${token}` }
+    });
+
+    console.log("Cache Changes Made in redis");
+    }catch(error){
+      //console.log(`Error: ${error}`)
+    }
+
+  };
   const handleInputChange = (value: string) => {
     const updatedAnswers = [...answers];
     updatedAnswers[currentQuestionIndex] = value;
+
+    const keyVal = 'input'+(currentQuestionIndex+1);
+    setFormData((prevData) => ({
+      ...prevData,
+      [keyVal]: value,
+    }));
+
     setAnswers(updatedAnswers);
   };
 
@@ -70,11 +127,7 @@ const JournalUI = () => {
     }
   };
 
-  const handleSave = () => {
-    const formatted = selectedDate.toISOString().slice(0, 10);
-    console.log("Saved answers:", answers, "on", formatted);
-    setShowJournal(false);
-  };
+  const [saveVal, changeSaveVal] = useState<String>('Save');
 
   const handleOutsideClick = (e: MouseEvent) => {
     if (
@@ -95,11 +148,13 @@ const JournalUI = () => {
     };
   }, []);
 
-  const formattedDate = selectedDate.toLocaleDateString("en-US", {
+  const easyDate = selectedDate.toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
     day: "numeric",
   });
+
+
 
   const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
   const handleToggleCalendar = () => {
@@ -118,12 +173,17 @@ const JournalUI = () => {
     width: "fit-content", 
   };
 
+
+  const autoResize = (el: HTMLTextAreaElement) => {
+    el.style.height = 'auto'; // Reset height
+    el.style.height = `${el.scrollHeight}px`; // Set to new height
+  };
+  
   return (
     <div>
       <Header />
       <SideBar />
-      {showJournal && (
-        <div className="journal-overlay" onClick={handleOutsideClick}>
+        <div className="journal-overlay">
           <div
             className="journal-container"
             ref={containerRef}
@@ -152,7 +212,7 @@ const JournalUI = () => {
               </button>
               <div className="journal-date">
                 <span className="emoji">📝</span>
-                <h2>{formattedDate}</h2>
+                <h2>{easyDate}</h2>
                 <div style={{ position: "relative" }}>
                   <button
                     ref={buttonRef}
@@ -178,7 +238,7 @@ const JournalUI = () => {
                     <div ref={calendarRef} style={calendarStyles}>
                       <DatePicker
                         selected={selectedDate}
-                        onChange={(date: Date | null) => setSelectedDate(date)}
+                        onChange={(date: Date | null) => setSelectedDate(date = new Date())}
                         inline
                       />
                     </div>
@@ -221,14 +281,14 @@ const JournalUI = () => {
               placeholder="Write here..."
               value={answers[currentQuestionIndex]}
               onChange={(e) => handleInputChange(e.target.value)}
+              onInput={(e) => autoResize(e.currentTarget)}
+              rows={1}
             />
-            <button className="save-button" onClick={handleSave}>
-              Save
-            </button>
+            {currentQuestionIndex==6?<button className="save-button" onClick={handlesave}>
+              {saveVal}
+            </button>:''}
           </div>
         </div>
-      )}
-      <Card />
     </div>
   );
 };
