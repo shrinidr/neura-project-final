@@ -15,6 +15,7 @@ const SideBar = () => {
     { path: "/insights", icon: "fa-brands fa-uncharted", text: "Insights" },
     { path: "/chat", icon: "fa-solid fa-ethernet", text: "aiNA" },
     { path: "/more_insights", icon: "fa-solid fa-head-side-virus", text: "Health" },
+    { path: "/journal_ui", icon: "fa-solid fa-meteor", text: "(WIP)" },
   ];
 
   return (

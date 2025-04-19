@@ -1,9 +1,9 @@
 .sidebar {
     position: fixed;
     border-radius: 15px;
-    width: 215px;
-    left: -1%;
-    height: 80.3%; /* Full height minus margin */
+    width: 11.5vw;
+    left: 1vw;
+    height: 80vh; /* Full height minus margin */
     background-color: #1e2125;
     margin: 20px 0;
     padding: 20px 0;
@@ -14,7 +14,7 @@
   .sidebar-content {
     display: flex;
     flex-direction: column;
-    height: 90%;
+    height: 80vh;
   }
   
   .sidebar-item {
