@@ -456,7 +456,7 @@ footer {
   align-items: center;*/
 
 .journal-container {
-  background: linear-gradient(145deg, #1f1f2b, #2b2b38);
+  background: linear-gradient(to left,#1e0245 0%, #151515 100%);
   color: white;
   padding: 2rem;
   border-radius: 16px;
@@ -467,7 +467,7 @@ footer {
   gap: 1.2rem;
   width: 100vh;
   margin-left: 17%;
-  margin-top: 6.4%;
+  margin-top: 2vh;
   position: fixed;
   
 }
@@ -538,7 +538,7 @@ footer {
   min-height: 100px;
   resize: vertical;
   font-size: 1rem;
-  max-height: 32vh;
+  max-height: 30vh;
 }
 
 .save-button {

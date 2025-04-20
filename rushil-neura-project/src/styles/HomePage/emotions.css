@@ -1,0 +1,83 @@
+/*
+  
+  .left-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .left-section select {
+    border-radius: 8px;
+    font-size: 1rem;
+  }*/
+  
+
+  .emotion-container {
+    display: flex;
+    align-items: center;
+    width: 100vh;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    background: linear-gradient(to left,#1e0245 0%, #151515 100%);
+    font-size: 1.2rem;
+    margin-left: 35vh;
+    margin-top: 3.5vh;
+    height: 5vh;
+  }
+  .dropdown-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dropdown-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #131212;
+  }
+  
+  .emoji-dropdown {
+    padding: 0.6rem 1rem;
+    font-size: 2rem; /* Increased from 1rem */
+    background: transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+    min-width: 20px;
+    border: none;
+    appearance: none; /* Removes default dropdown styling in most browsers */
+  -webkit-appearance: none; /* Safari/Chrome */
+  -moz-appearance: none; /* Firefox */
+  transition: transform 0.2s ease-in-out;
+  }
+  
+  .emoji-dropdown option {
+    font-size: 1.5rem; /* Makes the emoji size larger in the dropdown */
+  }
+  
+  
+  .emoji-dropdown:hover,
+  .emoji-dropdown:focus {
+    outline: none;
+    
+  }
+  .emoji-dropdown:hover{
+    transform: scale(1.2);
+  }
+
+  .right-section {
+    font-family: 'DM Sans';;
+    font-weight: 500;
+    left: -10vh;
+    
+  }
+  
+
+#myanswers{
+    
+    background: linear-gradient(to right, #d85720 0%, #d758e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    display: inline;
+  }
+

@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import Header from "../components/header";
 import SideBar from "../components/Sidebar";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useAuth } from "@clerk/clerk-react";
 import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import EmotionSelector from "../components/EmotionalSelector";
 
 
 const questions = [
@@ -20,9 +21,10 @@ const questions = [
 
 
 
+
 const CustomDateButton = React.forwardRef<HTMLButtonElement, any>(
   ({ onClick }, ref) => (
-    <button className="calendar-icon" onClick={onClick} ref={ref}>
+    <button className="calendar-icon" onClick={onClick} ref={ref} title="Open calendar">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -45,8 +47,9 @@ CustomDateButton.displayName = "CustomDateButton";
 const JournalUI = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<string[]>(Array(questions.length).fill(""));
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [showCalendar, setShowCalendar] = useState(false);
+
+  const navigate = useNavigate();
+
 
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -56,7 +59,10 @@ const JournalUI = () => {
   const {getToken} = useAuth();
   
   const { user, isSignedIn } = useUser();
+  if (!user) return null;
 
+  const userName =  user.firstName || user.username|| "Friend";
+  
   //destructuring an array []
   const [formData, setFormData] = useState<{[key: string]: string}>({});
 
@@ -136,7 +142,6 @@ const JournalUI = () => {
       buttonRef.current &&
       !buttonRef.current.contains(e.target as Node)
     ) {
-      setShowCalendar(false);
     }
   };
 
@@ -148,7 +153,7 @@ const JournalUI = () => {
     };
   }, []);
 
-  const easyDate = selectedDate.toLocaleDateString("en-US", {
+  const easyDate = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -158,21 +163,9 @@ const JournalUI = () => {
 
   const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
   const handleToggleCalendar = () => {
-    setShowCalendar((prev) => !prev);
-  };
 
-  const calendarStyles = {
-    position: "absolute" as "absolute",
-    top: buttonRef.current ? `${buttonRef.current.offsetTop - 220}px` : "auto", 
-    left: buttonRef.current ? `${buttonRef.current.offsetLeft}px` : "auto",
-    zIndex: 1000,
-    backgroundColor: "white", 
-    borderRadius: "10px",
-    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
-    padding: "0.5rem",
-    width: "fit-content", 
+    navigate('/prev');
   };
-
 
   const autoResize = (el: HTMLTextAreaElement) => {
     el.style.height = 'auto'; // Reset height
@@ -183,6 +176,8 @@ const JournalUI = () => {
     <div>
       <Header />
       <SideBar />
+      <EmotionSelector userName={userName} />
+
         <div className="journal-overlay">
           <div
             className="journal-container"
@@ -215,9 +210,9 @@ const JournalUI = () => {
                 <h2>{easyDate}</h2>
                 <div style={{ position: "relative" }}>
                   <button
-                    ref={buttonRef}
                     onClick={handleToggleCalendar}
                     className="calendar-icon"
+                    title="Tap to see your previous entries"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -234,15 +229,16 @@ const JournalUI = () => {
                       />
                     </svg>
                   </button>
-                  {showCalendar && (
+                  {/*{showCalendar && (
                     <div ref={calendarRef} style={calendarStyles}>
                       <DatePicker
                         selected={selectedDate}
                         onChange={(date: Date | null) => setSelectedDate(date = new Date())}
                         inline
+                        
                       />
                     </div>
-                  )}
+                  )}*/}
                 </div>
               </div>
               <button

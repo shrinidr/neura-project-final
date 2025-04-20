@@ -38,7 +38,7 @@ const router = createBrowserRouter([
     path: "/home",
     element: (  <ProtectedRoute>
                 <Layout>
-                  <MainPage/>
+                  <JournalUI/>
                 </Layout>
                 </ProtectedRoute>
 
@@ -120,14 +120,14 @@ const router = createBrowserRouter([
       </Layout>
     )
   }, 
-  {
+ /* {
     path: '/journal_ui',
     element: (<ProtectedRoute>
               <Layout>
                 <JournalUI/>
               </Layout>
             </ProtectedRoute>)
-  },
+  }*/
   {
     path: "/call-back",
     element: (
