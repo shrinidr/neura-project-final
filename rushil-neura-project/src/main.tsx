@@ -6,7 +6,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { ClerkProvider } from '@clerk/clerk-react';
-import MainPage from './pages/MainPage.tsx';
 import DataPage from './pages/Data.tsx';
 import TTys from './pages/ttys.tsx';
 import PrevPage from './pages/prev.tsx';
