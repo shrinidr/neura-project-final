@@ -7,7 +7,7 @@ import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import EmotionSelector from "../components/EmotionalSelector";
-
+import Voice from "../components/Voice";
 
 const questions = [
   "How was your day? (In one sentence)",
@@ -285,6 +285,7 @@ const JournalUI = () => {
             </button>:''}
           </div>
         </div>
+        <Voice></Voice>
     </div>
   );
 };
