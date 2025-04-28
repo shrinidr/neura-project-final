@@ -19,7 +19,7 @@ const Header = () => {
     
     return (
 
-        <div className="navbar" style = {{top: '3vh'}}>
+        <div className="navbar2" style = {{top: '3vh'}}>
         <Link to="/" className="logo-container">
           <img src="/neura-removebg-preview.png" className="ideknowman" />
           <p id="title"><b>Neura</b></p>

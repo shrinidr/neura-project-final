@@ -25,6 +25,7 @@ const MainPage = () => {
         <div className="main-page">
             <Header />
             <SideBar />
+            
             <TextArea items={TextStuff} />
         </div>
     );

@@ -1,12 +1,7 @@
-
-
-
-
 import { Link, useLocation } from "react-router-dom";
-import "../styles/Sidebar/sidebar.css" // Create this CSS file
+import "../styles/Sidebar/sidebar.css"; // Create this CSS file
 
 const SideBar = () => {
-
   const location = useLocation();
 
   // Map of paths to sidebar items
@@ -14,8 +9,8 @@ const SideBar = () => {
     { path: "/home", icon: "fa-solid fa-meteor", text: "Home" },
     { path: "/insights", icon: "fa-brands fa-uncharted", text: "Insights" },
     { path: "/chat", icon: "fa-solid fa-ethernet", text: "aiNA" },
-    { path: "/more_insights", icon: "fa-solid fa-head-side-virus", text: "Health" }
-    //{ path: "/journal_ui", icon: "fa-solid fa-meteor", text: "(WIP)" },
+    { path: "/more_insights", icon: "fa-solid fa-head-side-virus", text: "Health" },
+    { path: "/settings", icon: "fa-solid fa-cogs", text: "Settings", isBottom: true } // Add the "Settings" item
   ];
 
   return (
@@ -24,7 +19,7 @@ const SideBar = () => {
         {navItems.map((item) => (
           <Link
             to={item.path}
-            className={`sidebar-item ${
+            className={`sidebar-item ${item.isBottom ? "is-bottom" : ""} ${
               location.pathname === item.path ? "active" : ""
             }`}
             key={item.path}

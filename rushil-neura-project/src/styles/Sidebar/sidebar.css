@@ -1,144 +1,89 @@
+/* sidebar.css */
+
 .sidebar {
-    position: fixed;
-    border-radius: 15px;
-    width: 14.3%;
-    left: 1vw;
-    height: 80vh; /* Full height minus margin */
-    background-color: #1e2125;
-    margin: 20px 0;
-    padding: 20px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-  
-  .sidebar-content {
-    display: flex;
-    flex-direction: column;
-    height: 80vh;
-  }
-  
-  .sidebar-item {
-    display: flex;
-    padding: 12px 24px;
-    color: #ffffff;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    margin: 1px 0;
-    border-radius: 8px;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .sidebar-item:hover {
-    background-color: #2a2e33;
-    transform: translateX(5px);
-  }
-  
-  .sidebar-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 3px;
-    background-color: #4f46e5;
-    transform: scaleY(0);
-    transition: transform 0.3s ease;
-  }
-  
-  .sidebar-item:hover::before {
-    transform: scaleY(1);
-  }
-  
-  .sidebar-icon {
-    font-size: 1.2rem;
-    margin-right: 16px;
-    width: 24px;
-    text-align: center;
-    transition: transform 0.3s ease;
-    
-  }
-  
-  .sidebar-item:hover .sidebar-icon {
-    transform: scale(1.1);
-  }
-  
-  .sidebar-text {
-    font-size: 1rem;
-    font-weight: 500;
-    white-space: nowrap; /* Prevents text wrapping */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Adds ... if text is too long */
-    margin-left: 5.9vh;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .sidebar {
-      width: 70px;
-      padding: 20px 0;
-    }
-    
-    .sidebar-text {
-      display: none;
-    }
-    
-    .sidebar-icon {
-      margin-right: 0;
-      font-size: 1.4rem;
-    }
-    
-    .sidebar-item {
-      justify-content: center;
-      padding: 16px 0;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .sidebar {
-      bottom: 0;
-      width: 100%;
-      height: 60px;
-      margin: 0;
-      border-radius: 0;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-    }
-    
-    .sidebar-content {
-      flex-direction: row;
-      width: 100%;
-    }
-    
-    .sidebar-item {
-      flex-direction: column;
-      padding: 8px;
-      margin: 0;
-      border-radius: 0;
-    }
-    
-    .sidebar-icon {
-      margin-right: 0;
-      margin-bottom: 4px;
-      font-size: 1.2rem;
-    }
-    
-    .sidebar-text {
-      display: block;
-      font-size: 0.7rem;
-    }
-    
-    .sidebar-item:hover {
-      transform: translateY(-3px);
-    }
-  }
+  position: fixed;
+  left: 1vw;
+  width: 14.3%;
+  height: calc(100vh - 10vh - 5vw); /* full height minus top offset and bottom space */
+  border-radius: 15px;
+  background-color: #1e2125;
+  padding: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
 
 
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allow the content to grow and push the settings down */
+}
 
+.sidebar-item {
+  display: flex;
+  padding: 12px 24px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin: 1px 0;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
 
+.sidebar-item:hover {
+  background-color: #2a2e33;
+  transform: translateX(5px);
+}
 
-  /* Previous styles remain the same, add these new ones */
+.sidebar-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #4f46e5;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-item:hover::before {
+  transform: scaleY(1);
+}
+
+.sidebar-icon {
+  font-size: 1.2rem;
+  margin-right: 16px;
+  width: 24px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-item:hover .sidebar-icon {
+  transform: scale(1.1);
+}
+
+.sidebar-text {
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap; /* Prevents text wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds ... if text is too long */
+  margin-left: 5.9vh;
+}
+
+/* Position the settings item at the bottom */
+.sidebar-item.is-bottom {
+  margin-top: auto; /* Push the settings item to the bottom */
+  border-top: 1px solid #444; /* Optional: add a line to separate it from the rest */
+}
+
+.sidebar-item.is-bottom:hover {
+  background-color: #2a2e33;
+}
 
 /* Active state styles */
 .sidebar-item.active {
@@ -161,7 +106,6 @@
   transform: scale(1.1);
 }
 
-/* Hover effects should still work but be distinct from active */
 .sidebar-item:not(.active):hover {
   background-color: #2a2e33;
   transform: translateX(5px);
@@ -179,77 +123,78 @@
   transition: transform 0.3s ease;
 }
 
-/* Responsive adjustments for active state */
-@media (max-width: 480px) {
-  .sidebar-item.active {
-    background-color: transparent;
-  }
-  
-  .sidebar-item.active::before {
-    display: none;
-  }
-  
-  .sidebar-item.active .sidebar-icon {
-    color: #4f46e5;
-  }
+.sidebar-item.is-bottom .sidebar-text {
+  font-weight: bold;
 }
 
 
 
-/**/
 
-/* Previous styles remain the same, add these new ones */
 
-/* Active state styles */
-.sidebar-item.active {
-    background-color: #2a2e33;
-    position: relative;
-  }
+.voice-card {
+  position: fixed;
+  right: 2vw; /* stay on right side */
+  top: 21.5vh; /* move upward: adjust this value as needed */
+  width: 17vw;
+  height: auto;
+  padding: 2rem;
+  border-radius: 15px;
+  background: linear-gradient(to left,#1e0245 0%, #151515 100%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  height: 39vh;
+}
+
+.voice-title {
+  color: #ffffff;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.voice-subtitle {
+  color: #cccccc;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.voice-textarea {
+  width: 100%;
+  height: 160px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  resize: none;
+  font-size: 14px;
+  background-color: #d3d3d3;
+  color: #333333;
+}
+
+.voice-textarea:focus {
+  outline: none;
+  background-color: #e0e0e0;
+}
+
+.voice-mic {
+  color: #ffffff;
+  margin-bottom: -20px;
+  cursor: pointer;
+  font-size: 32px;
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  padding: 12px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, color 0.3s;
   
-  .sidebar-item.active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 3px;
-    background-color: #4f46e5;
-  }
-  
-  .sidebar-item.active .sidebar-icon {
-    color: #4f46e5;
-    transform: scale(1.1);
-  }
-  
-  /* Hover effects should still work but be distinct from active */
-  .sidebar-item:not(.active):hover {
-    background-color: #2a2e33;
-    transform: translateX(5px);
-  }
-  
-  .sidebar-item:not(.active):hover::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 3px;
-    background-color: #4f46e5;
-    transform: scaleY(1);
-    transition: transform 0.3s ease;
-  }
-  
-  /* Responsive adjustments for active state */
-  @media (max-width: 480px) {
-    .sidebar-item.active {
-      background-color: transparent;
-    }
-    
-    .sidebar-item.active::before {
-      display: none;
-    }
-    
-    .sidebar-item.active .sidebar-icon {
-      color: #4f46e5;
-    }
-  }
+}
+
+.voice-mic:hover {
+  background-color: #ffffff;
+  color: #1e1e1e;
+}
