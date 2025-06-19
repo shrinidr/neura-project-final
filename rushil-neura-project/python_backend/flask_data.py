@@ -31,7 +31,7 @@ CORS(app, resources={r"/*": {"origins": ["https://www.neura-inc.com", "http://lo
 # With this:
 #nlp = spacy.load("en_core_web_sm", disable=["parser", "ner"])
 
-nlp = spacy.load("en_core_web_md", disable=['ner', 'parser'])
+# nlp = spacy.load("en_core_web_md", disable=['ner', 'parser'])
 
 
 logging.basicConfig(level=logging.INFO)
