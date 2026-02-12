@@ -26,29 +26,6 @@ def text_preprocess(doc):
     return ' '.join([tok.lemma_ for tok in doc if (tok.is_stop!=True and tok.is_punct!=True and tok.is_digit!=True)])
 
 
-"""def some_fucking_thing(StartDataFrame):
-    stress_data = get_stress_data(StartDataFrame)
-    new_stress_corpus = [text_preprocess(doc) for doc in stress_data]
-    data = pd.read_csv
-    tokenizer = Tokenizer()
-    #Now, lets use the tokenizer on the actual training data.
-
-    training_cleaned = [text_preprocess(doc) for doc in data['text']]
-    tokenizer.fit_on_texts(training_cleaned)
-    model = joblib.load('multinb_neura_tfidf.joblib')
-
-
-    tfidf_vect_docs_shape = (2838, 8656)
-
-    changed_stress_data = [text_preprocess(doc) for doc in stress_data]
-    tokenizer.fit_on_texts(changed_stress_data)
-
-    tfidf_vect_stress = tokenizer.texts_to_matrix(changed_stress_data, mode='tfidf')
-    tfidf_vect_new = tfidf_vect_stress[:,:tfidf_vect_docs_shape[1]]
-
-    predicted_stress = model.predict(tfidf_vect_new)
-    return predicted_stress"""
-
 def stress_plot(StartDataFrame, date_array):
     np.random.seed(42)
     stress_data = get_stress_data(StartDataFrame)
