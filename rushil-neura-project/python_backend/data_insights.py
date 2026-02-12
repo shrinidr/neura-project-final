@@ -327,19 +327,8 @@ We either have an interface where the user can ask questions about themselves an
 Or we provide answers to custom questions.
 
 
-Your favourite swear words also put for fun.
-
-Find out the things that you tend to complain about or the like. Seem to bicker on about.
+Find out the things that you tend to complain about or the like.
 List them and find solutions for them.
-
-We first design machinery ourselves to find out these problems using training. Then we maybe fine tune an LLM
-to figure out the 'solutions' part.
-
-Lets have a seperate file for this because this one's getting too complicated.
-More ideas for the data:
-1) Check for inconsistencies in the stream of consciousness.
-2) Remind the user about things that they planned to do or how they have deviated from the
-actions that they wished to undertake.
 
 
 stress_data = []
